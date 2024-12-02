@@ -1,0 +1,1 @@
+<template>Recipes page</template>
