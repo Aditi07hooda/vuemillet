@@ -3,15 +3,18 @@
         <div class="flex px-8 py-4 justify-between border-b-2 ">
             <h2>The Millet Store</h2>
             <div class="flex">
-                <NuxtLink class="bg-white text-black p-2 rounded me-2" to="/">
+                <a class="bg-white text-black p-2 rounded me-2" href="mailto:hello@themilletstore.in">
+                    <LucideMail />
+                </a>
+                <a class="bg-white text-black p-2 rounded me-2" href=''>
                     <LucideInstagram />
-                </NuxtLink>
-                <NuxtLink class="bg-white text-black p-2 rounded me-2" to="/">
+                </a>
+                <a class="bg-white text-black p-2 rounded me-2" href=''>
                     <LucideFacebook />
-                </NuxtLink>
-                <NuxtLink class="bg-white text-black p-2 rounded me-2" to="/">
+                </a>
+                <a class="bg-white text-black p-2 rounded me-2" href=''>
                     <LucideLinkedin />
-                </NuxtLink>
+                </a>
             </div>
         </div>
         <div class="flex justify-evenly p-4">
@@ -19,14 +22,14 @@
                 <h2 class="mb-3">About Us</h2>
                 <ul>
                     <li>
-                        <NuxtLink to="/about">
+                        <a to="/about">
                             Our Story
-                        </NuxtLink>
+                        </a>
                     </li>
                     <li>
-                        <NuxtLink to="/learn">
+                        <a to="/learn">
                             Learn with Us
-                        </NuxtLink>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -34,13 +37,13 @@
                 <h2 class="mb-3">Help</h2>
                 <ul>
                     <li>
-                        <NuxtLink to="/terms">Terms</NuxtLink>
+                        <a to="/terms">Terms</a>
                     </li>
                     <li>
-                        <NuxtLink to="/privacy">Privacy</NuxtLink>
+                        <a to="/privacy">Privacy</a>
                     </li>
                     <li>
-                        <NuxtLink to="/shipping">Shipping & Returns</NuxtLink>
+                        <a to="/shipping">Shipping & Returns</a>
                     </li>
                 </ul>
             </div>
@@ -51,9 +54,10 @@
                     <address class="not-italic">
                         📍 Sy No 114, 1, TK Falls Road, Uttarahalli Hobli, Gulakamale, Bengaluru, Karnataka 560082
                     </address>
-                    <div>
-                        ✉️ xyz@gmail.com
-                    </div>
+                    <a href="mailto:hello@themilletstore.in" class="flex">
+                        <span class="me-2">✉️ </span>
+                        <span class="underline hover:text-pink-400 transition duration-500"> hello@themilletstore.in</span>
+                    </a>
                 </div>
             </div>
         </div>
