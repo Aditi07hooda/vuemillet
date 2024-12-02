@@ -1,6 +1,6 @@
 <template>
     <div class="footer-bg-color text-white mt-5">
-        <div class="flex px-8 py-4 justify-between">
+        <div class="flex px-8 py-4 justify-between border-b-2 ">
             <h2>The Millet Store</h2>
             <div class="flex">
                 <NuxtLink class="bg-white text-black p-2 rounded me-2" to="/">
