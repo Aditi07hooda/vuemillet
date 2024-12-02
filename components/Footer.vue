@@ -22,12 +22,12 @@
                 <h2 class="mb-3">About Us</h2>
                 <ul>
                     <li>
-                        <a to="/about">
+                        <a href="/about" class= "hover:text-pink-400 transition duration-500 cursor-pointer">
                             Our Story
                         </a>
                     </li>
                     <li>
-                        <a to="/learn">
+                        <a href="/learn" class= "hover:text-pink-400 transition duration-500 cursor-pointer">
                             Learn with Us
                         </a>
                     </li>
@@ -37,13 +37,13 @@
                 <h2 class="mb-3">Help</h2>
                 <ul>
                     <li>
-                        <a to="/terms">Terms</a>
+                        <a href="/terms" class= "hover:text-pink-400 transition duration-500 cursor-pointer">Terms</a>
                     </li>
                     <li>
-                        <a to="/privacy">Privacy</a>
+                        <a href="/privacy" class= "hover:text-pink-400 transition duration-500 cursor-pointer">Privacy</a>
                     </li>
                     <li>
-                        <a to="/shipping">Shipping & Returns</a>
+                        <a href="/shipping" class= "hover:text-pink-400 transition duration-500 cursor-pointer">Shipping & Returns</a>
                     </li>
                 </ul>
             </div>
@@ -56,7 +56,8 @@
                     </address>
                     <a href="mailto:hello@themilletstore.in" class="flex">
                         <span class="me-2">✉️ </span>
-                        <span class="underline hover:text-pink-400 transition duration-500"> hello@themilletstore.in</span>
+                        <span class="underline hover:text-pink-400 transition duration-500">
+                            hello@themilletstore.in</span>
                     </a>
                 </div>
             </div>
