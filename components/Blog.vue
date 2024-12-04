@@ -1,3 +1,26 @@
+<script setup>
+import { parse, format } from 'date-fns'
+
+defineProps({
+    blogs: {
+        type: Array,
+        required: true,
+        default: () => [], // Provide a default empty array
+    },
+})
+
+const formatDate = (dateString) => {
+    try {
+        const parsedDate = parse(dateString, "dd/MM/yyyy", new Date());
+        return format(parsedDate, "d MMMM, yyyy")
+    } catch (error) {
+        console.error("Error formatting date:", error)
+        return "Invalid Date"
+    }
+}
+
+</script>
+
 <template>
     <div v-for="blog in blogs" :key="blog.slug"
         class="blog-item me-1 flex flex-col justify-between mb-10 rounded-3xl background">
@@ -14,26 +37,17 @@
                 </div>
             </div>
         </div>
-        <div class="flex details justify-between uppercase  border-color p-4 border-t" style="border-color: 'red'">
+        <div class="flex details justify-between uppercase border-color p-4 border-t">
             <div class="p-2">
-                {{ blog.created }}
+                {{ formatDate(blog.created) }}
             </div>
             <div
-                class="rounded-full border border-gray-800 p-2 text-center hover:bg-pink-400  hover:text-white transition duration-500 ">
+                class="rounded-full border border-gray-800 p-2 text-center hover:bg-pink-400 hover:text-white transition duration-500">
                 Read the article
             </div>
         </div>
     </div>
 </template>
-
-<script setup>
-defineProps({
-    blogs: {
-        type: Array,
-        required: true,
-    },
-})
-</script>
 
 <style scoped>
 .blog-item {
