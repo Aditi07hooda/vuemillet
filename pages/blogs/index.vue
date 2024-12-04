@@ -50,7 +50,7 @@ const sortBlogsByDate = computed(() => {
     </div>
 </template>
 
-<style>
+<style scoped>
 h1 {
     color: #768451;
     font-size: 25px;
