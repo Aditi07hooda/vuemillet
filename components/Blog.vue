@@ -24,28 +24,30 @@ const formatDate = (dateString) => {
 <template>
     <div v-for="blog in blogs" :key="blog.slug"
         class="blog-item me-1 flex flex-col justify-between mb-10 rounded-3xl background">
-        <div>
-            <div class="flex justify-center">
-                <img :src="blog.image || '/favicon.ico'" alt="alt" class="rounded-3xl" />
-            </div>
-            <div class="p-4">
-                <h3 class="truncate">
-                    {{ blog.title }}
-                </h3>
-                <div class="truncate">
-                    {{ blog.snippet || blog.title }}
+        <NuxtLink :to="`/blogs/${blog.slug}`">
+            <div>
+                <div class="flex justify-center">
+                    <img :src="blog.image || '/favicon.ico'" alt="alt" class="rounded-3xl" />
+                </div>
+                <div class="p-4">
+                    <h3 class="truncate">
+                        {{ blog.title }}
+                    </h3>
+                    <div class="truncate">
+                        {{ blog.snippet || blog.title }}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="flex details justify-between uppercase border-color p-4 border-t">
-            <div class="p-2">
-                {{ formatDate(blog.created) }}
+            <div class="flex details justify-between uppercase border-color p-4 border-t">
+                <div class="p-2">
+                    {{ formatDate(blog.created) }}
+                </div>
+                <div
+                    class="rounded-full border border-gray-800 p-2 text-center hover:bg-pink-400 hover:text-white transition duration-500">
+                    Read the article
+                </div>
             </div>
-            <div
-                class="rounded-full border border-gray-800 p-2 text-center hover:bg-pink-400 hover:text-white transition duration-500">
-                Read the article
-            </div>
-        </div>
+        </NuxtLink>
     </div>
 </template>
 
