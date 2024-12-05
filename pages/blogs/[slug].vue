@@ -66,7 +66,7 @@ const formatDate = (dateString) => {
         <div v-else-if="blogData">
             <h1 class="text-center my-5 uppercase">{{ blogData.title }}</h1>
             <div v-if="blogData.image" class="hero-container">
-                <img :src="blogData.image" :alt="blogData.slug" class="hero-image" />
+                <img :src="blogData.image" :alt="blogData.slug" class="hero-image rounded-lg" />
             </div>
             <div class="m-14 p-14 pt-0 mt-5 mb-0">
                 <div class="flex details items-center justify-between py-2">
@@ -93,17 +93,40 @@ const formatDate = (dateString) => {
                 </div>
                 <div class="mb-7 mt-0 italic">By The Millet Store - {{ blogData.created }}</div>
                 <div v-html="blogData.content"></div>
-                <div class="rounded-lg border-black p-7 text-center mt-7 bg-green-100">
+                <div class="rounded-lg border-black p-7 text-center bg-green-100 mt-5">
                     By The Millet Store - {{ formatDate(blogData.created) }}
                 </div>
-                <h2 class="my-5">You may like to buy this :</h2>
-                <BlogProduct />
+                <div v-if="products.length !== 0">
+                    <h2 class="mt-10 mb-5">You might like to buy {{ products.length > 1 ? "these products" : "this product"
+                        }} :</h2>
+                    <div class="product-list flex flex-wrap justify-evenly p-14">
+                        <div class="text-center p-5">
+                            You can buy the following products from us and we deliver it to your home.
+                            We use only organic ingredients and all the products are made only after you place the
+                            order.
+                        </div>
+                        <BlogProduct :products="products" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
-<style>
+<style scoped>
+.product-list {
+    gap: 10px;
+    background-color: #e9d8fd;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .product-list {
+        padding: 5px;
+        gap: 5px;
+    }
+}
+
 .hero-container {
     display: flex;
     justify-content: center;
