@@ -43,7 +43,7 @@ const formatDate = (dateString) => {
                     {{ formatDate(blog.created) }}
                 </div>
                 <div
-                    class="rounded-full border border-gray-800 p-2 text-center hover:bg-pink-400 hover:text-white transition duration-500">
+                    class="rounded-full border border-gray-800 p-2 text-center hover:bg-pink-400 hover:text-white hover:border-pink-400 transition duration-500">
                     Read the article
                 </div>
             </div>

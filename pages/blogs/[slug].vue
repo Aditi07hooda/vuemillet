@@ -1,3 +1,30 @@
+<script setup>
+import { useRoute } from 'vue-router'
+import { useFetch } from '#app'
+import { parse, format } from 'date-fns'
+
+const config = useRuntimeConfig()
+const baseURL = config.public.baseURL
+const brandID = config.public.brandID
+const route = useRoute()
+
+const { data, error, loading } = await useFetch(`${baseURL}/store/${brandID}/blogs/${route.params.slug}`)
+
+if (error.value) {
+    console.error('Error fetching blog:', error.value)
+}
+
+const formatDate = (dateString) => {
+    try {
+        const parsedDate = parse(dateString, "dd/MM/yyyy", new Date());
+        return format(parsedDate, "d MMMM, yyyy")
+    } catch (error) {
+        console.error("Error formatting date:", error)
+        return "Invalid Date"
+    }
+}
+</script>
+
 <template>
     <div>
         <div v-if="loading">Loading...</div>
@@ -5,7 +32,7 @@
         <div v-else-if="data">
             <h1 class="text-center my-5 uppercase">{{ data.title }}</h1>
             <div v-if="data.image" class="hero-container">
-                <img  :src="data.image" :alt="data.slug" class="hero-image" />
+                <img :src="data.image" :alt="data.slug" class="hero-image" />
             </div>
             <div class="m-14 p-14 pt-0 mt-5 mb-0">
                 <div class="flex details items-center justify-between py-2">
@@ -33,58 +60,30 @@
                 <div class="mb-7 mt-0 italic">By The Millet Store - {{ data.created }}</div>
                 <div v-html="data.content"></div>
                 <div class="rounded-lg border-black p-7 text-center mt-7 bg-green-100">
-                    By The Millet Store - {{ data.created }}
+                    By The Millet Store - {{ formatDate(data.created) }}
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-import { useRoute } from 'vue-router';
-import { useFetch } from '#app';
-
-const route = useRoute();
-const config = useRuntimeConfig()
-const baseURL = config.public.baseURL
-const brandID = config.public.brandID
-
-const { data, error, loading } = await useFetch(`${baseURL}/store/${brandID}/blogs/${route.params.slug}`)
-
-if (error.value) {
-    console.error('Error fetching blog:', error.value);
-}
-console.log("data", data)
-</script>
-
 <style>
 .hero-container {
     display: flex;
     justify-content: center;
-    /* Centers the image horizontally */
     align-items: center;
-    /* Centers the image vertically */
     height: 90vh;
-    /* Covers a large portion of the viewport height */
     width: 100%;
-    /* Full width of the page */
     overflow: hidden;
-    /* Prevents the image from overflowing */
-    /* background-color: #f3f3f3; */
-    /* Optional: fallback background color */
-}
+   }
 
 .hero-image {
     max-width: 100%;
-    /* Scales down the image to fit the width */
     max-height: 100%;
-    /* Ensures it fits the height without breaking aspect ratio */
     object-fit: cover;
-    /* Ensures the image fills the container while maintaining aspect ratio */
 }
 
 h1 {
-    /* color: #768451; */
     font-size: 40px;
 }
 
