@@ -46,8 +46,6 @@ if (blogData.value && blogData.value.products) {
     console.error('Error fetching blog:', blogError.value)
 }
 
-console.log("product in parent", products.value)
-
 const formatDate = (dateString) => {
     try {
         const parsedDate = parse(dateString, "dd/MM/yyyy", new Date());
@@ -57,6 +55,11 @@ const formatDate = (dateString) => {
         return "Invalid Date"
     }
 }
+
+function containsOnlyNull(array) {
+    return array.every(entry => entry === null);
+}
+
 </script>
 
 <template>
@@ -96,7 +99,7 @@ const formatDate = (dateString) => {
                 <div class="rounded-lg border-black p-7 text-center bg-green-100 mt-5">
                     By The Millet Store - {{ formatDate(blogData.created) }}
                 </div>
-                <div v-if="products.length !== 0">
+                <div v-if="products.length !== 0 && !containsOnlyNull(products)">
                     <h2 class="mt-10 mb-5">You might like to buy {{ products.length > 1 ?
                         "these products" : "this product"
                         }} :</h2>
@@ -106,8 +109,11 @@ const formatDate = (dateString) => {
                             We use only organic ingredients and all the products are made only after you place the
                             order.
                         </div>
-                        <div v-for="product in products" :key="product.slug" class="product-container rounded mb-10">
-                            <BlogProduct v-if="product" :product="product" />
+                        <div v-if="products.length !== 0">
+                            <div v-for="product in products.filter(p => p !== null)" :key="product.slug"
+                                class="product-container rounded mb-10">
+                                <BlogProduct :product="product" />
+                            </div>
                         </div>
                     </div>
                 </div>
