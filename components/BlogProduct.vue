@@ -8,13 +8,18 @@ const props = defineProps({
     },
 })
 
-const selectedSize = ref(props.product.variantMatrix?.Size?.[0])
+function containsOnlySize(array) {
+    return array.every(entry => entry === 'size' || entry === 'Size');
+}
+
+const selectedSize = ref(containsOnlySize(props.product.variantTypes) ? props.product.variants?.[0] : props.product.variantMatrix?.Size?.[0])
 const selectedMillet = ref(props.product.variants?.[0])
 
 const logOption = () => {
     console.log("Selected size:", selectedSize.value)
     console.log("Selected millet:", selectedMillet.value)
 }
+
 </script>
 
 <template>
@@ -23,21 +28,35 @@ const logOption = () => {
     </div>
     <div class="product-name">{{ product.name }}</div>
     <div>
-        <div class="mb-2">Select Size</div>
-        <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-            <option v-for="option in product.variantMatrix.Size">
-                {{ option }}
-            </option>
-        </select>
-        <div class="mb-2">Select Millet</div>
-        <select class="mb-2 dropdown" v-model="selectedMillet" @change="logOption">
-            <option v-for="option in product.variants" :value="option">
-                {{ option.name }}
-            </option>
-        </select>
+        <div v-if="containsOnlySize(product.variantTypes)">
+            <div class="mb-2">Select Size</div>
+            <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
+                <option v-for="option in product.variants" :value="option">
+                    {{ option.name }}
+                </option>
+            </select>
+        </div>
+        <div v-if="product.variantTypes.includes('Millet')">
+            <div class="mb-2">Select Size</div>
+            <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
+                <option v-for="option in product.variantMatrix.Size" :value="option">
+                    {{ option }}
+                </option>
+            </select>
+            <div class="mb-2">Select Millet</div>
+            <select class="mb-2 dropdown" v-model="selectedMillet" @change="logOption">
+                <option v-for="option in product.variants" :value="option">
+                    {{ option.name }}
+                </option>
+            </select>
+        </div>
         <div class="font-bold">
             <div class="text-rose-600">25 % off</div>
-            <div>
+            <div v-if="containsOnlySize(product.variantTypes)">
+                <span class="line-through">₹ {{ selectedSize?.price }}</span> <span class="text-green-600"> ₹
+                    {{ selectedSize?.offerPrice }}</span>
+            </div>
+            <div v-if="product.variantTypes.includes('Millet')">
                 <span class="line-through">₹ {{ selectedMillet?.price }}</span> <span class="text-green-600"> ₹
                     {{ selectedMillet?.offerPrice }}</span>
             </div>
@@ -51,7 +70,6 @@ const logOption = () => {
 </template>
 
 <style scoped>
-
 .product-image-container {
     width: 100%;
     padding-top: 100%;
