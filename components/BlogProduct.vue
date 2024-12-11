@@ -1,68 +1,56 @@
 <script setup>
-defineProps({
-    products: {
-        type: Array,
+import { ref } from "vue"
+
+const props = defineProps({
+    product: {
+        type: Object,
         required: true,
-        default: () => [],
     },
-});
-const selectedSize = ref('')
-const selectedMillet = ref('')
+})
+
+const selectedSize = ref(props.product.variantMatrix?.Size?.[0])
+const selectedMillet = ref(props.product.variants?.[0])
 
 const logOption = () => {
-    console.log("Selected size:", selectedSize.value);
-    console.log("Selected millet:", selectedMillet.value);
-
-};
+    console.log("Selected size:", selectedSize.value)
+    console.log("Selected millet:", selectedMillet.value)
+}
 </script>
 
 <template>
-    <div v-for="product in products" :key="product.slug" class="product-container rounded mb-10">
-        <div class="product-image-container">
-            <img :src="product.oneImg" alt="Product Image" class="product-image" />
-        </div>
-        <div class="product-name">{{ product.name }}</div>
-        <div>
-            <div class="mb-2">Select Size</div>
-            <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-                <option v-for="(option) in product.variantMatrix.Size">
-                    {{
-                        option }}
-                </option>
-            </select>
-            <div class="mb-2">Select Millet</div>
-            <select class="mb-2 dropdown" v-model="selectedMillet" @change="logOption">
-                <option v-for="(option) in product.variants" :value="option">
-                    {{
-                        option.name }}
-                </option>
-            </select>
-            <div class="font-bold">
-                <div class="text-rose-600">25 % off</div>
-                <div>
-                    <span class="line-through">₹ {{ selectedMillet?.price }}</span> <span class="text-green-600"> ₹
-                        {{ selectedMillet?.offerPrice }}</span>
-                </div>
-            </div>
+    <div class="product-image-container">
+        <img :src="product.oneImg" alt="Product Image" class="product-image" />
+    </div>
+    <div class="product-name">{{ product.name }}</div>
+    <div>
+        <div class="mb-2">Select Size</div>
+        <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
+            <option v-for="option in product.variantMatrix.Size">
+                {{ option }}
+            </option>
+        </select>
+        <div class="mb-2">Select Millet</div>
+        <select class="mb-2 dropdown" v-model="selectedMillet" @change="logOption">
+            <option v-for="option in product.variants" :value="option">
+                {{ option.name }}
+            </option>
+        </select>
+        <div class="font-bold">
+            <div class="text-rose-600">25 % off</div>
             <div>
-                <button class="bg-pink-400 text-white  hover:bg-green-400 transition duration-500 p-2 rounded-3xl"> Add
-                    to cart
-                </button>
+                <span class="line-through">₹ {{ selectedMillet?.price }}</span> <span class="text-green-600"> ₹
+                    {{ selectedMillet?.offerPrice }}</span>
             </div>
+        </div>
+        <div>
+            <button class="bg-pink-400 text-white  hover:bg-green-400 transition duration-500 p-2 rounded-3xl"> Add
+                to cart
+            </button>
         </div>
     </div>
 </template>
 
 <style scoped>
-.product-container {
-    flex: 1 1 calc(25% - 10px);
-    max-width: 250px;
-    text-align: center;
-    border-radius: 8px;
-    overflow: hidden;
-    padding: 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
 
 .product-image-container {
     width: 100%;

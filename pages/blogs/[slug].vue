@@ -46,7 +46,7 @@ if (blogData.value && blogData.value.products) {
     console.error('Error fetching blog:', blogError.value)
 }
 
-console.log("product", products.value)
+console.log("product in parent", products.value)
 
 const formatDate = (dateString) => {
     try {
@@ -97,7 +97,8 @@ const formatDate = (dateString) => {
                     By The Millet Store - {{ formatDate(blogData.created) }}
                 </div>
                 <div v-if="products.length !== 0">
-                    <h2 class="mt-10 mb-5">You might like to buy {{ products.length > 1 ? "these products" : "this product"
+                    <h2 class="mt-10 mb-5">You might like to buy {{ products.length > 1 ?
+                        "these products" : "this product"
                         }} :</h2>
                     <div class="product-list flex flex-wrap justify-evenly p-14">
                         <div class="text-center p-5">
@@ -105,7 +106,9 @@ const formatDate = (dateString) => {
                             We use only organic ingredients and all the products are made only after you place the
                             order.
                         </div>
-                        <BlogProduct :products="products" />
+                        <div v-for="product in products" :key="product.slug" class="product-container rounded mb-10">
+                            <BlogProduct v-if="product" :product="product" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,6 +117,16 @@ const formatDate = (dateString) => {
 </template>
 
 <style scoped>
+.product-container {
+    flex: 1 1 calc(25% - 10px);
+    max-width: 250px;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .product-list {
     gap: 10px;
     background-color: #e9d8fd;
