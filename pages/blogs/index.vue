@@ -1,8 +1,7 @@
 <script setup>
 import { useFetch } from "#app"
-import { computed } from "vue";
-import { parse } from "date-fns";
-
+import { computed } from "vue"
+import { parse } from "date-fns"
 
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
@@ -15,9 +14,9 @@ const parseDate = (dateString) => {
         return parse(dateString, "dd/MM/yyyy", new Date()) // Using date-fns for parsing
     } catch (e) {
         console.error("Error parsing date:", dateString)
-        return new Date(); // Return an invalid date if parsing fails
+        return new Date() // Return an invalid date if parsing fails
     }
-};
+}
 
 const sortBlogsByDate = computed(() => {
     if (!data.value || !Array.isArray(data.value)) return []
@@ -44,15 +43,26 @@ const sortBlogsByDate = computed(() => {
                 </div>
             </div>
             <div class="flex flex-wrap flex-1 justify-evenly p-8">
-                <Blog :blogs="sortBlogsByDate || []" />
+                <div v-for="blog in sortBlogsByDate" :key="blog.slug" class="blog-item">
+                    <Blog :blog="blog" />
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+
+.blog-item {
+    max-height: 350px;
+    width: 300px;
+    height: 350px;
+    color: #67645b;
+}
+
 h1 {
     color: #768451;
     font-size: 25px;
 }
+
 </style>
