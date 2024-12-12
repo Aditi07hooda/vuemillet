@@ -4,12 +4,12 @@ import { ref } from "vue"
 const props = defineProps({
     product: {
         type: Object,
-        required: true,
-    },
+        required: true
+    }
 })
 
 function containsOnlySize(array) {
-    return array.every(entry => entry === 'size' || entry === 'Size');
+    return array.every(entry => entry === 'size' || entry === 'Size')
 }
 
 const selectedSize = ref(containsOnlySize(props.product.variantTypes) ? props.product.variants?.[0] : props.product.variantMatrix?.Size?.[0])
@@ -50,7 +50,7 @@ const logOption = () => {
                 </option>
             </select>
         </div>
-        <div class="font-bold">
+        <div class="font-bold mb-2">
             <div class="text-rose-600">25 % off</div>
             <div v-if="containsOnlySize(product.variantTypes)">
                 <span class="line-through">₹ {{ selectedSize?.price }}</span> <span class="text-green-600"> ₹
@@ -62,7 +62,7 @@ const logOption = () => {
             </div>
         </div>
         <div>
-            <button class="bg-pink-400 text-white  hover:bg-green-400 transition duration-500 p-2 rounded-3xl"> Add
+            <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 p-2 rounded-3xl"> Add
                 to cart
             </button>
         </div>
@@ -93,8 +93,8 @@ const logOption = () => {
 }
 
 .dropdown {
-    width: 200px;
-    /* Fixed width for both dropdowns */
+    width: 100%;
+    max-width: 200px;
     padding: 10px 12px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -102,17 +102,14 @@ const logOption = () => {
     background-color: #f9f9f9;
     color: #333;
     appearance: none;
-    /* Remove default browser styles */
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-    /* Custom arrow */
     background-repeat: no-repeat;
     background-position: right 10px center;
 }
 
-/* Dropdown hover and focus styles */
 .dropdown:hover,
 .dropdown:focus {
     border-color: #007bff;
@@ -120,7 +117,6 @@ const logOption = () => {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Dropdown option styling */
 .dropdown option {
     padding: 10px;
     font-size: 16px;
@@ -131,12 +127,23 @@ const logOption = () => {
         flex: 1 1 calc(50% - 10px);
         /* Two items per row */
     }
+
+    .dropdown {
+        width: 100%;
+        max-width: unset;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) {
     .product-container {
         flex: 1 1 100%;
         /* One item per row */
+    }
+
+    .dropdown {
+        width: 100%;
+        font-size: 12px;
     }
 }
 </style>

@@ -48,7 +48,7 @@ if (blogData.value && blogData.value.products) {
 
 const formatDate = (dateString) => {
     try {
-        const parsedDate = parse(dateString, "dd/MM/yyyy", new Date());
+        const parsedDate = parse(dateString, "dd/MM/yyyy", new Date())
         return format(parsedDate, "d MMMM, yyyy")
     } catch (error) {
         console.error("Error formatting date:", error)
@@ -109,9 +109,9 @@ function containsOnlyNull(array) {
                             We use only organic ingredients and all the products are made only after you place the
                             order.
                         </div>
-                        <div v-if="products.length !== 0">
+                        <div v-if="products.length !== 0" class="flex justify-evenly w-full flex-wrap">
                             <div v-for="product in products.filter(p => p !== null)" :key="product.slug"
-                                class="product-container rounded mb-10">
+                                class="product-container rounded mb-10 mx-2 w-full sm:w-auto">
                                 <BlogProduct :product="product" />
                             </div>
                         </div>
@@ -123,6 +123,7 @@ function containsOnlyNull(array) {
 </template>
 
 <style scoped>
+
 .product-container {
     flex: 1 1 calc(25% - 10px);
     max-width: 250px;
@@ -134,6 +135,8 @@ function containsOnlyNull(array) {
 }
 
 .product-list {
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     background-color: #e9d8fd;
     border-radius: 8px;
@@ -143,6 +146,10 @@ function containsOnlyNull(array) {
     .product-list {
         padding: 5px;
         gap: 5px;
+    }
+
+    .product-container {
+        flex: 1 1 calc(50% - 10px);
     }
 }
 
