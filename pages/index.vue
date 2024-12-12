@@ -5,40 +5,17 @@
         <div v-else>
             <div>
                 <h2>Categories</h2>
-                <div v-for="category in categories" :key="category.id">
-                    <div class="image-container">
-                        <img :src="category.imageUrl" :alt="category.name" />
-                    </div>
-                    {{ category.name }}
+                <div class="">
+                    <UCarousel v-slot="{ item }" :items="categories"
+                        :ui="{ item: 'basis-full md:basis-1/2 lg:basis-1/3 flex flex-col gap-4' }" indicators
+                        class="rounded-lg overflow-hidden">
+                        <div class="w-full space-y-4 px-2">
+                            <img :src="item.imageUrl" class="w-full rounded-3xl shadow-md" draggable="false">
+                            <p class="text-sm mt-2 text-center">{{ item.name }}</p>
+                        </div>
+                    </UCarousel>
                 </div>
             </div>
-            <!-- <div v-for="product in products" :key="product.id">
-                <div class="text-5xl font-bold tracking-tight py-4">
-                    {{ product.name }}
-                </div>
-                <div class="mt-10 text-2xl">
-                    <h2 class="font-medium  text-gray-900">Description</h2>
-                    <div class="mt-4 text-gray-500 dancing-script">
-                        <div v-html="product.description"></div>
-                    </div>
-                </div>
-                <div class="mt-8 text-2xl">
-                    <h2 class="font-medium text-gray-900">Ingredients</h2>
-                    <div class="mt-4 text-gray-500 dancing-script">
-                        <p>
-                            {{ product.ingredients.toString() }}
-                        </p>
-                    </div>
-                </div>
-                <div class="mt-6 flex flex-col gap-4">
-                    <select id="o_variant" name="o_variant" class="variant-select">
-                        <option v-for="(option, index) in product.variants" :key="index"
-                            :value="JSON.stringify(option)">
-                            {{ option.name }}
-                        </option>
-                    </select>
-                </div>
-            </div> -->
         </div>
     </div>
 </template>
@@ -74,9 +51,14 @@ const { data: categories, error: categoriesError, loading: categoriesLoading } =
     },
 })
 
+let items = []
+if (categories.value) {
+    items = categories.value.map(category => category.imageUrl)
+}
 console.log("category", categories.value)
+
 </script>
 
 <style>
-/* Add any page-specific styles here */
+
 </style>
