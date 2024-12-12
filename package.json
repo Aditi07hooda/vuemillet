@@ -16,7 +16,8 @@
     "nuxt-app": "file:",
     "nuxt-lucide-icons": "1.0.5",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.2"

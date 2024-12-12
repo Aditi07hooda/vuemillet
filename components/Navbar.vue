@@ -163,23 +163,27 @@ const menuItems = [
         <LucideSearch />
       </div>
     </div>
+
     <div class="flex justify-center uppercase w-full font-bold text-2xl">
       <ULink to="/">The Millet Store </ULink>
     </div>
+
     <div class="flex justify-between gap-3 md:w-full">
-      <NuxtLink to="">
+      <NuxtLink to="" class="hidden md:block">
         <div class="uppercase font-semibold hidden md:block">Search</div>
       </NuxtLink>
-      <NuxtLink to="/login">
+      <NuxtLink to="/account/login" class="hidden md:block">
         <div class="uppercase font-semibold hidden md:block">Account</div>
       </NuxtLink>
-      <NuxtLink to="">
+      <NuxtLink to="" class="hidden md:block">
         <div class="uppercase font-semibold hidden md:block">Cart</div>
       </NuxtLink>
-      
-      <div class="text-black md:hidden">
-        <LucideCircleUserRound />
-      </div>
+
+      <NuxtLink to="/account/login" class="md:hidden">
+        <div class="text-black md:hidden">
+          <LucideCircleUserRound />
+        </div>
+      </NuxtLink>
       <div class="text-black md:hidden">
         <LucideShoppingBag />
       </div>
