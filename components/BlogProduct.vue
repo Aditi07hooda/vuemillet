@@ -8,12 +8,17 @@ const props = defineProps({
     }
 })
 
+const selectedSize = ref(containsOnlySize(props.product.variantTypes) ? props.product.variants?.[0] : props.product.variantMatrix?.Size?.[0])
+const selectedMillet = ref(props.product.variants?.[0])
+
 function containsOnlySize(array) {
     return array.every(entry => entry === 'size' || entry === 'Size')
 }
 
-const selectedSize = ref(containsOnlySize(props.product.variantTypes) ? props.product.variants?.[0] : props.product.variantMatrix?.Size?.[0])
-const selectedMillet = ref(props.product.variants?.[0])
+const calculateDiscount = (price, offerPrice) => {
+    const discount = ((price - offerPrice) / price) * 100
+    return Math.round(discount)
+}
 
 const logOption = () => {
     console.log("Selected size:", selectedSize.value)
@@ -51,14 +56,18 @@ const logOption = () => {
             </select>
         </div>
         <div class="font-bold mb-2">
-            <div class="text-rose-600">25 % off</div>
             <div v-if="containsOnlySize(product.variantTypes)">
-                <span class="line-through">₹ {{ selectedSize?.price }}</span> <span class="text-green-600"> ₹
-                    {{ selectedSize?.offerPrice }}</span>
+                <div class="text-rose-600">{{ calculateDiscount(selectedSize.price, selectedSize.offerPrice)
+                    }} %
+                    off</div>
+                <span class="line-through">₹ {{ selectedSize.price }}</span> <span class="text-green-600"> ₹
+                    {{ selectedSize.offerPrice }}</span>
             </div>
             <div v-if="product.variantTypes.includes('Millet')">
-                <span class="line-through">₹ {{ selectedMillet?.price }}</span> <span class="text-green-600"> ₹
-                    {{ selectedMillet?.offerPrice }}</span>
+                <div class="text-rose-600">{{ calculateDiscount(selectedMillet.price, selectedMillet.offerPrice) }} % off
+                </div>
+                <span class="line-through">₹ {{ selectedMillet.price }}</span> <span class="text-green-600"> ₹
+                    {{ selectedMillet.offerPrice }}</span>
             </div>
         </div>
         <div>
