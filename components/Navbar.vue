@@ -5,60 +5,73 @@ const menuItems = [
   {
     label: "Shop",
     defaultOpen: true,
-    slot: "shop"
+    slot: "shop",
   },
   {
     label: "Shop By Solutions",
     defaultOpen: false,
-    slot: "shop-by-solutions"
+    slot: "shop-by-solutions",
   },
   {
     label: "Blogs",
     defaultOpen: false,
-    slot: "blogs"
+    slot: "blogs",
   },
   {
     label: "About Us",
     slot: "about-us",
   },
-
 ];
 </script>
 
 <template>
   <div
-    class="flex md:justify-evenly justify-between bg-inherit w-full md:pt-4 md:px-24 p-3 items-center overflow-x-hidden">
+    class="flex md:justify-evenly justify-between bg-inherit w-full md:pt-4 md:px-24 p-3 items-center overflow-x-hidden"
+  >
     <div class="flex justify-between items-center md:w-full">
       <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
-        <UButton label="Shop" trailing-icon="i-heroicons-chevron-down-20-solid"
-          class="uppercase font-semibold hidden bg-inherit text-black items-center md:flex text-md hover:bg-inherit" />
+        <UButton
+          label="Shop"
+          trailing-icon="i-heroicons-chevron-down-20-solid"
+          class="uppercase font-semibold hidden bg-inherit text-black items-center md:flex text-md hover:bg-inherit"
+        />
         <template #panel>
-          <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24">
+          <div
+            class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24"
+          >
             <div class="">
               <h3 class="uppercase text-lg font-semibold py-3">Shop</h3>
               <div class="flex flex-col">
                 <ul class="flex flex-col space-y-4">
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> All Products
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="text-sm w-4 h-4" /> Best
                       Sellers
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Bundles
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Protein
                     </li>
-                  </a>
+                  </NuxtLink>
                 </ul>
               </div>
             </div>
@@ -66,46 +79,62 @@ const menuItems = [
               <h3 class="uppercase text-lg font-semibold py-3">By Solution</h3>
               <div class="flex flex-col">
                 <ul class="flex flex-col space-y-4">
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Digestion
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="text-sm w-4 h-4" /> Protein
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Hormonal Health
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Skin & Hair
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Relax
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Energy
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Immunity
                     </li>
-                  </a>
-                  <a href="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
+                  </NuxtLink>
+                  <NuxtLink to="">
+                    <li
+                      class="uppercase flex gap-3 text-sm font-medium items-center"
+                    >
                       <LucideChevronRight class="w-4 h-4" /> Liver Health
                     </li>
-                  </a>
+                  </NuxtLink>
                 </ul>
               </div>
             </div>
@@ -114,14 +143,17 @@ const menuItems = [
       </UPopover>
 
       <div class="uppercase font-semibold hidden md:block">
-        <a href="/blogs">Blogs</a>
+        <NuxtLink to="/blogs">Blogs</NuxtLink>
       </div>
       <div class="uppercase font-semibold hidden md:block">
-        <a href="/about">About Us</a>
+        <NuxtLink to="/about">About Us</NuxtLink>
       </div>
 
-      <UButton @click="isOpen = true" label="open"
-        class="md:hidden bg-inherit text-black w-fit p-0 m-0 hover:bg-inherit">
+      <UButton
+        @click="isOpen = true"
+        label="open"
+        class="md:hidden bg-inherit text-black w-fit p-0 m-0 hover:bg-inherit"
+      >
         <div class="text-black md:hidden">
           <LucideMenu />
         </div>
@@ -135,10 +167,16 @@ const menuItems = [
       <ULink to="/">The Millet Store </ULink>
     </div>
     <div class="flex justify-between gap-3 md:w-full">
-      <div class="uppercase font-semibold hidden md:block">Search</div>
-      <div class="uppercase font-semibold hidden md:block">Account</div>
-      <div class="uppercase font-semibold hidden md:block">Cart</div>
-
+      <NuxtLink to="">
+        <div class="uppercase font-semibold hidden md:block">Search</div>
+      </NuxtLink>
+      <NuxtLink to="/login">
+        <div class="uppercase font-semibold hidden md:block">Account</div>
+      </NuxtLink>
+      <NuxtLink to="">
+        <div class="uppercase font-semibold hidden md:block">Cart</div>
+      </NuxtLink>
+      
       <div class="text-black md:hidden">
         <LucideCircleUserRound />
       </div>
@@ -149,18 +187,23 @@ const menuItems = [
   </div>
   <div class="flex justify-between align-middle items-center">
     <UModal v-model="isOpen" :transition="true" class="items-center" fullscreen>
-      <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
-        class="-my-1 text-3xl font-bold p-5 w-12 h-12" @click="isOpen = false" />
+      <UButton
+        color="gray"
+        variant="ghost"
+        icon="i-heroicons-x-mark-20-solid"
+        class="-my-1 text-3xl font-bold p-5 w-12 h-12"
+        @click="isOpen = false"
+      />
       <UAccordion :items="menuItems" variant="soft" color="white" class="p-8">
         <template #about-us>
-          <a href="/about">About Us</a>
+          <NuxtLink to="/about">About Us</NuxtLink>
         </template>
         <template #shop>
           <div class="flex flex-col space-y-4 pl-8">
-            <a href="/about">Shop All</a>
-            <a href="/about">Best Sellers</a>
-            <a href="/about">Bundles</a>
-            <a href="/about">Protein</a>
+            <NuxtLink to="">Shop All</NuxtLink>
+            <NuxtLink to="">Best Sellers</NuxtLink>
+            <NuxtLink to="">Bundles</NuxtLink>
+            <NuxtLink to="">Protein</NuxtLink>
           </div>
         </template>
       </UAccordion>
