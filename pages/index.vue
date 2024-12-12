@@ -4,14 +4,23 @@
         <div v-else-if="productError">Error: {{ error.message }}</div>
         <div v-else>
             <div>
-                <h2>Categories</h2>
+                <h2 class="text-center"> Prioritizing Holistic Health </h2>
+                <h3 class="text-center mb-4">
+                    Overwhelmed by quick fixes and diet culture, we bring you nutritious, healthy and yet very delicious
+                    items
+                </h3>
                 <div class="">
                     <UCarousel v-slot="{ item }" :items="categories"
                         :ui="{ item: 'basis-full md:basis-1/2 lg:basis-1/3 flex flex-col gap-4' }" indicators
                         class="rounded-lg overflow-hidden">
                         <div class="w-full space-y-4 px-2">
                             <img :src="item.imageUrl" class="w-full rounded-3xl shadow-md" draggable="false">
-                            <p class="text-sm mt-2 text-center">{{ item.name }}</p>
+                            <div class="flex justify-center">
+                                <p
+                                    class="text-sm mt-2 text-center border border-black border-2 rounded-3xl p-2 w-1/2  hover:bg-pink-600 transition duration-500 ">
+                                    {{
+                                        item.name }}</p>
+                            </div>
                         </div>
                     </UCarousel>
                 </div>
@@ -60,5 +69,14 @@ console.log("category", categories.value)
 </script>
 
 <style>
+h2 {
+    font-weight: 900;
+    font-size: 35px;
+    font-family: "Futura PT";
+}
 
+h3 {
+    font-family: "Futura PT";
+    font-size: 20px;
+}
 </style>
