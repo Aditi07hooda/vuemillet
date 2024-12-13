@@ -1,3 +1,3 @@
 <template>
-    category page
+    Account page
 </template>

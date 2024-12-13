@@ -1,40 +1,110 @@
 <script setup>
 import { z } from "zod";
+import { useRouter } from "vue-router";
+
+const config = useRuntimeConfig();
+const base_url = config.public.baseURL;
+const brand_id = config.public.brandID;
+const router = useRouter();
+
+const sessionId = ref(null);
+const buttonText = ref("Send OTP");
+
+if (typeof window !== "undefined") {
+  sessionId.value = window.localStorage.getItem("sessionId");
+  console.log("Session ID in login:", sessionId.value);
+}
 
 const schema = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(8, "Must be at least 8 characters"),
+  contactNumber: z.number().min(10, "Must be at least 10 digits"),
+  otp: z.number().min(4, "Must be a 4 digits otp"),
 });
 
 const state = reactive({
-  email: undefined,
-  password: undefined,
+  contactNumber: undefined,
+  otp: undefined,
+  sendOtpClicked: false,
+  otpSent: false,
+  otpValidation: false,
 });
 
-async function onSubmit(event) {
-  console.log(event.data);
+const sendOtp = async () => {
+  const {
+    data: otp,
+    error: otpError,
+    loading: otpLoading,
+  } = await useFetch(`${base_url}/store/${brand_id}/otp`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+      session: sessionId.value,
+    },
+    body: new URLSearchParams({
+      mobile: state.contactNumber,
+    }),
+  });
+
+  console.log("OTP received:", otp.value);
+  state.otpSent = otp.value.loginStatus === 'OTP' ? true : false;
+};
+
+const validateOtp = async () => {
+  const {
+    data: validateOtp,
+    error: validateOtpError,
+    loading: validateOtpLoading,
+  } = await useFetch(`${base_url}/store/${brand_id}/validate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+      Authorization: `Bearer ${sessionId.value}`,
+      session: sessionId.value,
+    },
+    body: new URLSearchParams({
+      mobile: state.contactNumber,
+      otp: state.otp,
+      action: "OTP",
+    }),
+  });
+
+  console.log("OTP validated:", validateOtp.value);
+  state.otpValidation = validateOtp.value.valid;
+  if (state.otpValidation) {
+    router.push("/account");
+  }
+};
+
+const handleSendOtpState = () => {
+  state.sendOtpClicked = true;
+  buttonText.value = "Validate OTP";
+  sendOtp();
+};
+
+const toggleOtp = () => {
+    state.sendOtpClicked ? validateOtp() : handleSendOtpState();
 }
 </script>
 
 <template>
   <div class="flex justify-center items-center">
     <div class="px-8 space-y-5 my-8">
-      <h1 class="text-2xl font-bold text-center">Login</h1>
+      <h1 class="text-2xl font-bold text-center">SignIn / SignUp</h1>
       <p class="text-base font-medium text-center">
-        Welcome Back! Please enter your email and password to view your account.
+        Please enter your phone number to view your account.
       </p>
       <UForm
         :schema="schema"
         :state="state"
         class="space-y-4 mt-10 !important"
-        @submit="onSubmit"
       >
-        <UFormGroup label="Email" name="email">
-          <UInput v-model="state.email" />
+        <UFormGroup label="contactNumber" name="contactNumber">
+          <UInput v-model="state.contactNumber" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="Password" name="password">
-          <UInput v-model="state.password" type="password" />
+        <UFormGroup label="otp" name="otp" v-if="state.sendOtpClicked === true">
+          <UInput v-model="state.otp" type="number" />
         </UFormGroup>
 
         <p class="text-sm font-light text-center">
@@ -51,13 +121,10 @@ async function onSubmit(event) {
         <UButton
           type="submit"
           class="w-full text-center flex justify-center text-lg"
-          >Sign in
+          @click="toggleOtp"
+        >
+          {{ buttonText }}
         </UButton>
-        <NuxtLink to="/account/register">
-            <p class="text-sm text-center font-medium hover:underline text-gray-600 hover:text-gray-800 mt-5">
-                Create an account!
-            </p>
-        </NuxtLink>    
       </UForm>
     </div>
   </div>
