@@ -14,13 +14,15 @@
                         :ui="{ item: 'basis-full md:basis-1/2 lg:basis-1/3 flex flex-col gap-4' }" indicators
                         class="rounded-lg overflow-hidden">
                         <div class="w-full space-y-4 px-2">
-                            <img :src="item.imageUrl" class="w-full rounded-3xl shadow-md" draggable="false">
-                            <div class="flex justify-center">
-                                <p
-                                    class="text-sm mt-2 text-center border border-black border-2 rounded-3xl p-2 w-1/2  hover:bg-pink-600 transition duration-500 ">
-                                    {{
-                                        item.name }}</p>
-                            </div>
+                            <NuxtLink :to="`/category/${item.slug}`">
+                                <img :src="item.imageUrl" class="w-full rounded-3xl shadow-md" draggable="false">
+                                <div class="flex justify-center">
+                                    <p
+                                        class="text-sm mt-2 text-center border border-black border-2 rounded-3xl p-2 w-1/2  hover:bg-pink-600 transition duration-500 ">
+                                        {{
+                                            item.name }}</p>
+                                </div>
+                            </NuxtLink>
                         </div>
                     </UCarousel>
                 </div>
