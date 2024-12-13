@@ -8,6 +8,7 @@ const schema = z.object({
 });
 
 const state = reactive({
+  username: undefined,
   email: undefined,
   password: undefined,
 });
@@ -30,7 +31,6 @@ async function onSubmit(event) {
         class="space-y-4 mt-10 !important"
         @submit="onSubmit"
       >
-      
         <UFormGroup label="Username" name="username">
           <UInput v-model="state.username" />
         </UFormGroup>
@@ -59,11 +59,14 @@ async function onSubmit(event) {
           class="w-full text-center flex justify-center text-lg"
           >Create
         </UButton>
-        <p
-          class="text-sm text-center font-medium text-gray-600 mt-5"
-        >
+        <p class="text-sm text-center font-medium text-gray-600 mt-5">
           Already have a account?
-          <NuxtLink to="/account/login" class="hover:underline hover:text-gray-800"> Sign in! </NuxtLink>
+          <NuxtLink
+            to="/account/login"
+            class="hover:underline hover:text-gray-800"
+          >
+            Sign in!
+          </NuxtLink>
         </p>
       </UForm>
     </div>
