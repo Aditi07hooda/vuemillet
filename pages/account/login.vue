@@ -72,6 +72,8 @@ const validateOtp = async () => {
   console.log("OTP validated:", validateOtp.value);
   state.otpValidation = validateOtp.value.valid;
   if (state.otpValidation) {
+    localStorage.setItem("sessionId", validateOtp.value.session);
+    localStorage.setItem("user", validateOtp.value.user);
     router.push("/account");
   }
 };
