@@ -29,7 +29,7 @@ const logOption = () => {
 
 <template>
     <div class="product-image-container">
-        <img :src="product.oneImg" alt="Product Image" class="product-image" />
+        <img :src="product.oneImg || product.images[0]" alt="Product Image" class="product-image" />
     </div>
     <div class="product-name">{{ product.name }}</div>
     <div>
