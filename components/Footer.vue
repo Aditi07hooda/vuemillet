@@ -48,7 +48,10 @@ const items = [
   >
     <div class="flex md:px-8 px-1 py-2 md:py-4 justify-between border-b-2">
       <h2>
-        <NuxtLink class="hover:text-pink-400 font-semibold transition duration-500" to="/">
+        <NuxtLink
+          class="hover:text-pink-400 font-semibold transition duration-500"
+          to="/"
+        >
           The Millet Store
         </NuxtLink>
       </h2>
@@ -134,10 +137,10 @@ const items = [
       </div>
 
       <div class="md:hidden mx-2">
-        <UAccordion :items="footerItems" color="inherit">
+        <UAccordion :items="footerItems" color="default">
           <template #default="{ item, index, open }">
             <UButton
-              color="inherit"
+              color="black"
               variant="ghost"
               class="border-b border-white"
               :ui="{ padding: { sm: 'pb-3' } }"
@@ -187,7 +190,9 @@ const items = [
               </address>
               <a href="mailto:hello@themilletstore.in" class="flex">
                 <span class="me-2">✉️</span>
-                <span class="underline hover:text-pink-400 transition duration-500">
+                <span
+                  class="underline hover:text-pink-400 transition duration-500"
+                >
                   hello@themilletstore.in</span
                 >
               </a>

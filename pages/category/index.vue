@@ -1,7 +1,3 @@
-<script>
-</script>
 <template>
-This is the category page
+    category page
 </template>
-<style>
-</style>
