@@ -8,31 +8,66 @@ const props = defineProps({
     }
 })
 
-const selectedSize = ref(containsOnlySize(props.product.variantTypes) ? props.product.variants?.[0] : props.product.variantMatrix?.Size?.[0])
-const selectedMillet = ref(props.product.variants?.[0])
+const selectedSize = ref(
+    containsOnlySize(props.product.variantTypes) ?
+        props.product.variants?.[0] :
+        props.product.variantMatrix?.Size?.[0] ||
+        props.product.variantMatrix?.size?.[0] ||
+        props.product.variantMatrix?.SIZE?.[0])
+const selectedVariant = ref(
+    props.product.variantMatrix?.Millet?.[0] ||
+    props.product.variantMatrix?.Variant?.[0] ||
+    props.product.variantMatrix?.flavour?.[0] ||
+    props.product.variantMatrix?.Texture?.[0] ||
+    props.product.variantMatrix?.texture?.[0] ||
+    props.product.variantMatrix?.Sweetner?.[0] ||
+    props.product.variantMatrix?.Packing?.[0] ||
+    props.product.variantMatrix?.packing?.[0] ||
+    props.product.variantMatrix?.package?.[0] ||
+    props.product.variantMatrix?.Package?.[0] ||
+    props.product.variantMatrix?.Pack?.[0]
+)
 
 function containsOnlySize(array) {
-    return array.every(entry => entry === 'size' || entry === 'Size')
+    return array.every(entry => entry.toLowerCase() === 'size')
 }
 
 const calculateDiscount = (price, offerPrice) => {
     const discount = ((price - offerPrice) / price) * 100
     return Math.round(discount)
 }
+const selectedOption = computed(() => {
+    return props.product.variants.find(x =>
+        (x.matrix.Millet === selectedVariant.value ||
+            x.matrix.Texture === selectedVariant.value ||
+            x.matrix.texture === selectedVariant.value ||
+            x.matrix.Sweetner === selectedVariant.value ||
+            x.matrix.Packing === selectedVariant.value ||
+            x.matrix.packing === selectedVariant.value ||
+            x.matrix.package === selectedVariant.value ||
+            x.matrix.Package === selectedVariant.value ||
+            x.matrix.Pack === selectedVariant.value) &&
+        (x.matrix.Size === selectedSize.value ||
+            x.matrix.size === selectedSize.value ||
+            x.matrix.SIZE === selectedSize.value)
+    )
+})
 
 const logOption = () => {
     console.log("Selected size:", selectedSize.value)
-    console.log("Selected millet:", selectedMillet.value)
+    console.log("Selected variant", selectedVariant.value)
+    console.log("select option comp", selectedOption.value)
 }
 
 </script>
 
 <template>
-    <div class="product-image-container">
-        <img :src="product.oneImg || product.images[0]" alt="Product Image" class="product-image" />
-    </div>
-    <div class="product-name">{{ product.name }}</div>
     <div>
+        <div class="product-image-container">
+            <img :src="product.oneImg || product.images[0] || '/favicon.ico'" alt="Product Image"
+                class="product-image" />
+        </div>
+        <div class="product-name">{{ product.name }}</div>
         <div v-if="containsOnlySize(product.variantTypes)">
             <div class="mb-2">Select Size</div>
             <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
@@ -41,17 +76,17 @@ const logOption = () => {
                 </option>
             </select>
         </div>
-        <div v-if="product.variantTypes.includes('Millet')">
-            <div class="mb-2">Select Size</div>
+        <div v-else>
+            <div class="mb-2">Select {{ product.variantTypes[0] }}</div>
             <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-                <option v-for="option in product.variantMatrix.Size" :value="option">
+                <option v-for="option in product.variantMatrix[product.variantTypes[0]]" :value="option">
                     {{ option }}
                 </option>
             </select>
-            <div class="mb-2">Select Millet</div>
-            <select class="mb-2 dropdown" v-model="selectedMillet" @change="logOption">
-                <option v-for="option in product.variants" :value="option">
-                    {{ option.name }}
+            <div class="mb-2">Select {{ product.variantTypes[1] }}</div>
+            <select class="mb-2 dropdown" v-model="selectedVariant" @change="logOption">
+                <option v-for="option in product.variantMatrix[product.variantTypes[1]]" :value="option">
+                    {{ option }}
                 </option>
             </select>
         </div>
@@ -63,15 +98,16 @@ const logOption = () => {
                 <span class="line-through">₹ {{ selectedSize.price }}</span> <span class="text-green-600"> ₹
                     {{ selectedSize.offerPrice }}</span>
             </div>
-            <div v-if="product.variantTypes.includes('Millet')">
-                <div class="text-rose-600">{{ calculateDiscount(selectedMillet.price, selectedMillet.offerPrice) }} % off
+            <div v-else>
+                <div class="text-rose-600">{{ calculateDiscount(selectedOption?.price, selectedOption?.offerPrice) }} %
+                    off
                 </div>
-                <span class="line-through">₹ {{ selectedMillet.price }}</span> <span class="text-green-600"> ₹
-                    {{ selectedMillet.offerPrice }}</span>
+                <span class="line-through">₹ {{ selectedOption?.price }}</span> <span class="text-green-600"> ₹
+                    {{ selectedOption?.offerPrice }}</span>
             </div>
         </div>
         <div>
-            <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 p-2 rounded-3xl"> Add
+            <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl"> Add
                 to cart
             </button>
         </div>
@@ -79,6 +115,7 @@ const logOption = () => {
 </template>
 
 <style scoped>
+
 .product-image-container {
     width: 100%;
     padding-top: 100%;

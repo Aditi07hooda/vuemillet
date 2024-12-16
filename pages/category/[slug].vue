@@ -21,9 +21,8 @@ const { data: categories, error: categoriesError, loading: categoriesLoading } =
     },
 })
 const products = ref(categories.value.filter(x => x.slug === route.params.slug))
-console.log("categories in each category page", categories.value, route.params.slug)
-console.log("individual category", categories.value.filter(x => x.slug === route.params.slug))
-console.log('product in each categoru p;a', products.value)
+
+console.log('product in each category', products.value)
 
 </script>
 <template>
@@ -37,7 +36,7 @@ console.log('product in each categoru p;a', products.value)
         <div class="p-14 description" v-html="products[0]?.description"></div>
         <div v-if="products.length !== 0" class="flex justify-evenly w-full flex-wrap">
             <div v-for="product in products[0].products" :key="product.id"
-                class="product-container rounded mb-10 mx-2 w-full sm:w-auto">
+                class="product-container rounded mb-10 mx-1 w-full sm:w-auto">
                 <BlogProduct :product="product" />
             </div>
         </div>
