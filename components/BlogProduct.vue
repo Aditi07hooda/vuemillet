@@ -46,7 +46,8 @@ const selectedOption = computed(() => {
             x.matrix.packing === selectedVariant.value ||
             x.matrix.package === selectedVariant.value ||
             x.matrix.Package === selectedVariant.value ||
-            x.matrix.Pack === selectedVariant.value) &&
+            x.matrix.Pack === selectedVariant.value ||
+            x.matrix.Variant === selectedVariant.value) &&
         (x.matrix.Size === selectedSize.value ||
             x.matrix.size === selectedSize.value ||
             x.matrix.SIZE === selectedSize.value)
@@ -57,6 +58,11 @@ const logOption = () => {
     console.log("Selected size:", selectedSize.value)
     console.log("Selected variant", selectedVariant.value)
     console.log("select option comp", selectedOption.value)
+}
+
+const capitalize = (string) => {
+    const ans = string[0].toUpperCase() + string.slice(1).toLowerCase()
+    return ans
 }
 
 </script>
@@ -77,13 +83,13 @@ const logOption = () => {
             </select>
         </div>
         <div v-else>
-            <div class="mb-2">Select {{ product.variantTypes[0] }}</div>
+            <div class="mb-2">Select {{ capitalize(product?.variantTypes[0]) }}</div>
             <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
                 <option v-for="option in product.variantMatrix[product.variantTypes[0]]" :value="option">
                     {{ option }}
                 </option>
             </select>
-            <div class="mb-2">Select {{ product.variantTypes[1] }}</div>
+            <div class="mb-2">Select {{ capitalize(product.variantTypes[1]) }}</div>
             <select class="mb-2 dropdown" v-model="selectedVariant" @change="logOption">
                 <option v-for="option in product.variantMatrix[product.variantTypes[1]]" :value="option">
                     {{ option }}
@@ -107,7 +113,8 @@ const logOption = () => {
             </div>
         </div>
         <div>
-            <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl"> Add
+            <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
+                Add
                 to cart
             </button>
         </div>
@@ -115,7 +122,6 @@ const logOption = () => {
 </template>
 
 <style scoped>
-
 .product-image-container {
     width: 100%;
     padding-top: 100%;
