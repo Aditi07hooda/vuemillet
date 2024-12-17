@@ -64,60 +64,59 @@ const capitalize = (string) => {
     const ans = string[0].toUpperCase() + string.slice(1).toLowerCase()
     return ans
 }
-
 </script>
 
 <template>
-    <div>
+    <NuxtLink :to="`/product/${product.id}`">
         <div class="product-image-container">
             <img :src="product.oneImg || product.images[0] || '/favicon.ico'" alt="Product Image"
                 class="product-image" />
         </div>
         <div class="product-name">{{ product.name }}</div>
+    </NuxtLink>
+    <div v-if="containsOnlySize(product.variantTypes)">
+        <div class="mb-2">Select Size</div>
+        <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
+            <option v-for="option in product.variants" :value="option">
+                {{ option.name }}
+            </option>
+        </select>
+    </div>
+    <div v-else>
+        <div class="mb-2">Select {{ capitalize(product?.variantTypes[0]) }}</div>
+        <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
+            <option v-for="option in product.variantMatrix[product.variantTypes[0]]" :value="option">
+                {{ option }}
+            </option>
+        </select>
+        <div class="mb-2">Select {{ capitalize(product.variantTypes[1]) }}</div>
+        <select class="mb-2 dropdown" v-model="selectedVariant" @change="logOption">
+            <option v-for="option in product.variantMatrix[product.variantTypes[1]]" :value="option">
+                {{ option }}
+            </option>
+        </select>
+    </div>
+    <div class="font-bold mb-2">
         <div v-if="containsOnlySize(product.variantTypes)">
-            <div class="mb-2">Select Size</div>
-            <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-                <option v-for="option in product.variants" :value="option">
-                    {{ option.name }}
-                </option>
-            </select>
+            <div class="text-rose-600">{{ calculateDiscount(selectedSize.price, selectedSize.offerPrice)
+                }} %
+                off</div>
+            <span class="line-through">₹ {{ selectedSize.price }}</span> <span class="text-green-600"> ₹
+                {{ selectedSize.offerPrice }}</span>
         </div>
         <div v-else>
-            <div class="mb-2">Select {{ capitalize(product?.variantTypes[0]) }}</div>
-            <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-                <option v-for="option in product.variantMatrix[product.variantTypes[0]]" :value="option">
-                    {{ option }}
-                </option>
-            </select>
-            <div class="mb-2">Select {{ capitalize(product.variantTypes[1]) }}</div>
-            <select class="mb-2 dropdown" v-model="selectedVariant" @change="logOption">
-                <option v-for="option in product.variantMatrix[product.variantTypes[1]]" :value="option">
-                    {{ option }}
-                </option>
-            </select>
-        </div>
-        <div class="font-bold mb-2">
-            <div v-if="containsOnlySize(product.variantTypes)">
-                <div class="text-rose-600">{{ calculateDiscount(selectedSize.price, selectedSize.offerPrice)
-                    }} %
-                    off</div>
-                <span class="line-through">₹ {{ selectedSize.price }}</span> <span class="text-green-600"> ₹
-                    {{ selectedSize.offerPrice }}</span>
+            <div class="text-rose-600">{{ calculateDiscount(selectedOption?.price, selectedOption?.offerPrice) }} %
+                off
             </div>
-            <div v-else>
-                <div class="text-rose-600">{{ calculateDiscount(selectedOption?.price, selectedOption?.offerPrice) }} %
-                    off
-                </div>
-                <span class="line-through">₹ {{ selectedOption?.price }}</span> <span class="text-green-600"> ₹
-                    {{ selectedOption?.offerPrice }}</span>
-            </div>
+            <span class="line-through">₹ {{ selectedOption?.price }}</span> <span class="text-green-600"> ₹
+                {{ selectedOption?.offerPrice }}</span>
         </div>
-        <div>
-            <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
-                Add
-                to cart
-            </button>
-        </div>
+    </div>
+    <div>
+        <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
+            Add
+            to cart
+        </button>
     </div>
 </template>
 
