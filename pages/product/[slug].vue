@@ -1,13 +1,87 @@
 <script setup>
+
+import MADE_TO_ORDER from '@/assets/images/MADE_TO_ORDER.PNG'
+import NO_PRESERVATIVES from '@/assets/images/NO_PRESERVATIVES.PNG'
+import ORGANIC from '@/assets/images/ORGANIC.PNG'
+
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
 const brandID = config.public.brandID
 const route = useRoute()
 const { data: product, error, loading } = await useFetch(`${baseURL}/store/${brandID}/products/${route.params.slug}`)
-console.log("data of each product", product.value, route.params)
+
+const mainImg = ref(product.value.oneImg)
+
+const changeMainImage = (src) => {
+    mainImg.value = src
+}
+
+const capitalize = (str) => {
+    return str
+        .toLowerCase()
+        .replace(/_/g, ' ') // Replace underscores with spaces
+        .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+}
+
+const getSrcFromTags = (tag) => {
+    switch (tag.toLowerCase()) {
+        case 'made_to_order':
+            return MADE_TO_ORDER
+        case 'no_preservatives':
+            return NO_PRESERVATIVES
+        case 'organic':
+            return ORGANIC
+        default:
+            return null
+    }
+}
+
+
+console.log("data of each product", product.value)
 
 </script>
 <template>
-    This is each products page
+    <!-- ingredients <div v-for="ingredient in product.ingredients">{{ ingredient}}</div>
+    printDescription <div v-html="product.printDescription"></div>
+    <video v-for="video in product.videos" :src="video"></video>
+       -->
+    <div class="flex flex-col md:flex-row items-center bg-gray-100 rounded-lg shadow-md p-6 gap-6 max-w-4xl mx-auto">
+        <div class="w-full md:w-1/3">
+            <img :src="mainImg" alt="Product Image" class="w-full h-auto rounded-lg object-cover" />
+            <div class="flex">
+                <div v-for="image in product.images" class="group-image">
+                    <img :src="image" :alt="image" width="100px" class="rounded-lg" @click="changeMainImage(image)" />
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-2/3 flex flex-col justify-center text-center md:text-left">
+            <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2">
+                {{ product.webName }}
+            </h2>
+            <div class="flex justify-evenly">
+                <div v-for="tag in product.tags" :key="tag" class="text-gray-800 flex flex-col justify-center">
+                    <div class="flex justify-center items-center">
+                        <img :src="getSrcFromTags(tag)" :alt="tag" width="70px" />
+                    </div>
+                    <div> {{ capitalize(tag) }} </div>
+                </div>
+            </div>
+            <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                Buy Now
+            </button>
+        </div>
+    </div>
+    <div>
+        <p class="text-gray-600 mb-4" v-html="product.description"> </p>
+    </div>
 </template>
-<style></style>
+
+<style scoped>
+.custom-underline {
+    font-size: 2.5em;
+    padding-bottom: 1em;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-image: url('@/assets/images/underline.svg');
+}
+</style>
