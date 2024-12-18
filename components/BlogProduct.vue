@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from "vue"
+import { calculateDiscount } from '../composables/discount'
+import { capitalize } from '../composables/capitalize'
+import { containsOnlySize } from '../composables/containsOnlySize'
 
 const props = defineProps({
     product: {
@@ -14,6 +17,7 @@ const selectedSize = ref(
         props.product.variantMatrix?.Size?.[0] ||
         props.product.variantMatrix?.size?.[0] ||
         props.product.variantMatrix?.SIZE?.[0])
+
 const selectedVariant = ref(
     props.product.variantMatrix?.Millet?.[0] ||
     props.product.variantMatrix?.Variant?.[0] ||
@@ -28,14 +32,6 @@ const selectedVariant = ref(
     props.product.variantMatrix?.Pack?.[0]
 )
 
-function containsOnlySize(array) {
-    return array.every(entry => entry.toLowerCase() === 'size')
-}
-
-const calculateDiscount = (price, offerPrice) => {
-    const discount = ((price - offerPrice) / price) * 100
-    return Math.round(discount)
-}
 const selectedOption = computed(() => {
     return props.product.variants.find(x =>
         (x.matrix.Millet === selectedVariant.value ||
@@ -60,10 +56,6 @@ const logOption = () => {
     console.log("select option comp", selectedOption.value)
 }
 
-const capitalize = (string) => {
-    const ans = string[0].toUpperCase() + string.slice(1).toLowerCase()
-    return ans
-}
 </script>
 
 <template>
@@ -72,7 +64,7 @@ const capitalize = (string) => {
             <img :src="product.oneImg || product.images[0] || '/favicon.ico'" alt="Product Image"
                 class="product-image" />
         </div>
-        <div class="product-name">{{ product.name }}</div>
+        <div class="product-name">{{ capitalize(product.name) }}</div>
     </NuxtLink>
     <div v-if="containsOnlySize(product.variantTypes)">
         <div class="mb-2">Select Size</div>
@@ -92,7 +84,7 @@ const capitalize = (string) => {
         <div class="mb-2">Select {{ capitalize(product.variantTypes[1]) }}</div>
         <select class="mb-2 dropdown" v-model="selectedVariant" @change="logOption">
             <option v-for="option in product.variantMatrix[product.variantTypes[1]]" :value="option">
-                {{ option }}
+                {{ capitalize(option) }}
             </option>
         </select>
     </div>

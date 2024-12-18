@@ -5,6 +5,9 @@ import NO_PRESERVATIVES from '@/assets/images/NO_PRESERVATIVES.PNG'
 import ORGANIC from '@/assets/images/ORGANIC.PNG'
 import JAGGERY from '@/assets/images/JAGGERY.PNG'
 import MILLETS from '@/assets/images/MILLETS.PNG'
+import { calculateDiscount } from '../../composables/discount'
+import { capitalize } from '../../composables/capitalize'
+import { containsOnlySize } from '../../composables/containsOnlySize'
 
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
@@ -16,13 +19,6 @@ const mainImg = ref(product.value.oneImg || product.value.images[0] || '/favicon
 
 const changeMainImage = (src) => {
     mainImg.value = src
-}
-
-const capitalize = (str) => {
-    return str
-        .toLowerCase()
-        .replace(/_/g, ' ') // Replace underscores with spaces
-        .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize each word
 }
 
 const getSrcFromTags = (tag) => {
@@ -63,10 +59,6 @@ const selectedVariant = ref(
     product.value.variantMatrix?.Pack?.[0]
 )
 
-function containsOnlySize(array) {
-    return array.every(entry => entry.toLowerCase() === 'size')
-}
-
 const selectedOption = computed(() => {
     return product.value.variants.find(x =>
         (x.matrix.Millet === selectedVariant.value ||
@@ -103,11 +95,6 @@ const hasContent = computed(() => {
     return textContent.trim().length > 0
 })
 
-const calculateDiscount = (price, offerPrice) => {
-    const discount = ((price - offerPrice) / price) * 100
-    return Math.round(discount)
-}
-
 console.log("data of each product", product.value)
 
 </script>
@@ -142,10 +129,10 @@ console.log("data of each product", product.value)
                 </div>
                 <div v-if="containsOnlySize(product.variantTypes)" class="text-gray-800">
                     <div class="flex">
-                        <div class="mb-2 variant-label font-semibold">Size</div>
+                        <div class="mb-2 variant-label font-semibold flex items-center justify-center">Size</div>
                         <div class="flex flex-wrap">
                             <div v-for="option in product.variants" :key="option" @click="logOptionSize(option)"
-                                class="rounded-full px-2 mx-2 mb-2 options cursor-pointer"
+                                class="rounded-full px-2 mx-2 mb-2 p-2 options cursor-pointer"
                                 :class="selectedSize === option ? 'selected' : ''">
                                 {{ option.name }}
                             </div>
@@ -186,7 +173,8 @@ console.log("data of each product", product.value)
                         <div class="text-rose-600">{{ calculateDiscount(selectedSize.price, selectedSize.offerPrice)
                             }} %
                             off</div>
-                        <span class="line-through text-black">₹ {{ selectedSize.price }}</span> <span class="text-green-600"> ₹
+                        <span class="line-through text-black">₹ {{ selectedSize.price }}</span> <span
+                            class="text-green-600"> ₹
                             {{ selectedSize.offerPrice }}</span>
                     </div>
                     <div v-else>
@@ -194,7 +182,8 @@ console.log("data of each product", product.value)
                             selectedOption.offerPrice) }} %
                             off
                         </div>
-                        <span class="line-through text-black">₹ {{ selectedOption.price }}</span> <span class="text-green-600"> ₹
+                        <span class="line-through text-black">₹ {{ selectedOption.price }}</span> <span
+                            class="text-green-600"> ₹
                             {{ selectedOption.offerPrice }}</span>
                     </div>
                 </div>
