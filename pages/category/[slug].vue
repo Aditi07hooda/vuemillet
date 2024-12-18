@@ -11,24 +11,26 @@ const route = useRoute()
 
 if (typeof window !== "undefined") {
     sessionId.value = localStorage.getItem("sessionId")
-    console.log("sessionid", sessionId.value)
 }
-
 
 const { data: categories, error: categoriesError, loading: categoriesLoading } = await useFetch(`${baseURL}/store/${brandID}/categories?`, {
     headers: {
         session: sessionId.value,
     },
 })
+
 const products = ref(categories.value.filter(x => x.slug === route.params.slug))
 
 console.log('product in each category', products.value)
-
 </script>
+
 <template>
     <div>
+        <div class="flex flex-wrap px-14 gap-4 font-bold mt-4">
+            <NuxtLink :to="`/category/${category.slug}`" v-for="category in categories" :key="category">{{ category.name }}</NuxtLink>
+        </div>
         <div class="hero-image px-14 mt-7">
-            <img :src="products[0]?.imageUrl" alt="hey" />
+            <img :src="products[0]?.imageUrl" alt="image" />
             <div class="hero-overlay">
                 <h1 class="text-center uppercase">{{ products[0]?.name }}</h1>
             </div>
@@ -95,7 +97,7 @@ console.log('product in each category', products.value)
     }
 }
 
-.description{
+.description {
     font-size: 20px;
     font-family: "Futura PT";
 }
