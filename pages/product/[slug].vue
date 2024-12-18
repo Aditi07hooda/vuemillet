@@ -157,26 +157,29 @@ console.log("data of each product", product.value)
             <div class="italic font-bold mb-2">
                 Ingredients
             </div>
-            <div class="flex gap-2 mb-10">
+            <div class="flex gap-2 mb-10 flex-wrap">
                 <div v-for="ingredient in product.ingredients" class="border border-gray-600 p-1 px-2 rounded-full">{{
                     ingredient }}</div>
             </div>
             <p v-html="product.description" />
         </div>
     </div>
-    <div class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
-        <div class="w-full md:w-2/3">
+    <div v-if="product.printDescription || product.videos.length !== 0"
+        class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
+        <div v-if="product.videos.length !== 0" class="w-full md:w-2/3">
             <video v-for="video in product.videos" controls autoplay>
                 <source :src="video" type="video/webm" />
             </video>
         </div>
-        <div class="w-full md:w-1/3 flex flex-col justify-center text-center md:text-left text-gray-800">
-            <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
+        <div :class="product.videos.length === 0 ? 'w-full' : 'w-full md:w-1/3'"
+            class="flex flex-col text-center md:text-left text-gray-800">
+            <h2 class="custom-underline text-2xl font-semibold text-gray-800 text-center">
                 Instructions to Use
             </h2>
-            <div v-html="product.printDescription" class="mb-10 text-left"></div>
+            <div v-html="product.printDescription" class="text-left"></div>
         </div>
     </div>
+
 </template>
 
 <style scoped>
