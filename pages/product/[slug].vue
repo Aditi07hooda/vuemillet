@@ -115,7 +115,7 @@ console.log("data of each product", product.value)
             </div>
             <div class="w-full md:w-1/3 flex flex-col justify-center text-center md:text-left">
                 <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
-                    {{ capitalize(product.name) || capitalize(product.webName) }}
+                    {{ capitalize(product.name || product.webName) }}
                 </h2>
                 <div class="flex justify-evenly mb-4 items-start">
                     <div v-for="tag in product.tags" :key="tag"
@@ -141,7 +141,7 @@ console.log("data of each product", product.value)
                 </div>
                 <div v-else class="text-gray-800">
                     <div class="flex mb-2">
-                        <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
+                        <div class="mb-2 w-2/12 variant-label font-semibold flex items-center">
                             {{ capitalize(product?.variantTypes[0]) }}
                         </div>
                         <div class="flex flex-wrap w-10/12">
@@ -155,7 +155,7 @@ console.log("data of each product", product.value)
                         </div>
                     </div>
                     <div class="flex">
-                        <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
+                        <div class="mb-2 w-2/12 variant-label font-semibold flex items-center">
                             {{ capitalize(product.variantTypes[1]) }}
                         </div>
                         <div class="flex flex-wrap w-10/12">
@@ -195,7 +195,7 @@ console.log("data of each product", product.value)
         </div>
         <div class="mt-10 max-w-6xl mx-auto">
             <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
-                {{ product.webName || product.name }}
+                {{ capitalize(product.webName || product.name) }}
             </h2>
             <div class="text-gray-600 mb-4 px-4">
                 <div v-if="product.ingredients.length !== 0" class="italic font-bold mb-2">
