@@ -85,10 +85,14 @@ const selectedOption = computed(() => {
     )
 })
 
-const logOption = () => {
+const logOptionSize = (option) => {
+    selectedSize.value = option
     console.log("Selected size:", selectedSize.value)
-    console.log("Selected variant", selectedVariant.value)
-    console.log("select option comp", selectedOption.value)
+}
+
+const logOptionVariant = (option) => {
+    selectedVariant.value = option
+    console.log("Selected variant:", selectedVariant.value)
 }
 
 // This is needed because sometimes the printDescription only contains tags but not text content inside
@@ -98,6 +102,11 @@ const hasContent = computed(() => {
     const textContent = tempDiv.textContent || tempDiv.innerText
     return textContent.trim().length > 0
 })
+
+const calculateDiscount = (price, offerPrice) => {
+    const discount = ((price - offerPrice) / price) * 100
+    return Math.round(discount)
+}
 
 console.log("data of each product", product.value)
 
@@ -135,8 +144,9 @@ console.log("data of each product", product.value)
                     <div class="flex">
                         <div class="mb-2 variant-label font-semibold">Size</div>
                         <div class="flex flex-wrap">
-                            <div v-for="option in product.variants" :key="option" @click="logOption"
-                                class="rounded-full px-2 mx-2 mb-2 options cursor-pointer">
+                            <div v-for="option in product.variants" :key="option" @click="logOptionSize(option)"
+                                class="rounded-full px-2 mx-2 mb-2 options cursor-pointer"
+                                :class="selectedSize === option ? 'selected' : ''">
                                 {{ option.name }}
                             </div>
                         </div>
@@ -149,8 +159,9 @@ console.log("data of each product", product.value)
                         </div>
                         <div class="flex flex-wrap w-10/12">
                             <div v-for="option in product.variantMatrix[product.variantTypes[0]]" :key="option"
-                                @click="logOption"
-                                class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer">{{
+                                @click="logOptionSize(option)"
+                                class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer"
+                                :class="selectedSize === option ? 'selected' : ''">{{
                                     option
                                 }}
                             </div>
@@ -162,11 +173,29 @@ console.log("data of each product", product.value)
                         </div>
                         <div class="flex flex-wrap w-10/12">
                             <div v-for="option in product.variantMatrix[product.variantTypes[1]]" :key="option"
-                                @click="logOption"
-                                class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer">
+                                @click="logOptionVariant(option)"
+                                class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer"
+                                :class="selectedVariant === option ? 'selected' : ''">
                                 {{ capitalize(option) }}
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="font-bold my-2 text-center">
+                    <div v-if="containsOnlySize(product.variantTypes)">
+                        <div class="text-rose-600">{{ calculateDiscount(selectedSize.price, selectedSize.offerPrice)
+                            }} %
+                            off</div>
+                        <span class="line-through text-black">₹ {{ selectedSize.price }}</span> <span class="text-green-600"> ₹
+                            {{ selectedSize.offerPrice }}</span>
+                    </div>
+                    <div v-else>
+                        <div class="text-rose-600">{{ calculateDiscount(selectedOption.price,
+                            selectedOption.offerPrice) }} %
+                            off
+                        </div>
+                        <span class="line-through text-black">₹ {{ selectedOption.price }}</span> <span class="text-green-600"> ₹
+                            {{ selectedOption.offerPrice }}</span>
                     </div>
                 </div>
                 <button
@@ -231,7 +260,8 @@ console.log("data of each product", product.value)
 }
 
 .options:hover,
-.options:focus {
+.options:focus,
+.selected {
     border: 1px solid black;
     background-color: white;
 }
