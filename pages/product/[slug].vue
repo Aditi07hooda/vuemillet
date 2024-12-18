@@ -89,22 +89,18 @@ console.log("data of each product", product.value)
 
 </script>
 <template>
-    <!-- ingredients <div v-for="ingredient in product.ingredients">{{ ingredient}}</div>
-    printDescription <div v-html="product.printDescription"></div>
-    <video v-for="video in product.videos" :src="video"></video>
-       -->
-    <div class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-4xl mx-auto my-4">
-        <div class="w-full md:w-1/3">
+    <div class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
+        <div class="w-full md:w-2/3">
             <img :src="mainImg" alt="Product Image" class="w-full h-auto rounded-lg object-cover" />
             <div class="flex">
-                <div v-for="image in product.images" class="group-image">
+                <div v-for="image in product.images">
                     <img :src="image" :alt="image" width="100px" class="rounded-lg" @click="changeMainImage(image)" />
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/3 flex flex-col justify-center text-center md:text-left">
+        <div class="w-full md:w-1/3 flex flex-col justify-center text-center md:text-left">
             <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
-                {{ product.webName }}
+                {{ product.name }}
             </h2>
             <div class="flex justify-evenly mb-4">
                 <div v-for="tag in product.tags" :key="tag" class="text-gray-800 flex flex-col justify-center">
@@ -153,8 +149,33 @@ console.log("data of each product", product.value)
             </button>
         </div>
     </div>
-    <div>
-        <p class="text-gray-600 mb-4" v-html="product.description"> </p>
+    <div class="mt-10 max-w-6xl mx-auto">
+        <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
+            {{ product.webName }}
+        </h2>
+        <div class="text-gray-600 mb-4 px-4">
+            <div class="italic font-bold mb-2">
+                Ingredients
+            </div>
+            <div class="flex gap-2 mb-10">
+                <div v-for="ingredient in product.ingredients" class="border border-gray-600 p-1 px-2 rounded-full">{{
+                    ingredient }}</div>
+            </div>
+            <p v-html="product.description" />
+        </div>
+    </div>
+    <div class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
+        <div class="w-full md:w-2/3">
+            <video v-for="video in product.videos" controls autoplay>
+                <source :src="video" type="video/webm" />
+            </video>
+        </div>
+        <div class="w-full md:w-1/3 flex flex-col justify-center text-center md:text-left text-gray-800">
+            <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
+                Instructions to Use
+            </h2>
+            <div v-html="product.printDescription" class="mb-10 text-left"></div>
+        </div>
     </div>
 </template>
 
