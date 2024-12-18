@@ -93,7 +93,7 @@ console.log("data of each product", product.value)
     printDescription <div v-html="product.printDescription"></div>
     <video v-for="video in product.videos" :src="video"></video>
        -->
-    <div class="flex flex-col md:flex-row items-center bg-gray-100 rounded-lg shadow-md p-6 gap-6 max-w-4xl mx-auto">
+    <div class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-4xl mx-auto my-4">
         <div class="w-full md:w-1/3">
             <img :src="mainImg" alt="Product Image" class="w-full h-auto rounded-lg object-cover" />
             <div class="flex">
@@ -106,7 +106,7 @@ console.log("data of each product", product.value)
             <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
                 {{ product.webName }}
             </h2>
-            <div class="flex justify-evenly">
+            <div class="flex justify-evenly mb-4">
                 <div v-for="tag in product.tags" :key="tag" class="text-gray-800 flex flex-col justify-center">
                     <div class="flex justify-center items-center">
                         <img :src="getSrcFromTags(tag)" :alt="tag" width="70px" />
@@ -115,37 +115,41 @@ console.log("data of each product", product.value)
                 </div>
             </div>
             <div v-if="containsOnlySize(product.variantTypes)" class="text-gray-800">
-                <div class="flex border border-pink-600">
-                    <div class="mb-2">Size</div>
-                    <div class="flex flex-wrap border border-green-600">
+                <div class="flex">
+                    <div class="mb-2 variant-label font-semibold">Size</div>
+                    <div class="flex flex-wrap">
                         <div v-for="option in product.variants" :value="option"
-                            class="rounded-full border border-cyan-600 px-2 mx-2 mb-2">
+                            class="rounded-full px-2 mx-2 mb-2 options">
                             {{ option.name }}
                         </div>
                     </div>
                 </div>
             </div>
             <div v-else class="text-gray-800">
-                <div class="flex border border-pink-600">
-                    <div class="mb-2 border border-red-600">{{ capitalize(product?.variantTypes[0]) }}</div>
-                    <div class="flex flex-wrap border border-green-600">
-                        <div v-for="option in product.variantMatrix[product.variantTypes[0]]" :key="option"
-                            class="rounded-full border border-cyan-600 px-2 mx-2 mb-2">{{ option }}
-                        </div>
+                <div class="flex mb-2">
+                    <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
+                        {{ capitalize(product?.variantTypes[0]) }}
+                    </div>
+                    <div class="flex flex-wrap w-10/12">
+                        <button v-for="option in product.variantMatrix[product.variantTypes[0]]" :key="option"
+                            class="rounded-full p-2 mx-2 mb-2 options transition duration-500">{{ option }}
+                        </button>
                     </div>
                 </div>
-                <div class="flex border border-black-600">
-                    <div class="mb-2 border border-orange-600">{{ capitalize(product.variantTypes[1]) }}</div>
-                    <div class="flex flex-wrap border border-purple-600">
-                        <div v-for="option in product.variantMatrix[product.variantTypes[1]]" :key="option"
-                            class="rounded-full border border-cyan-600 px-2 mx-2 mb-2">
-                            {{ option }}
-                        </div>
+                <div class="flex">
+                    <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
+                        {{ capitalize(product.variantTypes[1]) }}
+                    </div>
+                    <div class="flex flex-wrap w-10/12">
+                        <button v-for="option in product.variantMatrix[product.variantTypes[1]]" :key="option"
+                            class="rounded-full p-2 mx-2 mb-2 options transition duration-500">
+                            {{ capitalize(option) }}
+                        </button>
                     </div>
                 </div>
             </div>
-            <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
-                Buy Now
+            <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                Add to Cart
             </button>
         </div>
     </div>
@@ -161,5 +165,20 @@ console.log("data of each product", product.value)
     background-position: bottom;
     background-repeat: no-repeat;
     background-image: url('@/assets/images/underline.svg');
+}
+
+.variant-label {
+    color: #67645c;
+}
+
+.options {
+    background-color: #f5f5f5;
+    border: 1px solid #f5f5f5;
+}
+
+.options:hover,
+.options:focus {
+    border: 1px solid black;
+    background-color: white;
 }
 </style>
