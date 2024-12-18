@@ -103,97 +103,111 @@ console.log("data of each product", product.value)
 
 </script>
 <template>
-    <div class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
-        <div class="w-full md:w-2/3">
-            <img :src="mainImg" alt="Product Image" class="w-full h-auto rounded-lg object-cover" />
-            <div v-if="product.images.length > 1" class="flex">
-                <div v-for="image in product.images">
-                    <img :src="image" :alt="image" width="100px" class="rounded-lg" @click="changeMainImage(image)" />
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="error">Error: {{ error.message }}</div>
+    <div v-else>
+        <div
+            class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
+            <div class="w-full md:w-2/3">
+                <img :src="mainImg" alt="Product Image" class="w-full h-auto rounded-lg object-cover" />
+                <div v-if="product.images.length > 1" class="flex">
+                    <div v-for="image in product.images">
+                        <img :src="image" :alt="image" width="100px" class="rounded-lg"
+                            @click="changeMainImage(image)" />
+                    </div>
                 </div>
             </div>
+            <div class="w-full md:w-1/3 flex flex-col justify-center text-center md:text-left">
+                <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
+                    {{ capitalize(product.name) || capitalize(product.webName) }}
+                </h2>
+                <div class="flex justify-evenly mb-4 items-start">
+                    <div v-for="tag in product.tags" :key="tag"
+                        class="text-gray-800 flex flex-col justify-center flex-1">
+                        <div class="flex justify-center items-center">
+                            <img :src="getSrcFromTags(tag)" :alt="tag" width="70px" />
+                        </div>
+                        <div class="text-center"> {{ capitalize(tag) === "Jaggery" ? "No Sugar" : capitalize(tag) }}
+                        </div>
+                    </div>
+                </div>
+                <div v-if="containsOnlySize(product.variantTypes)" class="text-gray-800">
+                    <div class="flex">
+                        <div class="mb-2 variant-label font-semibold">Size</div>
+                        <div class="flex flex-wrap">
+                            <div v-for="option in product.variants" :key="option" @click="logOption"
+                                class="rounded-full px-2 mx-2 mb-2 options cursor-pointer">
+                                {{ option.name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="text-gray-800">
+                    <div class="flex mb-2">
+                        <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
+                            {{ capitalize(product?.variantTypes[0]) }}
+                        </div>
+                        <div class="flex flex-wrap w-10/12">
+                            <div v-for="option in product.variantMatrix[product.variantTypes[0]]" :key="option"
+                                @click="logOption"
+                                class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer">{{
+                                    option
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
+                            {{ capitalize(product.variantTypes[1]) }}
+                        </div>
+                        <div class="flex flex-wrap w-10/12">
+                            <div v-for="option in product.variantMatrix[product.variantTypes[1]]" :key="option"
+                                @click="logOption"
+                                class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer">
+                                {{ capitalize(option) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                    Add to Cart
+                </button>
+            </div>
         </div>
-        <div class="w-full md:w-1/3 flex flex-col justify-center text-center md:text-left">
+        <div class="mt-10 max-w-6xl mx-auto">
             <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
-                {{ product.name || product.webName }}
+                {{ product.webName || product.name }}
             </h2>
-            <div class="flex justify-evenly mb-4 items-start">
-                <div v-for="tag in product.tags" :key="tag" class="text-gray-800 flex flex-col justify-center flex-1">
-                    <div class="flex justify-center items-center">
-                        <img :src="getSrcFromTags(tag)" :alt="tag" width="70px" />
-                    </div>
-                    <div class="text-center"> {{ capitalize(tag) === "Jaggery" ? "No Sugar" : capitalize(tag) }} </div>
+            <div class="text-gray-600 mb-4 px-4">
+                <div v-if="product.ingredients.length !== 0" class="italic font-bold mb-2">
+                    Ingredients
                 </div>
+                <div v-if="product.ingredients.length !== 0" class="flex gap-2 mb-10 flex-wrap">
+                    <div v-for="ingredient in product.ingredients" class="border border-gray-600 p-1 px-2 rounded-full">
+                        {{
+                            ingredient }}</div>
+                </div>
+                <p v-html="product.description"></p>
             </div>
-            <div v-if="containsOnlySize(product.variantTypes)" class="text-gray-800">
-                <div class="flex">
-                    <div class="mb-2 variant-label font-semibold">Size</div>
-                    <div class="flex flex-wrap">
-                        <button v-for="option in product.variants" :value="option"
-                            class="rounded-full px-2 mx-2 mb-2 options">
-                            {{ option.name }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div v-else class="text-gray-800">
-                <div class="flex mb-2">
-                    <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
-                        {{ capitalize(product?.variantTypes[0]) }}
-                    </div>
-                    <div class="flex flex-wrap w-10/12">
-                        <button v-for="option in product.variantMatrix[product.variantTypes[0]]" :key="option"
-                            class="rounded-full p-2 mx-2 mb-2 options transition duration-500">{{ option }}
-                        </button>
-                    </div>
-                </div>
-                <div class="flex">
-                    <div class="mb-2 w-2/12 variant-label font-semibold flex items-center justify-center">
-                        {{ capitalize(product.variantTypes[1]) }}
-                    </div>
-                    <div class="flex flex-wrap w-10/12">
-                        <button v-for="option in product.variantMatrix[product.variantTypes[1]]" :key="option"
-                            class="rounded-full p-2 mx-2 mb-2 options transition duration-500">
-                            {{ capitalize(option) }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
-                Add to Cart
-            </button>
         </div>
-    </div>
-    <div class="mt-10 max-w-6xl mx-auto">
-        <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
-            {{ product.webName || product.name }}
-        </h2>
-        <div class="text-gray-600 mb-4 px-4">
-            <div v-if="product.ingredients.length !== 0" class="italic font-bold mb-2">
-                Ingredients
+        <div v-if="hasContent || product.videos.length !== 0"
+            class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
+            <div v-if="product.videos.length !== 0" :class="!hasContent ? 'w-full' : 'w-full md:w-2/3'">
+                <h2 v-if="!hasContent" class="custom-underline text-2xl font-semibold text-gray-800 text-center mb-2">
+                    Instructions to Use
+                </h2>
+                <video v-for="video in product.videos" controls autoplay class="w-full">
+                    <source :src="video" type="video/webm" />
+                </video>
             </div>
-            <div v-if="product.ingredients.length !== 0" class="flex gap-2 mb-10 flex-wrap">
-                <div v-for="ingredient in product.ingredients" class="border border-gray-600 p-1 px-2 rounded-full">{{
-                    ingredient }}</div>
+            <div v-if="hasContent" :class="product.videos.length === 0 ? 'w-full' : 'w-full md:w-1/3'"
+                class="flex flex-col text-center md:text-left text-gray-800 border">
+                <h2 class="custom-underline text-2xl font-semibold text-gray-800 text-center mb-2">
+                    Instructions to Use
+                </h2>
+                <div v-html="product.printDescription" class="text-left"></div>
             </div>
-            <p v-html="product.description"></p>
-        </div>
-    </div>
-    <div v-if="hasContent || product.videos.length !== 0"
-        class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
-        <div v-if="product.videos.length !== 0" :class="!hasContent ? 'w-full' : 'w-full md:w-2/3'">
-            <h2 v-if="!hasContent" class="custom-underline text-2xl font-semibold text-gray-800 text-center mb-2">
-                Instructions to Use
-            </h2>
-            <video v-for="video in product.videos" controls autoplay class="w-full">
-                <source :src="video" type="video/webm" />
-            </video>
-        </div>
-        <div v-if="hasContent" :class="product.videos.length === 0 ? 'w-full' : 'w-full md:w-1/3'"
-            class="flex flex-col text-center md:text-left text-gray-800 border">
-            <h2 class="custom-underline text-2xl font-semibold text-gray-800 text-center mb-2">
-                Instructions to Use
-            </h2>
-            <div v-html="product.printDescription" class="text-left"></div>
         </div>
     </div>
 </template>
