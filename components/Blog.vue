@@ -8,6 +8,8 @@ defineProps({
     }
 })
 
+const route = useRoute()
+
 const formatDate = (dateString) => {
     try {
         const parsedDate = parse(dateString, "dd/MM/yyyy", new Date());
@@ -25,15 +27,15 @@ const formatDate = (dateString) => {
         <div class="flex justify-center">
             <img :src="blog.image || '/favicon.ico'" alt="alt" class="rounded-3xl" />
         </div>
-        <div class="p-4">
+        <div class="px-4 mt-2">
             <h3 class="truncate">
                 {{ blog.title }}
             </h3>
-            <div class="truncate">
+            <div v-if="route.path !== '/'" class="truncate">
                 {{ blog.snippet || blog.title }}
             </div>
         </div>
-        <div class="flex details justify-between uppercase border-color p-4 border-t">
+        <div v-if="route.path !== '/'" class="flex details justify-between uppercase border-color p-4 border-t">
             <div class="p-2">
                 {{ formatDate(blog.created) }}
             </div>
@@ -42,11 +44,13 @@ const formatDate = (dateString) => {
                 Read the article
             </div>
         </div>
+        <div v-if="route.path === '/'" class="px-4 uppercase underline text-end">
+            Read more
+        </div>
     </NuxtLink>
 </template>
 
 <style scoped>
-
 h3 {
     font-size: 20px;
     font-weight: 600;
@@ -65,5 +69,4 @@ img {
 .border-color {
     border-color: #01070d !important;
 }
-
 </style>
