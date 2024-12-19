@@ -16,8 +16,8 @@ if (typeof window !== "undefined") {
 
 const { data: categories, error: categoriesError, loading: categoriesLoading } = await useFetch(`${baseURL}/store/${brandID}/categories?`, {
     headers: {
-        session: sessionId.value,
-    },
+        session: sessionId.value
+    }
 })
 
 const products = ref(categories.value.filter(x => x.slug === route.params.slug))
@@ -26,7 +26,9 @@ console.log('product in each category', products.value)
 </script>
 
 <template>
-    <div>
+    <div v-if="categoriesLoading">Loading...</div>
+    <div v-else-if="categoriesError">Error: {{ error.message }}</div>
+    <div v-else>
         <div class="flex flex-wrap px-14 gap-4 font-bold mt-4 justify-center">
             <NuxtLink :to="`/category/${category.slug}`" v-for="category in categories" :key="category" class="nuxtlink"
                 :class="category.slug === route.params.slug ? 'active' : 'transparent-underline '">
