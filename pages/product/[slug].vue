@@ -220,7 +220,7 @@ console.log("data of each product", product.value)
                 </video>
             </div>
             <div v-if="hasContent" :class="product.videos.length === 0 ? 'w-full' : 'w-full md:w-1/3'"
-                class="flex flex-col text-center md:text-left text-gray-800 border">
+                class="flex flex-col text-center md:text-left">
                 <h2 class="custom-underline text-2xl font-semibold text-gray-800 text-center mb-2">
                     Instructions to Use
                 </h2>
