@@ -55,13 +55,19 @@ console.log('product in each category', products.value)
             </div>
         </div>
         <div class="p-14 description" v-html="products[0]?.description"></div>
+        <h2 class="text-center mb-4">Our Products</h2>
         <div class="px-14 text-end mb-4">
-            <select v-model="sortOrder" @change="console.log('sort', sortOrder, sortedProducts)">
-                <option value="asc">Alphabetically (A-Z)</option>
-                <option value="desc">Alphabetically (Z-A)</option>
-                <option value="low">Price (Low to High)</option>
-                <option value="high">Price (High to Low)</option>
-            </select>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <div class="flex items-center">Filters :</div>
+                <button class="filter" :class="sortOrder === 'asc' ? 'active-filter' : ''"
+                    @click="sortOrder = 'asc'">Alphabetically (A-Z)</button>
+                <button class="filter" :class="sortOrder === 'desc' ? 'active-filter' : ''"
+                    @click="sortOrder = 'desc'">Alphabetically (Z-A)</button>
+                <button class="filter" :class="sortOrder === 'low' ? 'active-filter' : ''"
+                    @click="sortOrder = 'low'">Price (Low to High)</button>
+                <button class="filter" :class="sortOrder === 'high' ? 'active-filter' : ''"
+                    @click="sortOrder = 'high'">Price (High to Low)</button>
+            </div>
         </div>
         <div v-if="products.length !== 0" class="flex justify-evenly w-full flex-wrap">
             <div v-for="product in sortedProducts" :key="product.id"
@@ -73,15 +79,7 @@ console.log('product in each category', products.value)
 </template>
 
 <style scoped>
-select {
-    appearance: none;
-    /* Remove default styling */
-    -webkit-appearance: none;
-    /* For Safari */
-    -moz-appearance: none;
-    /* For Firefox */
-
-    /* Dropdown styling */
+.filter {
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -91,19 +89,14 @@ select {
     cursor: pointer;
     outline: none;
     width: 200px;
-
-    /* Add space for the down arrow */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333' width='18' height='18'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 16px;
 }
 
-select:hover {
+.filter:hover {
     border-color: #888;
 }
 
-select:focus {
+.active-filter,
+.filter:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

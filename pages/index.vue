@@ -100,7 +100,7 @@ console.log("category", categories.value)
 
 </script>
 
-<style scoped>
+<style>
 * {
     font-family: "Futura PT";
 }
