@@ -2,6 +2,7 @@
 import { ref } from "vue"
 import { useFetch } from "#app"
 import { useRoute } from 'vue-router'
+import { capitalize } from "../../composables/capitalize"
 
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
@@ -26,8 +27,11 @@ console.log('product in each category', products.value)
 
 <template>
     <div>
-        <div class="flex flex-wrap px-14 gap-4 font-bold mt-4">
-            <NuxtLink :to="`/category/${category.slug}`" v-for="category in categories" :key="category">{{ category.name }}</NuxtLink>
+        <div class="flex flex-wrap px-14 gap-4 font-bold mt-4 justify-center">
+            <NuxtLink :to="`/category/${category.slug}`" v-for="category in categories" :key="category" class="nuxtlink"
+                :class="category.slug === route.params.slug ? 'active' : 'transparent-underline '">
+                {{ capitalize(category.name) }}
+            </NuxtLink>
         </div>
         <div class="hero-image px-14 mt-7">
             <img :src="products[0]?.imageUrl" alt="image" />
@@ -46,6 +50,16 @@ console.log('product in each category', products.value)
 </template>
 
 <style scoped>
+.active,
+.nuxtlink:hover {
+    color: #94734c;
+    border-bottom: 1px solid #94734c;
+}
+
+.transparent-underline {
+    border-bottom: 1px solid transparent;
+}
+
 .hero-image {
     position: relative;
     width: 100%;
