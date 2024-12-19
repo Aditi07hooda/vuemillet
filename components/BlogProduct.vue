@@ -43,7 +43,9 @@ const selectedOption = computed(() => {
             x.matrix.package === selectedVariant.value ||
             x.matrix.Package === selectedVariant.value ||
             x.matrix.Pack === selectedVariant.value ||
-            x.matrix.Variant === selectedVariant.value) &&
+            x.matrix.Variant === selectedVariant.value ||
+            x.matrix.flavour === selectedVariant.value 
+) &&
         (x.matrix.Size === selectedSize.value ||
             x.matrix.size === selectedSize.value ||
             x.matrix.SIZE === selectedSize.value)
