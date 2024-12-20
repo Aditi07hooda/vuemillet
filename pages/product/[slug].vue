@@ -104,16 +104,19 @@ console.log("data of each product", product.value)
     <div v-else>
         <div
             class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4">
-            <div class="w-full md:w-2/3">
-                <img :src="mainImg" alt="Product Image" class="w-full h-auto rounded-lg object-cover" />
-                <div v-if="product.images.length > 1" class="flex">
-                    <div v-for="image in product.images">
-                        <img :src="image" :alt="image" width="100px" class="rounded-lg"
+            <div class="w-full md:w-1/2 flex flex-col md:flex-row">
+                <div class="w-full">
+                    <img :src="mainImg" alt="Product Image" class="w-full h-auto rounded-lg object-cover shadow" />
+                </div>
+                <div v-if="product.images.length > 1"
+                    class="flex flex-row mt-4 md:flex-col md:mt-0 md:ml-4 md:justify-end">
+                    <div v-for="image in product.images" :key="image" class="mr-2 md:mb-2 cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow rounded-lg">
+                        <img :src="image" :alt="image" width="100" class="rounded-lg md:mr-0 mb-0"
                             @click="changeMainImage(image)" />
                     </div>
                 </div>
             </div>
-            <div class="w-full md:w-1/3 flex flex-col justify-center text-center md:text-left">
+            <div class="w-full md:w-1/2 flex flex-col justify-center text-center md:text-left">
                 <h2 class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center">
                     {{ capitalize(product.name || product.webName) }}
                 </h2>
