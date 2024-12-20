@@ -224,7 +224,7 @@ console.log("data of each product", product.value)
                 <h2 class="custom-underline text-2xl font-semibold text-gray-800 text-center mb-2">
                     Instructions to Use
                 </h2>
-                <div v-html="product.printDescription" class="text-left"></div>
+                <div v-html="product.printDescription" class="text-left text-gray-800"></div>
             </div>
         </div>
     </div>

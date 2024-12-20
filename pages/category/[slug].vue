@@ -54,14 +54,14 @@ console.log('product in each category', products.value)
                 {{ capitalize(category.name) }}
             </NuxtLink>
         </div>
-        <div class="hero-image px-14 mt-7">
+        <div class="hero-image px-14 mt-7 mb-5">
             <img :src="products?.imageUrl" alt="image" />
             <div class="hero-overlay">
                 <h1 class="text-center uppercase">{{ products.name }}</h1>
             </div>
         </div>
         <div class="px-14 description" v-html="products?.description"></div>
-        <h2 class="text-center mb-4">Our Products</h2>
+        <h2 class="text-center my-4">Our Products</h2>
         <div class="px-14 text-end mb-4">
             <div class="flex justify-center gap-4 flex-wrap">
                 <div class="flex items-center">Filters :</div>
