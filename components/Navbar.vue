@@ -137,18 +137,18 @@ const menuItems = [
       <NuxtLink to="/account/login" class="hidden md:block">
         <div class="uppercase font-semibold hidden md:block">Account</div>
       </NuxtLink>
-      <div class="hidden md:block">
-        <div class="uppercase font-semibold hidden md:block">
-          <UPopover overlay>
-            Cart
-            <template #panel>
-              <div class="p-4 bg-white">
-                <Cart />
-              </div>
-            </template>
-          </UPopover>
-        </div>
-      </div>
+      <!-- <div class="hidden md:block"> -->
+      <!-- <div class="uppercase font-semibold hidden md:block"> -->
+      <UPopover overlay>
+        <span class="uppercase font-semibold">Cart</span>
+        <template #panel>
+          <div class="p-4 bg-white">
+            <Cart />
+          </div>
+        </template>
+      </UPopover>
+      <!-- </div> -->
+      <!-- </div> -->
       <NuxtLink to="/account/login" class="md:hidden">
         <div class="text-black md:hidden">
           <LucideCircleUserRound />
