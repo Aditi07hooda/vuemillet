@@ -21,18 +21,24 @@ const { data: categories, error: categoriesError, loading: categoriesLoading } =
     }
 })
 
-const products = ref(categories.value.filter(x => x.slug === route.params.slug))
+const products = ref(categories.value.filter(x => x.slug === route.params.slug)[0])
 
 const sortedProducts = computed(() => {
     if (sortOrder.value === 'desc') {
-        return products.value[0].products.sort((a, b) => b.name.localeCompare(a.name))
+        return products.value.products.sort((a, b) => b.name.localeCompare(a.name))
     } else if (sortOrder.value === 'asc') {
-        return products.value[0].products.sort((a, b) => a.name.localeCompare(b.name))
+        return products.value.products.sort((a, b) => a.name.localeCompare(b.name))
     } else if (sortOrder.value === 'low') {
-        return products.value[0].products.sort((a, b) => a.variants[0].offerPrice - b.variants[0].offerPrice)
+        return products.value.products.sort((a, b) => a.variants[0].offerPrice - b.variants[0].offerPrice)
     } else if (sortOrder.value === 'high') {
-        return products.value[0].products.sort((a, b) => b.variants[0].offerPrice - a.variants[0].offerPrice)
-    }
+        return products.value.products.sort((a, b) => b.variants[0].offerPrice - a.variants[0].offerPrice)
+    } else return []
+})
+
+const page = ref(1)
+const pageCount = 8
+const paginatedProducts = computed(() => {
+    return sortedProducts.value.slice((page.value - 1) * pageCount, (page.value) * pageCount)
 })
 
 console.log('product in each category', products.value)
@@ -49,30 +55,35 @@ console.log('product in each category', products.value)
             </NuxtLink>
         </div>
         <div class="hero-image px-14 mt-7">
-            <img :src="products[0]?.imageUrl" alt="image" />
+            <img :src="products?.imageUrl" alt="image" />
             <div class="hero-overlay">
-                <h1 class="text-center uppercase">{{ products[0]?.name }}</h1>
+                <h1 class="text-center uppercase">{{ products.name }}</h1>
             </div>
         </div>
-        <div class="p-14 description" v-html="products[0]?.description"></div>
+        <div class="px-14 description" v-html="products?.description"></div>
         <h2 class="text-center mb-4">Our Products</h2>
         <div class="px-14 text-end mb-4">
             <div class="flex justify-center gap-4 flex-wrap">
                 <div class="flex items-center">Filters :</div>
-                <button class="filter" :class="sortOrder === 'asc' ? 'active-filter' : ''"
-                    @click="sortOrder = 'asc'">Alphabetically (A-Z)</button>
-                <button class="filter" :class="sortOrder === 'desc' ? 'active-filter' : ''"
-                    @click="sortOrder = 'desc'">Alphabetically (Z-A)</button>
                 <button class="filter" :class="sortOrder === 'low' ? 'active-filter' : ''"
                     @click="sortOrder = 'low'">Price (Low to High)</button>
                 <button class="filter" :class="sortOrder === 'high' ? 'active-filter' : ''"
                     @click="sortOrder = 'high'">Price (High to Low)</button>
+                <button class="filter" :class="sortOrder === 'asc' ? 'active-filter' : ''"
+                    @click="sortOrder = 'asc'">Alphabetically (A-Z)</button>
+                <button class="filter" :class="sortOrder === 'desc' ? 'active-filter' : ''"
+                    @click="sortOrder = 'desc'">Alphabetically (Z-A)</button>
             </div>
         </div>
-        <div v-if="products.length !== 0" class="flex justify-evenly w-full flex-wrap">
-            <div v-for="product in sortedProducts" :key="product.id"
-                class="product-container rounded mb-10 mx-1 w-full sm:w-auto">
-                <BlogProduct :product="product" />
+        <div v-if="products.length !== 0">
+            <div class="flex justify-center w-full flex-wrap">
+                <div v-for="paginatedProduct in paginatedProducts" :key="paginatedProduct.id"
+                    class="product-container rounded mb-10 mx-1 w-full sm:w-auto">
+                    <BlogProduct :product="paginatedProduct" />
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <UPagination v-model="page" :page-count="pageCount" :total="sortedProducts.length" />
             </div>
         </div>
     </div>
@@ -82,8 +93,8 @@ console.log('product in each category', products.value)
 .filter {
     background-color: #ffffff;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px 40px 10px 15px;
+    border-radius: 25px;
+    padding: 5px;
     font-size: 16px;
     color: #333;
     cursor: pointer;
