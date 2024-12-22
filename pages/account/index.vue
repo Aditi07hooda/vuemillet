@@ -11,6 +11,23 @@ const user = ref("");
 const userData = ref({ profile: {}, address: {} });
 const sessionId = ref("");
 
+const AccountTabs = ref("Profile");
+
+const availableTabs = ref([
+  {
+    label: "Profile",
+    value: "Profile",
+  },
+  {
+    label: "Address",
+    value: "Address",
+  },
+  {
+    label: "Orders",
+    value: "Orders",
+  },
+]);
+
 onMounted(async () => {
   try {
     if (typeof window !== "undefined") {
@@ -61,11 +78,73 @@ onMounted(async () => {
   </div>
 
   <div v-else-if="user !== ''">
-    <h1>Welcome back!!</h1>
-    <p>User data:</p>
-    <pre>{{ userData }}</pre>
-    <button>Logout</button>
+    <div class="w-full px-6 bg-white rounded-lg py-8 my-2">
+      <h2 class="text-2xl font-semibold text-center mb-6">My Account</h2>
+
+      <div
+        class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 max-w-md"
+        v-for="tab in availableTabs" :key="tab.value"
+      >
+        <div
+          :class="{
+            'max-w-md hover:underline hover:underline-offset-8 hover:decoration-primary active:underline active:underline-offset-8 active:decoration-primary p-2 cursor-pointer transition-colors duration-300 transform': true,
+            'text-primary': AccountTabs === tab.value
+          }"
+          @click="AccountTabs = tab.value"
+        >
+          {{ tab.label }}
+        </div>
+      </div>
+
+      <div v-if="AccountTabs === 'Profile'">
+        <form>
+          <div class="mb-4">
+            <label class="block text-gray-700">Name</label>
+            <input
+              type="text"
+              name="name"
+              v-model="userData.profile.name"
+              class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700">Phone</label>
+            <input
+              type="text"
+              name="mobile"
+              v-model="userData.profile.mobile"
+              class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              v-model="userData.profile.email"
+              class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700"
+          >
+            Save Profile
+          </button>
+        </form>
+      </div>
+
+      <div v-else-if="AccountTabs === 'Address'">
+        <UserAddress />
+      </div>
+
+      <div v-else-if="AccountTabs === 'Orders'">
+        <Orders />
+      </div>
+    </div>
   </div>
 
-  <div v-else>user doesnot exist. Please signin into your account.</div>
+  <div v-else>
+    <p>User does not exist. Please sign in to your account.</p>
+  </div>
 </template>
