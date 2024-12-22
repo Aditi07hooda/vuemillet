@@ -8,7 +8,7 @@ const base_url = config.public.baseURL;
 const brand_id = config.public.brandID;
 
 const user = ref("");
-const userData = ref({ profile: {}, address: {} });
+const userData = ref({ profile: {}});
 const sessionId = ref("");
 
 const AccountTabs = ref("Profile");
@@ -58,7 +58,6 @@ onMounted(async () => {
       );
 
       userData.value.profile = userProfile;
-      userData.value.address = userAddress;
 
       //   console.log(
       //     "User data fetched and stored in local storage:",
@@ -81,18 +80,21 @@ onMounted(async () => {
     <div class="w-full px-6 bg-white rounded-lg py-8 my-2">
       <h2 class="text-2xl font-semibold text-center mb-6">My Account</h2>
 
-      <div
-        class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 max-w-md"
-        v-for="tab in availableTabs" :key="tab.value"
-      >
+      <div class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 max-w-md">
         <div
-          :class="{
-            'max-w-md hover:underline hover:underline-offset-8 hover:decoration-primary active:underline active:underline-offset-8 active:decoration-primary p-2 cursor-pointer transition-colors duration-300 transform': true,
-            'text-primary': AccountTabs === tab.value
-          }"
-          @click="AccountTabs = tab.value"
+          class="flex flex-row mb-2 bg-secondary bg-opacity-45"
+          v-for="tab in availableTabs"
+          :key="tab.value"
         >
-          {{ tab.label }}
+          <div
+            :class="{
+              'max-w-md hover:underline hover:underline-offset-8 hover:decoration-primary active:underline active:underline-offset-8 active:decoration-primary p-2 cursor-pointer transition-colors duration-300 transform': true,
+              'text-primary': AccountTabs === tab.value,
+            }"
+            @click="AccountTabs = tab.value"
+          >
+            {{ tab.label }}
+          </div>
         </div>
       </div>
 
@@ -127,7 +129,7 @@ onMounted(async () => {
           </div>
           <button
             type="submit"
-            class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700"
+            class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-purple-700"
           >
             Save Profile
           </button>
