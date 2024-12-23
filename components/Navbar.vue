@@ -180,7 +180,7 @@ console.log("category in nAv", categories.value)
     <div class="flex justify-center uppercase w-full font-bold text-2xl">
       <ULink to="/">The Millet Store </ULink>
     </div>
-    <div class="flex justify-between gap-3 md:w-full">
+    <div class="flex justify-between gap-3 md:w-full ">
       <!-- <NuxtLink to="" class="hidden md:block">
         <div class="uppercase font-semibold hidden md:block">Search</div>
       </NuxtLink> -->
@@ -188,31 +188,35 @@ console.log("category in nAv", categories.value)
         <!-- <span class="uppercase font-semibold ">Search</span> -->
         <span label="Search" trailing-icon="i-heroicons-chevron-down-20-solid"
           class="uppercase font-semibold hidden bg-inherit items-center md:flex text-md hover:bg-inherit">Search</span>
-        <template #panel>
-          <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24">
-            <div class="">
-              <!-- <h3 class="uppercase text-lg font-semibold py-3">Search</h3> -->
+        <template #panel="{ close }" class="bg-gray-600">
+          <div class="px-14 m-5">
+            <UInput />
+          </div>
+          <div class="flex flex-wrap md:flex-nowrap m-5 w-full mb-36 mx-20 mt-8 gap-6 sm:gap-4 text-white">
+            <div class="md:w-1/4 w-full">
               <div class="flex flex-col">
+                <h3 class="uppercase text-lg font-semibold py-3">All Categories</h3>
                 <ul class="flex flex-col space-y-4">
                   <li v-for="category in categories" :key="category.id"
                     class="flex gap-3 text-sm font-medium items-center">
-                    <NuxtLink to="">
+                    <NuxtLink :to="`/category/${category.slug}`" @click="close">
                       {{ capitalize(category.name) }}
                     </NuxtLink>
                   </li>
                 </ul>
               </div>
             </div>
-            <div class="">
-              <h3 class="uppercase text-lg font-semibold py-3">By Solution</h3>
-              <div class="flex flex-col">
-                <ul class="flex flex-col space-y-4">
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Digestion
-                    </li>
+            <div class="md:w-3/4 w-full">
+              <h3 class="uppercase text-lg font-semibold py-3">By Categories</h3>
+              <div class="flex gap-4 flex-wrap">
+                <div v-for="category in categories" :key="category.id" class="">
+                  <NuxtLink :to="`/category/${category.slug}`" @click="close"
+                    class="flex flex-col items-center  hover:text-pink-600 hover:scale-105 transition duration-500">
+                    <img :src="category.imageUrl" :alt="category.name"
+                      class="w-[150px] h-[150px] object-cover rounded-lg" />
+                    <div class="w-[150px] mt-2 font-semibold">{{ category.name }}</div>
                   </NuxtLink>
-                </ul>
+                </div>
               </div>
             </div>
           </div>
