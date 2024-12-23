@@ -29,6 +29,7 @@ const baseURL = config.public.baseURL
 const brandID = config.public.brandID
 const sessionId = ref(null)
 const searchQuery = ref('')
+const searchResults = ref(``)
 
 
 if (typeof window !== "undefined") {
@@ -53,6 +54,7 @@ const handleShowSearchResults = async () => {
   try {
     const results = await fetch(`${baseURL}/store/${brandID}/search?q=${searchQuery.value}`)
     const response = await results.json()
+    searchResults.value = response
     console.log("search query", searchQuery.value)
     console.log("search results", results, response)
   }
@@ -242,15 +244,27 @@ const accountNavigation = () => {
                 </ul>
               </div>
             </div>
-            <div class="md:w-3/4 w-full">
+            <div v-if="!searchResults" class="md:w-3/4 w-full">
               <h3 class="uppercase text-lg font-semibold py-3">By Categories</h3>
               <div class="flex gap-4 flex-wrap">
                 <div v-for="category in categories" :key="category.id" class="">
                   <NuxtLink :to="`/category/${category.slug}`" @click="close"
-                    class="flex flex-col items-center  hover:text-pink-600 hover:scale-105 transition duration-500">
+                    class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500">
                     <img :src="category.imageUrl" :alt="category.name"
                       class="w-[150px] h-[150px] object-cover rounded-lg" />
                     <div class="w-[150px] mt-2 font-semibold">{{ category.name }}</div>
+                  </NuxtLink>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <h3 class="uppercase text-lg font-semibold py-3">All search results for {{ searchResults.term }}</h3>
+              <div class="flex flex-wrap gap-4">
+                <div v-for="product in searchResults.results" :key="product.id">
+                  <NuxtLink :to="`/product/${product.id}`" @click="close"
+                    class="flex flex-col items-center  hover:text-pink-600 hover:scale-105 transition duration-500">
+                    <img :src="product.oneImg" alt="product.name" class="w-[150px] h-[150px] object-cover rounded-lg" />
+                    <div class="w-[150px] mt-2 font-semibold"> {{ product.name }} </div>
                   </NuxtLink>
                 </div>
               </div>
