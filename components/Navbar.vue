@@ -181,27 +181,26 @@ const accountNavigation = () => {
         <div class="uppercase font-semibold hidden md:block">Account</div>
       </NuxtLink>
       <div class="hidden md:block">
-        <UPopover overlay>
-          <span class="uppercase font-semibold">Cart</span>
-          <template #panel>
-            <div class="p-4 bg-white">
-              <Cart />
-            </div>
-          </template>
-        </UPopover>
+        <span class="uppercase font-semibold cursor-pointer" @click="isCartOpen = true">Cart</span>
+        <UModal v-model="isCartOpen" :transition="true" class="h-fit w-fit">
+          <div class="bg-white">
+            <Cart />
+          </div>
+        </UModal>
       </div>
-      <div class="text-black md:hidden cursor-pointer" @click="accountNavigation">
+      <div
+        class="text-black md:hidden cursor-pointer"
+        @click="accountNavigation"
+      >
         <LucideCircleUserRound />
       </div>
       <div class="text-black md:hidden">
-        <UPopover overlay>
-          <LucideShoppingBag />
-          <template #panel>
-            <div class="p-4 bg-white">
-              <Cart />
-            </div>
-          </template>
-        </UPopover>
+        <LucideShoppingBag @click="isCartOpen = true" />
+        <UModal v-model="isCartOpen" :transition="true" class="items-center h-fit">
+          <div class="bg-white">
+            <Cart />
+          </div>
+        </UModal>
       </div>
     </div>
   </div>
