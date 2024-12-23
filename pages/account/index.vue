@@ -80,7 +80,7 @@ onMounted(async () => {
     <div class="w-full px-6 bg-white rounded-lg py-8 my-2">
       <h2 class="text-2xl font-semibold text-center mb-6">My Account</h2>
 
-      <div class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 max-w-md">
+      <div class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 lg:w-full">
         <div
           class="flex flex-row mb-2 bg-secondary bg-opacity-45"
           v-for="tab in availableTabs"
