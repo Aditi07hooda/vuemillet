@@ -300,19 +300,19 @@ const accountNavigation = () => {
           </div>
         </template>
       </UPopover>
-      <NuxtLink to="/account/login" class="hidden md:block">
-        <div class="uppercase font-semibold hidden md:block">Account</div>
-      </NuxtLink>
+      <div
+        class="uppercase font-semibold hidden md:block cursor-pointer"
+        @click="accountNavigation"
+      >
+        Account
+      </div>
       <div class="hidden md:block">
         <span
           class="uppercase font-semibold cursor-pointer"
           @click="isCartOpen = true"
           >Cart</span
         >
-        <UModal
-          v-model="isCartOpen"
-          :transition="true"
-        >
+        <UModal v-model="isCartOpen" :transition="true">
           <Cart />
         </UModal>
       </div>
@@ -324,10 +324,7 @@ const accountNavigation = () => {
       </div>
       <div class="text-black md:hidden">
         <LucideShoppingBag @click="isCartOpen = true" />
-        <UModal
-          v-model="isCartOpen"
-          :transition="true"
-        >
+        <UModal v-model="isCartOpen" :transition="true">
           <div class="bg-white">
             <Cart />
           </div>
