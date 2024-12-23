@@ -1,6 +1,6 @@
 <script setup>
-const isOpen = ref(false);
-const router = useRouter();
+const isOpen = ref(false)
+const router = useRouter()
 
 const menuItems = [
   {
@@ -22,19 +22,21 @@ const menuItems = [
     label: "About Us",
     slot: "about-us",
   },
-];
+]
 
-const config = useRuntimeConfig();
-const baseURL = config.public.baseURL;
-const brandID = config.public.brandID;
-const sessionId = ref(null);
+const config = useRuntimeConfig()
+const baseURL = config.public.baseURL
+const brandID = config.public.brandID
+const sessionId = ref(null)
+const searchQuery = ref('')
+
 
 if (typeof window !== "undefined") {
-  sessionId.value = localStorage.getItem("sessionId");
+  sessionId.value = localStorage.getItem("sessionId")
 }
 
 if (!sessionId.value) {
-  sessionId.value = await createSessionId(baseURL, brandID);
+  sessionId.value = await createSessionId(baseURL, brandID)
 }
 
 const {
@@ -45,16 +47,29 @@ const {
   headers: {
     session: sessionId.value,
   },
-});
-console.log("category in nAv", categories.value);
+})
+
+const handleShowSearchResults = async () => {
+  try {
+    const results = await fetch(`${baseURL}/store/${brandID}/search?q=${searchQuery.value}`)
+    const response = await results.json()
+    console.log("search query", searchQuery.value)
+    console.log("search results", results, response)
+  }
+  catch (e) {
+    console.error("Error in fetching results", e)
+  }
+}
+
+console.log("category in nAv", categories.value)
 
 const accountNavigation = () => {
   if (localStorage.getItem("user")) {
-    router.push("/account");
+    router.push("/account")
   } else {
-    router.push("/account/login");
+    router.push("/account/login")
   }
-};
+}
 </script>
 
 <template>
@@ -204,8 +219,14 @@ const accountNavigation = () => {
         <span label="Search" trailing-icon="i-heroicons-chevron-down-20-solid"
           class="uppercase font-semibold hidden bg-inherit items-center md:flex text-md hover:bg-inherit">Search</span>
         <template #panel="{ close }" class="bg-gray-600">
-          <div class="px-14 m-5">
-            <UInput />
+          <div class="px-14 m-5 flex w-full">
+            <div class="relative w-full">
+              <UInput v-model="searchQuery" class="w-full pr-12" placeholder="Search..." />
+              <div @click="handleShowSearchResults"
+                class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-800">
+                <LucideSearch />
+              </div>
+            </div>
           </div>
           <div class="flex flex-wrap md:flex-nowrap m-5 w-full mb-36 mx-20 mt-8 gap-6 sm:gap-4 text-white">
             <div class="md:w-1/4 w-full">
