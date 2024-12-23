@@ -145,7 +145,7 @@ onMounted(() => {
           </div>
           <hr class="my-3 lg:hidden" />
           <div>
-            <p class="text-base font-semibold mt-3">Shipping Details</p>
+            <p class="text-base font-semibold mt-3">Shipping Details: </p>
             <p class="text-sm font-semibold mt-2">
               Payment Method:
               <span class="font-semibold text-gray-500">{{
