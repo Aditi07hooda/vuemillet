@@ -30,7 +30,8 @@ const getOrders = async () => {
     console.log("Fetched orders:", data);
 
     orders.orderList = data || [];
-    getOrderDetailsForAll(data);
+    const detail = await getOrderDetailsForAll(data);
+    orders.orderDetails = detail || [];
   } catch (error) {
     console.error("Error fetching orders:", error);
   }
@@ -63,13 +64,11 @@ const getOrderDetailsForAll = async (orders) => {
     const detailsPromises = orders.map((order) => getOrderDetails(order.id));
     const details = await Promise.all(detailsPromises);
     console.log("Fetched all order details:", details);
-    orders.orderDetails = details || [];
-    console.log("Orders fetched and details fetched", orders.orderDetails);
+    return details;
   } catch (error) {
     console.error("Error fetching all order details:", error);
   }
 };
-console.log("Orders fetched and details fetched outside", orders);
 
 onMounted(() => {
   getOrders();
@@ -105,23 +104,8 @@ onMounted(() => {
           <p class="text-sm text-gray-500">{{ order.date }}</p>
         </div>
         <p class="text-base font-semibold text-gray-800 mt-2">Items:</p>
-        <div v-if="orders.orderDetails && (orders.orderDetails.length > 0)">
-            <p>Hello</p>
-          <div
-            v-for="(item, productIndex) in orders.orderDetails"
-            :key="productIndex"
-          >
-            <div
-              v-if="item.lineItems && item.lineItems.length"
-              v-for="(prd, i) in item.lineItems"
-              :key="i"
-            >
-              <p>{{ prd.product.name }}</p>
-            </div>
-          </div>
-        </div>
 
-        <!-- <div
+        <div
           v-for="(item, i) in orders.orderDetails[index].lineItems ?? []"
           :key="i"
           class="mt-2 ml-4"
@@ -139,7 +123,7 @@ onMounted(() => {
           <p class="text-sm">
             Size:
             <span class="font-medium">{{
-              item.variant.matrix.size || item.variant.matrix.Size
+              item.variant.matrix.size || item.variant.matrix.Size || item.variant.matrix.SIZE
             }}</span>
           </p>
           <hr class="my-2" />
@@ -149,7 +133,7 @@ onMounted(() => {
           <span class="text-green-600"
             >Rs. {{ orders.orderDetails[index].netValue }}</span
           >
-        </p> -->
+        </p>
         <hr class="my-3" />
       </div>
     </div>
