@@ -1,5 +1,6 @@
 <script setup>
 const isOpen = ref(false);
+const router = useRouter();
 
 const menuItems = [
   {
@@ -23,25 +24,37 @@ const menuItems = [
   },
 ];
 
-const config = useRuntimeConfig()
-const baseURL = config.public.baseURL
-const brandID = config.public.brandID
-const sessionId = ref(null)
+const config = useRuntimeConfig();
+const baseURL = config.public.baseURL;
+const brandID = config.public.brandID;
+const sessionId = ref(null);
 
 if (typeof window !== "undefined") {
-  sessionId.value = localStorage.getItem("sessionId")
+  sessionId.value = localStorage.getItem("sessionId");
 }
 
 if (!sessionId.value) {
-  sessionId.value = await createSessionId(baseURL, brandID)
+  sessionId.value = await createSessionId(baseURL, brandID);
 }
 
-const { data: categories, error: categoriesError, loading: categoriesLoading } = useFetch(`${baseURL}/store/${brandID}/categories?`, {
+const {
+  data: categories,
+  error: categoriesError,
+  loading: categoriesLoading,
+} = useFetch(`${baseURL}/store/${brandID}/categories?`, {
   headers: {
     session: sessionId.value,
   },
-})
-console.log("category in nAv", categories.value)
+});
+console.log("category in nAv", categories.value);
+
+const accountNavigation = () => {
+  if (localStorage.getItem("user")) {
+    router.push("/account");
+  } else {
+    router.push("/account/login");
+  }
+};
 </script>
 
 <template>
@@ -161,7 +174,9 @@ console.log("category in nAv", categories.value)
                 </div>
               </div>
               <div class="">
-                <h3 class="uppercase text-lg font-semibold py-3">By Solution</h3>
+                <h3 class="uppercase text-lg font-semibold py-3">
+                  By Solution
+                </h3>
                 <div class="flex flex-col">
                   <ul class="flex flex-col space-y-4">
                     <NuxtLink to="">
@@ -235,11 +250,9 @@ console.log("category in nAv", categories.value)
           </template>
         </UPopover>
       </div>
-      <NuxtLink to="/account/login" class="md:hidden">
-        <div class="text-black md:hidden">
-          <LucideCircleUserRound />
-        </div>
-      </NuxtLink>
+      <div class="text-black md:hidden cursor-pointer" @click="accountNavigation">
+        <LucideCircleUserRound />
+      </div>
       <div class="text-black md:hidden">
         <UPopover overlay>
           <LucideShoppingBag />
