@@ -3,9 +3,9 @@ import { ref, reactive, onMounted } from "vue";
 
 const addressForm = reactive({
   id: null,
-  name: "",
+  person: "",
   email: "",
-  phone: "",
+  mobile: "",
   door: "",
   apartment: "",
   landmark: "",
@@ -15,18 +15,20 @@ const addressForm = reactive({
 });
 
 const userData = ref({ profile: {}, address: [] });
+const personData = reactive({
+    person: {},
+});
 const existingAddress = ref([]);
 const isLoading = ref(false);
-const selectedAddress = ref(null);
 
 const isSaveBtnDisabled = computed(
   () => !Object.values(addressForm).every((field) => field !== "")
 );
 
 const addressFields = [
-  "name",
+  "person",
   "email",
-  "phone",
+  "mobile",
   "door",
   "apartment",
   "address",
@@ -71,7 +73,17 @@ const saveAddress = async () => {
         "Content-Type": "application/json",
         session: localStorage.getItem("sessionId"),
       },
-      body: JSON.stringify(addressForm),
+      body: JSON.stringify({
+        name: addressForm.person,
+        email: addressForm.email,
+        phone: addressForm.mobile,
+        door: addressForm.door,
+        apartment: addressForm.apartment,
+        address: addressForm.address,
+        landmark: addressForm.landmark,
+        city: addressForm.city,
+        pincode: addressForm.pinCode,
+      }),
     });
 
     if (!response.ok) {
@@ -81,6 +93,7 @@ const saveAddress = async () => {
     const data = await response.json();
     existingAddress.value.push(addressForm);
     resetForm();
+    fetchAddress();
     isLoading.value = false;
   } catch (error) {
     console.error("Error saving address:", error);
@@ -101,7 +114,7 @@ const updateAddress = async (addressId) => {
         body: JSON.stringify(addressForm),
       }
     );
-
+// 79621ee9-ed0a-4fed-b5dd-cdb54cab71ec
     if (!response.ok) {
       throw new Error("Failed to update address");
     }
@@ -122,6 +135,10 @@ const updateAddress = async (addressId) => {
 
 const resetForm = () => {
   Object.keys(addressForm).forEach((key) => (addressForm[key] = ""));
+    addressForm.person = personData.person.name;
+    addressForm.email = personData.person.email;
+    addressForm.mobile = personData.person.mobile;
+    console.log("person data:", personData);
 };
 
 onMounted(async () => {
@@ -130,7 +147,11 @@ onMounted(async () => {
     headers: { session: localStorage.getItem("sessionId") },
   });
   const meData = await meResponse.json();
+  console.log("Me data:", meData);
+  personData.person = meData;
   addressForm.email = meData.email;
+  addressForm.person = meData.name;
+  addressForm.mobile = meData.mobile;
 });
 
 const handleEditClick = (addressId) => {
@@ -141,10 +162,6 @@ const handleEditClick = (addressId) => {
     Object.assign(addressForm, addressToEdit);
   }
 };
-
-const handleSelectAddress = () => {
-
-}
 </script>
 
 <template>
@@ -174,9 +191,12 @@ const handleSelectAddress = () => {
             {{ address.mobile }}
           </p>
           <p class="text-gray-600">
-            {{ address.door }}, {{ address.address  }} {{ address.apartment }}, {{ address.landmark }}
+            {{ address.door }}, {{ address.address }} {{ address.apartment }},
+            {{ address.landmark }}
           </p>
-          <p class="text-gray-600">{{ address.city }}, {{ address.state }}, {{ address.pinCode }}</p>
+          <p class="text-gray-600">
+            {{ address.city }}, {{ address.state }}, {{ address.pinCode }}
+          </p>
         </div>
       </div>
     </div>
@@ -188,7 +208,9 @@ const handleSelectAddress = () => {
       </h2>
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <div v-for="field in addressFields" :key="field" class="flex flex-col">
-          <label class="text-gray-700 capitalize">{{ field }}</label>
+          <label class="text-gray-700 capitalize"
+            >{{ field }} <span class="text-red-500">*</span></label
+          >
           <input
             v-model="addressForm[field]"
             type="text"
@@ -196,6 +218,22 @@ const handleSelectAddress = () => {
             class="px-4 py-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500"
             required
           />
+        </div>
+        <div class="flex justify-between gap-5">
+            <button
+              :disabled="isSaveBtnDisabled"
+              type="submit"
+              class="py-2 px-4 w-full bg-green-500 text-white rounded-md hover:bg-indigo-600"
+            >
+            {{ addressForm.id ? "Update" : "Save" }}
+            </button>
+            <button
+              @click="resetForm"
+              type="button"
+              class="py-2 px-4 w-full text-gray-600 rounded-md hover:text-gray-800 bg-blue-100"
+            >
+              Reset
+            </button>
         </div>
       </form>
     </div>
