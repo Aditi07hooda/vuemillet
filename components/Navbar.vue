@@ -60,49 +60,35 @@ const accountNavigation = () => {
 
 <template>
   <div
-    class="flex md:justify-evenly justify-between bg-inherit w-full md:pt-4 md:px-24 p-3 items-center overflow-x-hidden"
-  >
+    class="flex md:justify-evenly justify-between bg-inherit w-full md:pt-4 md:px-24 p-3 items-center overflow-x-hidden">
     <div class="flex justify-between items-center md:w-full">
       <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
-        <UButton
-          label="Shop"
-          trailing-icon="i-heroicons-chevron-down-20-solid"
-          class="uppercase font-semibold hidden bg-inherit text-black items-center md:flex text-md hover:bg-inherit"
-        />
+        <UButton label="Shop" trailing-icon="i-heroicons-chevron-down-20-solid"
+          class="uppercase font-semibold hidden bg-inherit text-black items-center md:flex text-md hover:bg-inherit" />
         <template #panel>
-          <div
-            class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24"
-          >
+          <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24">
             <div class="">
               <h3 class="uppercase text-lg font-semibold py-3">Shop</h3>
               <div class="flex flex-col">
                 <ul class="flex flex-col space-y-4">
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> All Products
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="text-sm w-4 h-4" /> Best
                       Sellers
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Bundles
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Protein
                     </li>
                   </NuxtLink>
@@ -114,58 +100,42 @@ const accountNavigation = () => {
               <div class="flex flex-col">
                 <ul class="flex flex-col space-y-4">
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Digestion
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="text-sm w-4 h-4" /> Protein
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Hormonal Health
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Skin & Hair
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Relax
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Energy
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Immunity
                     </li>
                   </NuxtLink>
                   <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
                       <LucideChevronRight class="w-4 h-4" /> Liver Health
                     </li>
                   </NuxtLink>
@@ -181,11 +151,8 @@ const accountNavigation = () => {
       <div class="uppercase font-semibold hidden md:block">
         <NuxtLink to="/about">About Us</NuxtLink>
       </div>
-      <UButton
-        @click="isOpen = true"
-        label="open"
-        class="md:hidden bg-inherit text-black w-fit p-0 m-0 hover:bg-inherit"
-      >
+      <UButton @click="isOpen = true" label="open"
+        class="md:hidden bg-inherit text-black w-fit p-0 m-0 hover:bg-inherit">
         <div class="text-black md:hidden">
           <LucideMenu />
         </div>
@@ -194,17 +161,12 @@ const accountNavigation = () => {
         <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
           <LucideSearch />
           <template #panel>
-            <div
-              class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24"
-            >
+            <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24">
               <div class="">
                 <div class="flex flex-col">
                   <ul class="flex flex-col space-y-4">
-                    <li
-                      v-for="category in categories"
-                      :key="category.id"
-                      class="flex gap-3 text-sm font-medium items-center"
-                    >
+                    <li v-for="category in categories" :key="category.id"
+                      class="flex gap-3 text-sm font-medium items-center">
                       <NuxtLink to="">
                         {{ capitalize(category.name) }}
                       </NuxtLink>
@@ -219,9 +181,7 @@ const accountNavigation = () => {
                 <div class="flex flex-col">
                   <ul class="flex flex-col space-y-4">
                     <NuxtLink to="">
-                      <li
-                        class="uppercase flex gap-3 text-sm font-medium items-center"
-                      >
+                      <li class="uppercase flex gap-3 text-sm font-medium items-center">
                         <LucideChevronRight class="w-4 h-4" /> Digestion
                       </li>
                     </NuxtLink>
@@ -236,63 +196,51 @@ const accountNavigation = () => {
     <div class="flex justify-center uppercase w-full font-bold text-2xl">
       <ULink to="/">The Millet Store </ULink>
     </div>
-    <div class="flex justify-between gap-3 md:w-full">
+    <div class="flex justify-between gap-3 md:w-full ">
       <!-- <NuxtLink to="" class="hidden md:block">
         <div class="uppercase font-semibold hidden md:block">Search</div>
       </NuxtLink> -->
       <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
         <!-- <span class="uppercase font-semibold ">Search</span> -->
-        <span
-          label="Search"
-          trailing-icon="i-heroicons-chevron-down-20-solid"
-          class="uppercase font-semibold hidden bg-inherit items-center md:flex text-md hover:bg-inherit"
-          >Search</span
-        >
-        <template #panel>
-          <div
-            class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24"
-          >
-            <div class="">
-              <!-- <h3 class="uppercase text-lg font-semibold py-3">Search</h3> -->
+        <span label="Search" trailing-icon="i-heroicons-chevron-down-20-solid"
+          class="uppercase font-semibold hidden bg-inherit items-center md:flex text-md hover:bg-inherit">Search</span>
+        <template #panel="{ close }" class="bg-gray-600">
+          <div class="px-14 m-5">
+            <UInput />
+          </div>
+          <div class="flex flex-wrap md:flex-nowrap m-5 w-full mb-36 mx-20 mt-8 gap-6 sm:gap-4 text-white">
+            <div class="md:w-1/4 w-full">
               <div class="flex flex-col">
+                <h3 class="uppercase text-lg font-semibold py-3">All Categories</h3>
                 <ul class="flex flex-col space-y-4">
-                  <li
-                    v-for="category in categories"
-                    :key="category.id"
-                    class="flex gap-3 text-sm font-medium items-center"
-                  >
-                    <NuxtLink to="">
+                  <li v-for="category in categories" :key="category.id"
+                    class="flex gap-3 text-sm font-medium items-center">
+                    <NuxtLink :to="`/category/${category.slug}`" @click="close">
                       {{ capitalize(category.name) }}
                     </NuxtLink>
                   </li>
                 </ul>
               </div>
             </div>
-            <div class="">
-              <h3 class="uppercase text-lg font-semibold py-3">By Solution</h3>
-              <div class="flex flex-col">
-                <ul class="flex flex-col space-y-4">
-                  <NuxtLink to="">
-                    <li
-                      class="uppercase flex gap-3 text-sm font-medium items-center"
-                    >
-                      <LucideChevronRight class="w-4 h-4" /> Digestion
-                    </li>
+            <div class="md:w-3/4 w-full">
+              <h3 class="uppercase text-lg font-semibold py-3">By Categories</h3>
+              <div class="flex gap-4 flex-wrap">
+                <div v-for="category in categories" :key="category.id" class="">
+                  <NuxtLink :to="`/category/${category.slug}`" @click="close"
+                    class="flex flex-col items-center  hover:text-pink-600 hover:scale-105 transition duration-500">
+                    <img :src="category.imageUrl" :alt="category.name"
+                      class="w-[150px] h-[150px] object-cover rounded-lg" />
+                    <div class="w-[150px] mt-2 font-semibold">{{ category.name }}</div>
                   </NuxtLink>
-                </ul>
+                </div>
               </div>
             </div>
           </div>
         </template>
       </UPopover>
-
-      <div
-        class="uppercase font-semibold hidden md:block cursor-pointer"
-        @click="accountNavigation"
-      >
-        Account
-      </div>
-
+      <NuxtLink to="/account/login" class="hidden md:block">
+        <div class="uppercase font-semibold hidden md:block">Account</div>
+      </NuxtLink>
       <div class="hidden md:block">
         <span class="uppercase font-semibold cursor-pointer" @click="isCartOpen = true">Cart</span>
         <UModal v-model="isCartOpen" :transition="true" class="h-fit w-fit">
@@ -319,13 +267,8 @@ const accountNavigation = () => {
   </div>
   <div class="flex justify-between align-middle items-center">
     <UModal v-model="isOpen" :transition="true" class="items-center" fullscreen>
-      <UButton
-        color="gray"
-        variant="ghost"
-        icon="i-heroicons-x-mark-20-solid"
-        class="-my-1 text-3xl font-bold p-5 w-12 h-12"
-        @click="isOpen = false"
-      />
+      <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
+        class="-my-1 text-3xl font-bold p-5 w-12 h-12" @click="isOpen = false" />
       <UAccordion :items="menuItems" variant="soft" color="white" class="p-8">
         <template #about-us>
           <NuxtLink to="/about">About Us</NuxtLink>
