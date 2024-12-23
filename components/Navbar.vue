@@ -213,17 +213,14 @@ const accountNavigation = () => {
       <ULink to="/">The Millet Store </ULink>
     </div>
     <div class="flex justify-between gap-3 md:w-full ">
-      <!-- <NuxtLink to="" class="hidden md:block">
-        <div class="uppercase font-semibold hidden md:block">Search</div>
-      </NuxtLink> -->
-      <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
-        <!-- <span class="uppercase font-semibold ">Search</span> -->
+      <UPopover overlay :popper="{ placement: 'bottom-start' }">
         <span label="Search" trailing-icon="i-heroicons-chevron-down-20-solid"
           class="uppercase font-semibold hidden bg-inherit items-center md:flex text-md hover:bg-inherit">Search</span>
         <template #panel="{ close }" class="bg-gray-600">
-          <div class="px-14 m-5 flex w-full">
+          <h3 class="uppercase text-center text-lg font-semibold pt-3 text-white">Search by name</h3>
+          <div class="px-14 m-5 mt-2 flex w-full">
             <div class="relative w-full">
-              <UInput v-model="searchQuery" class="w-full pr-12" placeholder="Search..." />
+              <UInput v-model="searchQuery" class="w-full pr-12" placeholder="Search products by name..." />
               <div @click="handleShowSearchResults"
                 class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-800">
                 <LucideSearch />
@@ -236,7 +233,7 @@ const accountNavigation = () => {
                 <h3 class="uppercase text-lg font-semibold py-3">All Categories</h3>
                 <ul class="flex flex-col space-y-4">
                   <li v-for="category in categories" :key="category.id"
-                    class="flex gap-3 text-sm font-medium items-center">
+                    class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500">
                     <NuxtLink :to="`/category/${category.slug}`" @click="close">
                       {{ capitalize(category.name) }}
                     </NuxtLink>
@@ -257,14 +254,15 @@ const accountNavigation = () => {
                 </div>
               </div>
             </div>
-            <div v-else>
+            <div v-else class="md:w-3/4 w-full">
               <h3 class="uppercase text-lg font-semibold py-3">All search results for {{ searchResults.term }}</h3>
               <div class="flex flex-wrap gap-4">
                 <div v-for="product in searchResults.results" :key="product.id">
                   <NuxtLink :to="`/product/${product.id}`" @click="close"
-                    class="flex flex-col items-center  hover:text-pink-600 hover:scale-105 transition duration-500">
-                    <img :src="product.oneImg" alt="product.name" class="w-[150px] h-[150px] object-cover rounded-lg" />
-                    <div class="w-[150px] mt-2 font-semibold"> {{ product.name }} </div>
+                    class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500">
+                    <img :src="product.oneImg" :alt="product.name"
+                      class="w-[150px] h-[150px] object-cover rounded-lg" />
+                    <div class="w-[150px] mt-2 font-semibold"> {{ capitalize(product.name) }} </div>
                   </NuxtLink>
                 </div>
               </div>
