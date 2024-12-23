@@ -1,7 +1,7 @@
 <script setup>
 const isOpen = ref(false)
 const router = useRouter()
-
+const isCartOpen = ref(false)
 const menuItems = [
   {
     label: "Shop",
@@ -188,10 +188,7 @@ const accountNavigation = () => {
           </div>
         </UModal>
       </div>
-      <div
-        class="text-black md:hidden cursor-pointer"
-        @click="accountNavigation"
-      >
+      <div class="text-black md:hidden cursor-pointer" @click="accountNavigation">
         <LucideCircleUserRound />
       </div>
       <div class="text-black md:hidden">
