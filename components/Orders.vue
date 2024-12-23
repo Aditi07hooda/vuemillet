@@ -111,7 +111,7 @@ onMounted(() => {
           class="mt-2 ml-4"
         >
           <p class="text-sm">
-            Product Name:
+            Product:
             <span class="font-medium">{{ item.product.name }}</span>
           </p>
           <p class="text-sm">
@@ -123,7 +123,9 @@ onMounted(() => {
           <p class="text-sm">
             Size:
             <span class="font-medium">{{
-              item.variant.matrix.size || item.variant.matrix.Size || item.variant.matrix.SIZE
+              item.variant.matrix.size ||
+              item.variant.matrix.Size ||
+              item.variant.matrix.SIZE
             }}</span>
           </p>
           <hr class="my-2" />
@@ -131,10 +133,34 @@ onMounted(() => {
         <p class="text-sm font-semibold mt-3">
           Total Amount:
           <span class="text-green-600"
-            >Rs. {{ orders.orderDetails[index].netValue }}</span
+            >Rs.
+            {{
+              orders.orderDetails[index].netValue -
+              orders.orderDetails[index].discount
+            }}</span
           >
         </p>
         <hr class="my-3" />
+        <div>
+          <p class="text-base font-semibold mt-3">Shipping Details</p>
+          <p class="text-sm font-semibold mt-2">
+            Payment Method:
+            <span class="font-semibold text-gray-500">{{
+              orders.orderDetails[index].modeOfPayment === "LATER"
+                ? "Cash"
+                : order.orderDetails[index].modeOfPayment
+            }}</span>
+          </p>
+          <p class="text-sm font-semibold mt-1">
+            Shipping Address:
+            <span class="font-normal text-gray-500"
+              ><br/><span class="font-bold">{{ capitalize(orders.orderDetails[index].customerAddress.person) }}</span><br/>{{
+                orders.orderDetails[index].customerAddress.fullAddress
+              }}</span
+            >
+          </p>
+        </div>
+        <hr class="my-3"/>
       </div>
     </div>
 
