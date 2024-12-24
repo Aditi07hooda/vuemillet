@@ -1,4 +1,11 @@
 <script setup>
+import { useCartModelVisibilty } from "~/store/cart";
+
+const cartModelVisible = useCartModelVisibilty();
+
+const config = useRuntimeConfig();
+const baseURL = config.public.baseURL;
+const brandID = config.public.brandID;
 
 const props = defineProps({
     product: { type: Object, required: true }
@@ -50,6 +57,19 @@ const logOption = () => {
     console.log("Selected variant", selectedVariant.value)
     console.log("select option comp", selectedOption.value)
 }
+
+const addingToCart = async () => {
+  const sessionId = localStorage.getItem("sessionId");
+  const data = await addToCart(
+    baseURL,
+    brandID,
+    sessionId,
+    selectedSize.value.id,
+    selectedSize.value.name
+  );
+  console.log("Added to cart", data);
+  cartModelVisible.openCartModel();
+};
 </script>
 
 <template>
@@ -91,7 +111,7 @@ const logOption = () => {
         </template>
     </div>
     <div>
-        <button class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
+        <button @click="addingToCart" class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
             Add
             to cart
         </button>

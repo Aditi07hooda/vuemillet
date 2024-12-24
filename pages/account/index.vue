@@ -72,7 +72,7 @@ onMounted(async () => {
   }
 });
 
-const logout = () => {
+const logout = async() => {
   if (typeof window !== "undefined") {
     localStorage.removeItem("sessionId");
     localStorage.removeItem("user");
@@ -80,6 +80,9 @@ const logout = () => {
   }
   user.value = "";
   userData.value = { profile: {} };
+
+  sessionId.value = await createSessionId(base_url, brand_id);
+  localStorage.setItem("sessionId", sessionId.value);
   router.push("/account/login");
 };
 </script>

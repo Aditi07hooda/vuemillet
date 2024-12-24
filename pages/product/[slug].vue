@@ -4,7 +4,9 @@ import NO_PRESERVATIVES from "@/assets/images/NO_PRESERVATIVES.PNG"
 import ORGANIC from "@/assets/images/ORGANIC.PNG"
 import JAGGERY from "@/assets/images/JAGGERY.PNG"
 import MILLETS from "@/assets/images/MILLETS.PNG"
+import { useCartModelVisibilty } from "~/store/cart";
 
+const cartModelVisible = useCartModelVisibilty();
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
 const brandID = config.public.brandID
@@ -117,9 +119,10 @@ const addingToCart = async () => {
     sessionId.value,
     selectedSize.value.id,
     selectedSize.value.name
-  )
-  console.log("Added to cart", data)
-}
+  );
+  console.log("Added to cart", data);
+  cartModelVisible.openCartModel();
+};
 </script>
 
 <template>
