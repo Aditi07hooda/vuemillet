@@ -1,9 +1,4 @@
 <script setup>
-import { ref } from "vue"
-import { useFetch } from "#app"
-import { useRoute } from 'vue-router'
-import { capitalize } from "../../composables/capitalize"
-
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
 const brandID = config.public.brandID

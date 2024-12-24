@@ -1,6 +1,4 @@
 <script setup>
-import { useFetch } from "#app"
-import { computed } from "vue"
 import { parse } from "date-fns"
 
 const config = useRuntimeConfig()
