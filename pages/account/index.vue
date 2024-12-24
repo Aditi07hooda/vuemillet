@@ -7,8 +7,10 @@ const config = useRuntimeConfig();
 const base_url = config.public.baseURL;
 const brand_id = config.public.brandID;
 
+const router = useRouter();
+
 const user = ref("");
-const userData = ref({ profile: {}});
+const userData = ref({ profile: {} });
 const sessionId = ref("");
 
 const AccountTabs = ref("Profile");
@@ -69,6 +71,17 @@ onMounted(async () => {
     console.error("Error fetching user data:", error);
   }
 });
+
+const logout = () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("sessionId");
+    localStorage.removeItem("user");
+    localStorage.removeItem("userData");
+  }
+  user.value = "";
+  userData.value = { profile: {}, address: {} };
+  router.push("/account/login");
+};
 </script>
 
 <template>
@@ -80,7 +93,9 @@ onMounted(async () => {
     <div class="w-full px-6 bg-white rounded-lg py-8 my-2">
       <h2 class="text-2xl font-semibold text-center mb-6">My Account</h2>
 
-      <div class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 lg:w-full">
+      <div
+        class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 lg:w-full"
+      >
         <div
           class="flex flex-row mb-2 bg-secondary bg-opacity-45"
           v-for="tab in availableTabs"
@@ -132,6 +147,13 @@ onMounted(async () => {
             class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-purple-700"
           >
             Save Profile
+          </button>
+          <button
+            type="submit"
+            @click="logout"
+            class="w-full bg-blue-100 text-black mt-3 py-2 px-4 rounded-md hover:bg-purple-700"
+          >
+            Logout
           </button>
         </form>
       </div>
