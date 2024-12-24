@@ -86,7 +86,7 @@ const handleShowSearchResults = async () => {
                 <div v-for="product in searchResults.results" :key="product.id">
                     <NuxtLink :to="`/product/${product.id}`" @click="close"
                         class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500">
-                        <img :src="product.oneImg" :alt="product.name"
+                        <img :src="product.oneImg || product.images[0] || '/favicon.ico'" :alt="product.name"
                             class="w-[150px] h-[150px] object-cover rounded-lg" />
                         <div class="w-[150px] mt-2 font-semibold"> {{ capitalize(product.name) }} </div>
                     </NuxtLink>
