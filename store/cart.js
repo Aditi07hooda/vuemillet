@@ -7,9 +7,11 @@ export const useCartModelVisibilty = defineStore("cartModelVisibility", {
   actions: {
     openCartModel() {
       this.isCartModelOpen = true;
+      console.log("cart modal visibilty: ",cartModelVisible.isCartModelOpen);
     },
     closeCartModel() {
       this.isCartModelOpen = false;
+      console.log("cart modal visibilty: ",cartModelVisible.isCartModelOpen);
     },
   },
 });

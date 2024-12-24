@@ -8,6 +8,10 @@ import { calculateDiscount } from "../../composables/discount";
 import { capitalize } from "../../composables/capitalize";
 import { containsOnlySize } from "../../composables/containsOnlySize";
 
+import { useCartModelVisibilty } from "~/store/cart";
+
+const cartModelVisible = useCartModelVisibilty();
+
 const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
@@ -114,6 +118,7 @@ const addingToCart = async () => {
     selectedSize.value.name
   );
   console.log("Added to cart", data);
+  cartModelVisible.openCartModel();
 };
 </script>
 <template>

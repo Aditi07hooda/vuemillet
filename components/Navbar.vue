@@ -1,7 +1,11 @@
 <script setup>
+import { useCartModelVisibilty } from "~/store/cart";
+
+const cartModelVisible = useCartModelVisibilty();
+
 const isOpen = ref(false)
 const router = useRouter()
-const isCartOpen = ref(false)
+
 const menuItems = [
   {
     label: "Shop",
@@ -219,10 +223,10 @@ const accountNavigation = () => {
       <div class="hidden md:block">
         <span
           class="uppercase font-semibold cursor-pointer"
-          @click="isCartOpen = true"
+          @click="cartModelVisible.openCartModel"
           >Cart</span
         >
-        <UModal v-model="isCartOpen" :transition="true">
+        <UModal v-model="cartModelVisible.isCartModelOpen" :transition="true">
           <Cart />
         </UModal>
       </div>
@@ -230,8 +234,8 @@ const accountNavigation = () => {
         <LucideCircleUserRound />
       </div>
       <div class="text-black md:hidden">
-        <LucideShoppingBag @click="isCartOpen = true" />
-        <UModal v-model="isCartOpen" :transition="true">
+        <LucideShoppingBag @click="cartModelVisible.openCartModel" />
+        <UModal v-model="cartModelVisible.isCartModelOpen" :transition="true">
           <div class="bg-white">
             <Cart />
           </div>
