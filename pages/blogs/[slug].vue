@@ -1,8 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router'
-import { useFetch } from '#app'
 import { parse, format } from 'date-fns'
-import { ref } from 'vue'
 
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
@@ -10,31 +7,30 @@ const brandID = config.public.brandID
 const route = useRoute()
 const products = ref([])
 const productsError = ref(null)
+const sessionId = ref(null)
+
+if (typeof window !== "undefined") {
+    sessionId.value = localStorage.getItem("sessionId")
+}
+
+if (!sessionId.value) {
+    sessionId.value = await createSessionId(baseURL, brandID)
+}
 
 const { data: blogData, error: blogError, loading: blogLoading } = await useFetch(`${baseURL}/store/${brandID}/blogs/${route.params.slug}`)
 
-if (blogError.value) {
-    console.error('Error fetching blog:', blogError.value)
-}
-
 const handleFetchProductDetails = async (productKeys) => {
     try {
-        const sessionId = localStorage.getItem('sessionId')
-        if (!sessionId) {
-            console.error("session id not found")
-            return;
-        }
         const productPromises = productKeys.map(async key => {
-            const { data: proData } = await useFetch(`${baseURL}/store/${brandID}/products/${key}`, {
+            const productData = await $fetch(`${baseURL}/store/${brandID}/products/${key}`, {
                 headers: {
-                    session: sessionId
+                    session: sessionId.value
                 }
             })
-            return proData.value
+            return productData
         })
         products.value = await Promise.all(productPromises)
-    }
-    catch (err) {
+    } catch (err) {
         console.error('Error fetching products:', err)
         productsError.value = err
     }
@@ -56,10 +52,9 @@ const formatDate = (dateString) => {
     }
 }
 
-function containsOnlyNull(array) {
-    return array.every(entry => entry === null);
+const containsOnlyNull = (array) => {
+    return array.every(entry => entry === null)
 }
-
 </script>
 
 <template>
@@ -94,7 +89,7 @@ function containsOnlyNull(array) {
                         </span>
                     </div>
                 </div>
-                <div class="mb-7 mt-0 italic">By The Millet Store - {{ blogData.created }}</div>
+                <div class="mb-7 mt-0 italic">By The Millet Store - {{  formatDate(blogData.created)}}</div>
                 <div v-html="blogData.content"></div>
                 <div class="rounded-lg border-black p-7 text-center bg-green-100 mt-5">
                     By The Millet Store - {{ formatDate(blogData.created) }}
@@ -123,7 +118,6 @@ function containsOnlyNull(array) {
 </template>
 
 <style scoped>
-
 .product-container {
     flex: 1 1 calc(25% - 10px);
     max-width: 250px;
