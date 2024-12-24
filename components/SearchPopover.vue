@@ -25,9 +25,15 @@ if (!sessionId.value) {
 
 const handleShowSearchResults = async () => {
     try {
-        const results = await fetch(`${baseURL}/store/${brandID}/search?q=${searchQuery.value}`)
-        const response = await results.json()
-        searchResults.value = response
+        const response = await fetch(`${baseURL}/store/${brandID}/search?q=${searchQuery.value}`)
+        const r = await response.json()
+        // because api gave multiple entries for some keywords like pasta, noodles, etc
+        const uniqueArray = Array.from(
+            new Map(r.results.map(item => [item.id, item])).values()
+        )
+        const newObj = { results: uniqueArray }
+        const combinedObj = { ...r, ...newObj }
+        searchResults.value = combinedObj
     }
     catch (e) {
         console.error("Error in fetching results", e)
