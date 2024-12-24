@@ -1,8 +1,4 @@
 <script setup>
-import { ref } from "vue"
-import { calculateDiscount } from '../composables/discount'
-import { capitalize } from '../composables/capitalize'
-import { containsOnlySize } from '../composables/containsOnlySize'
 import { useCartModelVisibilty } from "~/store/cart";
 
 const cartModelVisible = useCartModelVisibilty();
@@ -12,10 +8,7 @@ const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
 
 const props = defineProps({
-    product: {
-        type: Object,
-        required: true
-    }
+    product: { type: Object, required: true }
 })
 
 const selectedSize = ref(
@@ -110,20 +103,12 @@ const addingToCart = async () => {
         </select>
     </div>
     <div class="font-bold mb-2">
-        <div v-if="containsOnlySize(product.variantTypes)">
-            <div class="text-rose-600">{{ calculateDiscount(selectedSize.price, selectedSize.offerPrice)
-                }} %
-                off</div>
-            <span class="line-through">₹ {{ selectedSize.price }}</span> <span class="text-green-600"> ₹
-                {{ selectedSize.offerPrice }}</span>
-        </div>
-        <div v-else>
-            <div class="text-rose-600">{{ calculateDiscount(selectedOption?.price, selectedOption?.offerPrice) }} %
-                off
-            </div>
-            <span class="line-through">₹ {{ selectedOption?.price }}</span> <span class="text-green-600"> ₹
-                {{ selectedOption?.offerPrice }}</span>
-        </div>
+        <template v-if="containsOnlySize(product.variantTypes)">
+            <DiscountPriceBlock :price="selectedSize.price" :offerPrice="selectedSize.offerPrice" />
+        </template>
+        <template v-else>
+            <DiscountPriceBlock :price="selectedOption?.price" :offerPrice="selectedOption?.offerPrice" />
+        </template>
     </div>
     <div>
         <button @click="addingToCart" class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
