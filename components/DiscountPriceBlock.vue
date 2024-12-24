@@ -10,7 +10,7 @@ defineProps({
         <div class="text-rose-600">
             {{ calculateDiscount(price, offerPrice) }} % off
         </div>
-        <span class="line-through me-1">₹ {{ price }}</span>
+        <span class="line-through me-1 text-gray-600">₹ {{ price }}</span>
     </template>
     <span class="text-green-600">₹ {{ offerPrice }}</span>
 </template>
