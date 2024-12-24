@@ -13,7 +13,7 @@ const buttonText = ref("Send OTP");
 
 if (typeof window !== "undefined") {
   sessionId.value = window.localStorage.getItem("sessionId");
-  console.log("Session ID in login:", sessionId.value);
+  console.log("Session ID before login:", sessionId.value);
 }
 
 const schema = z.object({
@@ -71,6 +71,7 @@ const toggleOtp = async () => {
 
       if (datavalid.valid) {
         state.otpValidation = true;
+        console.log("User validated after login:", datavalid);
         localStorage.setItem("sessionId", datavalid.session);
         localStorage.setItem("user", datavalid.user);
         router.push("/account");

@@ -79,7 +79,7 @@ const logout = () => {
     localStorage.removeItem("userData");
   }
   user.value = "";
-  userData.value = { profile: {}, address: {} };
+  userData.value = { profile: {} };
   router.push("/account/login");
 };
 </script>
