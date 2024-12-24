@@ -26,14 +26,16 @@ if (!sessionId.value) {
 const handleShowSearchResults = async () => {
     try {
         const response = await fetch(`${baseURL}/store/${brandID}/search?q=${searchQuery.value}`)
-        const r = await response.json()
+        let r = await response.json()
         // because api gave multiple entries for some keywords like pasta, noodles, etc
         const uniqueArray = Array.from(
             new Map(r.results.map(item => [item.id, item])).values()
         )
         const newObj = { results: uniqueArray }
+        r.term = r.term.replace(/\s*&\s*/g, ' ')
         const combinedObj = { ...r, ...newObj }
         searchResults.value = combinedObj
+        console.log("search term", searchResults.value)
     }
     catch (e) {
         console.error("Error in fetching results", e)
@@ -42,7 +44,7 @@ const handleShowSearchResults = async () => {
 </script>
 
 <template>
-    <h3 class="uppercase text-center text-lg font-semibold pt-3 text-white">Search by name</h3>
+    <h3 class="text-center text-lg font-semibold pt-3 text-white">Search by name</h3>
     <div class="px-14 m-5 mt-2 flex w-full">
         <form class="relative w-full" @submit.prevent="handleShowSearchResults">
             <UInput v-model="searchQuery" class="w-full pr-12" placeholder="Search products by name..." />
@@ -82,7 +84,12 @@ const handleShowSearchResults = async () => {
         <div v-else class="md:w-3/4 w-full">
             <h3 class="text-lg font-semibold py-3">
                 <template v-if="searchResults.term">
-                    Showing all search results for <span class="text-red-600">{{ searchResults.term }}</span>
+                    <template v-if="searchResults.results.length !== 0"> Showing all search results for <span
+                            class="text-red-600">{{
+                                searchResults.term }}</span>
+                    </template>
+                    <template v-else>No results found for <span class="text-red-600">{{ searchResults.term }}</span>
+                    </template>
                 </template>
                 <template v-else>
                     Recommended products
