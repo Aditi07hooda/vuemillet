@@ -224,7 +224,7 @@ const addingToCart = async () => {
           </div>
           <div v-if="product.ingredients.length !== 0" class="flex gap-2 mb-10 flex-wrap">
             <div v-for="ingredient in product.ingredients" class="border border-gray-600 p-1 px-2 rounded-full">
-              {{ ingredient }}
+              {{ capitalize(ingredient) }}
             </div>
           </div>
           <p v-html="product.description"></p>
