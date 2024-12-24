@@ -2,12 +2,16 @@
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
 const brandID = config.public.brandID
-const sessionId = ref(null)
 const route = useRoute()
 const sortOrder = ref('asc')
+const sessionId = ref(null)
 
 if (typeof window !== "undefined") {
     sessionId.value = localStorage.getItem("sessionId")
+}
+
+if (!sessionId.value) {
+    sessionId.value = await createSessionId(baseURL, brandID)
 }
 
 const { data: categories, error: categoriesError, loading: categoriesLoading } = await useFetch(`${baseURL}/store/${brandID}/categories?`, {

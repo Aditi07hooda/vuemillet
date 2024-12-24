@@ -9,6 +9,15 @@ const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
 const brandID = config.public.brandID
 const route = useRoute()
+const sessionId = ref(null)
+
+if (typeof window !== "undefined") {
+    sessionId.value = localStorage.getItem("sessionId")
+}
+
+if (!sessionId.value) {
+    sessionId.value = await createSessionId(baseURL, brandID)
+}
 const {
   data: product,
   error,
@@ -102,11 +111,10 @@ const hasContent = computed(() => {
 console.log("data of each product", product.value)
 
 const addingToCart = async () => {
-  const sessionId = localStorage.getItem("sessionId")
   const data = await addToCart(
     baseURL,
     brandID,
-    sessionId,
+    sessionId.value,
     selectedSize.value.id,
     selectedSize.value.name
   )
