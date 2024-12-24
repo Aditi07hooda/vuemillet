@@ -5,13 +5,13 @@ export default defineNuxtConfig({
   modules: ['@nuxt/ui','nuxt-lucide-icons']  ,	  // Add runtimeConfig
   runtimeConfig: {
     // Server-side only variables
-    baseURL: process.env.BASE_URL,
-    brandID: process.env.BRAND_ID,
+    baseURL: process.env.VUE_APP_BASE_URL,
+    brandID: process.env.VUE_APP_BRAND_ID,
 
     // Public variables (accessible client-side)
     public: {
-      baseURL: process.env.BASE_URL, // Include only if required on client-side
-      brandID: process.env.BRAND_ID,
+      baseURL: process.env.VUE_APP_BASE_URL, // Include only if required on client-side
+      brandID: process.env.VUE_APP_BRAND_ID,
     },
   },
 })
