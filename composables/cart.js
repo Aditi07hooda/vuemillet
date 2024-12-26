@@ -61,6 +61,35 @@ export const addToCart = async (
   }
 };
 
+export const removeFromCart = async (
+  base_url,
+  brand_id,
+  sessionId,
+  variantId,
+  variantSize
+) => {
+  try {
+    const response = await fetch(
+      `${base_url}/store/${brand_id}/cart?id=${variantId}`,
+      {
+        method: "DELETE",
+        headers: {
+          session: sessionId,
+        },
+        body: JSON.stringify({
+          variantName: variantSize,
+        }),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to remove from cart");
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Error removing from cart:", error);
+  }
+};
+
 export const fetchProducts = async (base_url, brand_id, sessionId) => {
   try {
     const res = await fetch(`${base_url}/store/${brand_id}/products`, {

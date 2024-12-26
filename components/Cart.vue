@@ -60,7 +60,52 @@ onMounted(async () => {
   }
 });
 
-const increaseQuantity = async () => {}
+const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
+  try {
+    let data = null;
+    if (incrementTask) {
+      data = await addToCart(
+        base_url,
+        brand_id,
+        sessionId.value,
+        cartItem.variantId,
+        cartItem.variantName
+      );
+    } else {
+      data = await removeFromCart(
+        base_url,
+        brand_id,
+        sessionId.value,
+        cartItem.variantId,
+        cartItem.variantName
+      );
+    }
+    if (data) {
+      const { data, productImage } = await fetchCartItems(
+        base_url,
+        brand_id,
+        sessionId.value
+      );
+      console.log("Fetched cart items in increaseOrDecrease:", data);
+      if (data && data.cart) {
+        cartItems.cart = {
+          items: data.cart.items || [],
+          totalOrderValue: data.totalOrderValue || 0,
+          discountAmt: data.discountAmt || 0,
+          freeShipValue: data.freeShipValue || 0,
+          inBlr: data.inBlr || false,
+          minOrderValue: data.minOrderValue || 0,
+          orderValAfterDiscount: data.orderValAfterDiscount || 0,
+          productImages: productImage || null,
+        };
+      } else {
+        console.error("Cart data is missing or malformed:", data);
+      }
+    }
+  } catch (error) {
+    console.error("Error increasing quantity in Cart.vue:", error);
+  }
+};
 </script>
 
 <template>
@@ -86,19 +131,24 @@ const increaseQuantity = async () => {}
                 <p class="font-bold text-black text-base">
                   {{ cartItem.name }}
                 </p>
-                <p
-                  class="font-semibold text-gray-500 text-sm flex flex-wrap"
-                >
+                <p class="font-semibold text-gray-500 text-sm flex flex-wrap">
                   {{ cartItem.variantName }}
                 </p>
                 <div class="border flex gap-3 w-fit mt-2">
-                  <p class="border-r px-2 font-bold">-</p>
+                  <p class="border-r px-2 font-bold" @click="increaseOrDecreaseQuantity(cartItem, false)">-</p>
                   <p>{{ cartItem.qty }}</p>
-                  <p class="border-l px-2 font-bold">+</p>
+                  <p
+                    class="border-l px-2 font-bold"
+                    @click="increaseOrDecreaseQuantity(cartItem, true)"
+                  >
+                    +
+                  </p>
                 </div>
               </div>
             </div>
-            <p class="items-end flex font-semibold text-sm w-full justify-end text-green-950">
+            <p
+              class="items-end flex font-semibold text-sm w-full justify-end text-green-950"
+            >
               Rs. {{ cartItem.price }}
             </p>
           </div>
