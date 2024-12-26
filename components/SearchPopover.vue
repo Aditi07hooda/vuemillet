@@ -27,27 +27,44 @@ if (!sessionId.value) {
     sessionId.value = await createSessionId(baseURL, brandID)
 }
 
-const handleShowSearchResults = async () => {
+const fetchResultsForEachQueryWord = async (query) => {
     try {
-        const response = await fetch(`${baseURL}/store/${brandID}/search?q=${searchQuery.value}`)
+        const response = await fetch(`${baseURL}/store/${brandID}/search?q=${query}`)
         let r = await response.json()
-        // because api gave multiple entries for some keywords like pasta, noodles, etc
-        const uniqueArray = Array.from(
-            new Map(r.results.map(item => [item.id, item])).values()
-        )
-        const newObj = { results: uniqueArray }
-        r.term = r.term.replace(/\s*&\s*/g, ' ')
-        const combinedObj = { ...r, ...newObj }
-        searchResults.value = combinedObj
-        console.log("search term", searchResults.value)
-    }
-    catch (e) {
-        console.error("Error in fetching results", e)
+        return r.results || []
+    } catch (e) {
+        console.error(`Error fetching results for query "${query}":`, e)
+        return []
     }
 }
 
-if (searchQuery.value !== undefined && searchQuery.value !== '') {
-    handleShowSearchResults()
+const fetchResultsForQuerySentence = async () => {
+    try {
+        const queries = searchQuery.value.split(' ').filter(Boolean) // Split by space and remove empty strings
+        let allResults = []
+
+        for (const query of queries) {
+            const results = await fetchResultsForEachQueryWord(query)
+            allResults = allResults.concat(results)
+            console.log('all results',allResults)
+        }
+
+        // Remove duplicates by mapping unique IDs because there are multiple results for some products like pasta and noodles
+        const uniqueResults = Array.from(
+            new Map(allResults.map(item => [item.id, item])).values()
+        )
+
+        searchResults.value = {
+            term: searchQuery.value,
+            results: uniqueResults
+        }
+    } catch (e) {
+        console.error("Error in fetching search results:", e)
+    }
+}
+
+if (searchQuery.value) {
+    fetchResultsForQuerySentence()
 }
 
 </script>
@@ -56,11 +73,11 @@ if (searchQuery.value !== undefined && searchQuery.value !== '') {
     <div class="u-modal-content hide-scrollbar">
         <h1 class="text-center text-lg font-semibold pt-3 text-white">Search by name</h1>
         <div class="px-14 m-5 mt-2 flex w-full">
-            <form class="relative w-full" @submit.prevent="handleShowSearchResults">
+            <form class="relative w-full" @submit.prevent="fetchResultsForQuerySentence">
                 <UInput v-model="searchQuery" :ui="{
                     strategy: 'override',
                     color: 'bg-gray-600',
-                }" variant="outline" color="green" class="w-full pr-12" placeholder="Search products by name..." />
+                }" variant="outline" color="green" class="w-full pr-12" placeholder="Search products by name and click enter..." />
             </form>
         </div>
         <div class="flex flex-wrap md:flex-nowrap px-14 w-full mb-36 mt-8 mx-5 gap-6 sm:gap-4 text-white">
