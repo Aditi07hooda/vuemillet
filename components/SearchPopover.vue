@@ -15,8 +15,9 @@ const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
 const brandID = config.public.brandID
 const sessionId = ref(null)
-const searchQuery = ref('')
 const searchResults = ref('')
+const route = useRoute().path.split('/')
+const searchQuery = ref(route[1] === 'search' ? route[2] : '')
 
 if (typeof window !== "undefined") {
     sessionId.value = localStorage.getItem("sessionId")
@@ -44,6 +45,11 @@ const handleShowSearchResults = async () => {
         console.error("Error in fetching results", e)
     }
 }
+
+if (searchQuery.value !== undefined && searchQuery.value !== '') {
+    handleShowSearchResults()
+}
+
 </script>
 
 <template>
@@ -54,9 +60,7 @@ const handleShowSearchResults = async () => {
                 <UInput v-model="searchQuery" :ui="{
                     strategy: 'override',
                     color: 'bg-gray-600',
-                }"
-                variant="outline" color="green"
-                 class="w-full pr-12" placeholder="Search products by name..." />
+                }" variant="outline" color="green" class="w-full pr-12" placeholder="Search products by name..." />
             </form>
         </div>
         <div class="flex flex-wrap md:flex-nowrap px-14 w-full mb-36 mt-8 mx-5 gap-6 sm:gap-4 text-white">
