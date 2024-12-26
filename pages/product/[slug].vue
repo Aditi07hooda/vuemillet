@@ -14,11 +14,11 @@ const route = useRoute()
 const sessionId = ref(null)
 
 if (typeof window !== "undefined") {
-    sessionId.value = localStorage.getItem("sessionId")
+  sessionId.value = localStorage.getItem("sessionId")
 }
 
 if (!sessionId.value) {
-    sessionId.value = await createSessionId(baseURL, brandID)
+  sessionId.value = await createSessionId(baseURL, brandID)
 }
 const {
   data: product,
@@ -223,8 +223,10 @@ const addingToCart = async () => {
             Ingredients
           </div>
           <div v-if="product.ingredients.length !== 0" class="flex gap-2 mb-10 flex-wrap">
-            <div v-for="ingredient in product.ingredients" class="border border-gray-600 p-1 px-2 rounded-full">
-              {{ capitalize(ingredient) }}
+            <div v-for="ingredient in product.ingredients" class="border border-gray-600 p-1 px-2 rounded-full cursor-pointer">
+              <NuxtLink :to="`/search/${ingredient}`">
+                {{ capitalize(ingredient) }}
+              </NuxtLink>
             </div>
           </div>
           <p v-html="product.description"></p>

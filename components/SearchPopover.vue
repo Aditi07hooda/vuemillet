@@ -1,19 +1,23 @@
 <script setup>
+
 defineProps({
     categories: {
         type: Object,
         required: true
     },
-    close: {
-        type: Boolean
-    }
+    closeModal: {
+        type: Function,
+        required: true,
+    },
 })
+
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL
 const brandID = config.public.brandID
 const sessionId = ref(null)
-const searchQuery = ref('')
 const searchResults = ref('')
+const route = useRoute().path.split('/')
+const searchQuery = ref(route[1] === 'search' ? route[2] : '')
 
 if (typeof window !== "undefined") {
     sessionId.value = localStorage.getItem("sessionId")
@@ -41,70 +45,92 @@ const handleShowSearchResults = async () => {
         console.error("Error in fetching results", e)
     }
 }
+
+if (searchQuery.value !== undefined && searchQuery.value !== '') {
+    handleShowSearchResults()
+}
+
 </script>
 
 <template>
-    <h3 class="text-center text-lg font-semibold pt-3 text-white">Search by name</h3>
-    <div class="px-14 m-5 mt-2 flex w-full">
-        <form class="relative w-full" @submit.prevent="handleShowSearchResults">
-            <UInput v-model="searchQuery" class="w-full pr-12" placeholder="Search products by name..." />
-            <div @click="handleShowSearchResults"
-                class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-800">
-                <LucideSearch />
-            </div>
-        </form>
-    </div>
-    <div class="flex flex-wrap md:flex-nowrap m-5 w-full mb-36 mx-20 mt-8 gap-6 sm:gap-4 text-white">
-        <div class="md:w-1/4 w-full">
-            <div class="flex flex-col">
-                <h3 class="text-lg font-semibold py-3">All Categories</h3>
-                <ul class="flex flex-col space-y-4">
-                    <li v-for="category in categories" :key="category.id"
-                        class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500">
-                        <NuxtLink :to="`/category/${category.slug}`" @click="close">
-                            {{ capitalize(category.name) }}
-                        </NuxtLink>
-                    </li>
-                </ul>
-            </div>
+    <div class="u-modal-content hide-scrollbar">
+        <h1 class="text-center text-lg font-semibold pt-3 text-white">Search by name</h1>
+        <div class="px-14 m-5 mt-2 flex w-full">
+            <form class="relative w-full" @submit.prevent="handleShowSearchResults">
+                <UInput v-model="searchQuery" :ui="{
+                    strategy: 'override',
+                    color: 'bg-gray-600',
+                }" variant="outline" color="green" class="w-full pr-12" placeholder="Search products by name..." />
+            </form>
         </div>
-        <div v-if="!searchResults" class="md:w-3/4 w-full">
-            <h3 class="text-lg font-semibold py-3">All Categories</h3>
-            <div class="flex gap-4 flex-wrap">
-                <div v-for="category in categories" :key="category.id" class="">
-                    <NuxtLink :to="`/category/${category.slug}`" @click="close"
-                        class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500">
-                        <img :src="category.imageUrl" :alt="category.name"
-                            class="w-[150px] h-[150px] object-cover rounded-lg" />
-                        <div class="w-[150px] mt-2 font-semibold">{{ category.name }}</div>
-                    </NuxtLink>
+        <div class="flex flex-wrap md:flex-nowrap px-14 w-full mb-36 mt-8 mx-5 gap-6 sm:gap-4 text-white">
+            <div class="md:w-1/4 w-full">
+                <div class="flex flex-col">
+                    <h3 class="text-lg font-semibold py-3">All Categories</h3>
+                    <ul class="flex flex-col space-y-4">
+                        <li v-for="category in categories" :key="category.id"
+                            class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500">
+                            <NuxtLink :to="`/category/${category.slug}`" @click='closeModal'>
+                                {{ capitalize(category.name) }}
+                            </NuxtLink>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div v-else class="md:w-3/4 w-full">
-            <h3 class="text-lg font-semibold py-3">
-                <template v-if="searchResults.term">
-                    <template v-if="searchResults.results.length !== 0"> Showing all search results for <span
-                            class="text-red-600">{{
-                                searchResults.term }}</span>
+            <div v-if="!searchResults" class="md:w-3/4 w-full">
+                <h3 class="text-lg font-semibold py-3">All Categories</h3>
+                <div class="flex gap-4 flex-wrap">
+                    <div v-for="category in categories" :key="category.id" class="">
+                        <NuxtLink :to="`/category/${category.slug}`" @click='closeModal'
+                            class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500">
+                            <img :src="category.imageUrl" :alt="category.name"
+                                class="w-[150px] h-[150px] object-cover rounded-lg" />
+                            <div class="w-[150px] mt-2 font-semibold">{{ category.name }}</div>
+                        </NuxtLink>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="md:w-3/4 w-full">
+                <h3 class="text-lg font-semibold py-3">
+                    <template v-if="searchResults.term">
+                        <template v-if="searchResults.results.length !== 0"> Showing all search results for <span
+                                class="text-red-600">{{
+                                    searchResults.term }}</span>
+                        </template>
+                        <template v-else>No results found for <span class="text-red-600">{{ searchResults.term }}</span>
+                        </template>
                     </template>
-                    <template v-else>No results found for <span class="text-red-600">{{ searchResults.term }}</span>
+                    <template v-else>
+                        Recommended products
                     </template>
-                </template>
-                <template v-else>
-                    Recommended products
-                </template>
-            </h3>
-            <div class="flex flex-wrap gap-4">
-                <div v-for="product in searchResults.results" :key="product.id">
-                    <NuxtLink :to="`/product/${product.id}`" @click="close"
-                        class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500">
-                        <img :src="product.oneImg || product.images[0] || '/favicon.ico'" :alt="product.name"
-                            class="w-[150px] h-[150px] object-cover rounded-lg" />
-                        <div class="w-[150px] mt-2 font-semibold"> {{ capitalize(product.name) }} </div>
-                    </NuxtLink>
+                </h3>
+                <div class="flex flex-wrap gap-4">
+                    <div v-for="product in searchResults.results" :key="product.id">
+                        <NuxtLink :to="`/product/${product.id}`" @click='closeModal'
+                            class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500">
+                            <img :src="product.oneImg || product.images[0] || '/favicon.ico'" :alt="product.name"
+                                class="w-[150px] h-[150px] object-cover rounded-lg" />
+                            <div class="w-[150px] mt-2 font-semibold"> {{ capitalize(product.name) }} </div>
+                        </NuxtLink>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+.u-modal-content {
+    max-height: 100vh;
+    overflow-x: hidden;
+}
+
+.hide-scrollbar {
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+</style>
