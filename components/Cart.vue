@@ -1,6 +1,7 @@
 <script setup>
 import { fetchCartItems, addToCart } from "~/composables/cart";
 import { useCartModelVisibilty } from "~/store/cart";
+import { Shield } from 'lucide-vue-next';
 
 const cartModelVisible = useCartModelVisibilty();
 
@@ -49,6 +50,9 @@ onMounted(async () => {
           inBlr: data.inBlr || false,
           minOrderValue: data.minOrderValue || 0,
           orderValAfterDiscount: data.orderValAfterDiscount || 0,
+          orderValue: data.orderValue || 0,
+          shippingCharges: data.shippingCharges || 0,
+          walletAmt: data.walletAmt || 0,
           productImages: productImage || null,
         };
       } else {
@@ -96,6 +100,9 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
           inBlr: data.inBlr || false,
           minOrderValue: data.minOrderValue || 0,
           orderValAfterDiscount: data.orderValAfterDiscount || 0,
+          orderValue: data.orderValue || 0,
+          shippingCharges: data.shippingCharges || 0,
+          walletAmt: data.walletAmt || 0,
           productImages: productImage || null,
         };
       } else {
@@ -110,8 +117,13 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
 
 <template>
   <div class="w-full">
-    <div @click="cartModelVisible.closeCartModel()">Continue Shopping...</div>
-    <hr class="my-2" />
+    <div
+      @click="cartModelVisible.closeCartModel()"
+      class="flex gap-2 py-3 px-4 items-center align-middle border-b"
+    >
+      <LucideChevronLeft class="w-4 h-4" />
+      <p class="text-sm font-serif">Continue Shopping</p>
+    </div>
     <div>
       <div class="flex flex-col justify-between">
         <div class="flex flex-col flex-wrap w-full">
@@ -136,14 +148,14 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
                 </p>
                 <div class="border flex gap-3 w-fit mt-2">
                   <p
-                    class="border-r px-2 font-bold"
+                    class="border-r px-2 font-bold cursor-pointer"
                     @click="increaseOrDecreaseQuantity(cartItem, false)"
                   >
                     -
                   </p>
                   <p>{{ cartItem.qty }}</p>
                   <p
-                    class="border-l px-2 font-bold"
+                    class="border-l px-2 font-bold cursor-pointer"
                     @click="increaseOrDecreaseQuantity(cartItem, true)"
                   >
                     +
@@ -158,8 +170,41 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
             </p>
           </div>
         </div>
-        <div>
-          <p>Total: {{ cartItems.cart.totalOrderValue || "N/A" }}</p>
+        <div class="mt-5">
+          <div class="bg-green-700">
+            <div v-if="cartItems.cart.freeShipValue > cartItems.cart.orderValue">
+              <p class="flex items-center text-white text-sm py-2 px-4">
+                Add worth Rs.
+                {{
+                  cartItems.cart.freeShipValue - cartItems.cart.orderValue
+                }}
+                items to avoid shipping charges
+              </p>
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="flex justify-between w-full border-b px-4 py-2">
+              <p>Order Summary</p>
+              <p>{{ cartItems.cart.items.length || 0 }} items</p>
+            </div>
+            <div class="">
+              <div class="flex justify-between w-full px-4 py-2">
+                <p>Sub Total</p>
+                <p>Rs. {{ cartItems.cart.orderValue || 0 }}</p>
+              </div>
+              <div class="flex justify-between w-full px-4 py-2">
+                <p>Shipping Charges</p>
+                <p>Rs. {{ cartItems.cart.shippingCharges || 0 }}</p>
+              </div>
+              <div class="flex justify-between w-full px-4 py-2 border-t">
+                <p>Total</p>
+                <p>Rs. {{ cartItems.cart.totalOrderValue || 0 }}</p>
+              </div>
+            </div>
+            <div class="mx-5 my-3 flex gap-3">
+              <UButton color="red" block>Checkout</UButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>
