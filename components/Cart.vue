@@ -135,7 +135,12 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
                   {{ cartItem.variantName }}
                 </p>
                 <div class="border flex gap-3 w-fit mt-2">
-                  <p class="border-r px-2 font-bold" @click="increaseOrDecreaseQuantity(cartItem, false)">-</p>
+                  <p
+                    class="border-r px-2 font-bold"
+                    @click="increaseOrDecreaseQuantity(cartItem, false)"
+                  >
+                    -
+                  </p>
                   <p>{{ cartItem.qty }}</p>
                   <p
                     class="border-l px-2 font-bold"
@@ -149,7 +154,7 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
             <p
               class="items-end flex font-semibold text-sm w-full justify-end text-green-950"
             >
-              Rs. {{ cartItem.price }}
+              Rs. {{ cartItem.price * cartItem.qty }}
             </p>
           </div>
         </div>
