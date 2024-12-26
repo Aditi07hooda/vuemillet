@@ -116,7 +116,7 @@ const logout = async() => {
         </div>
       </div>
 
-      <div v-if="AccountTabs === 'Profile'" class="w-full flex justify-center">
+      <div v-if="AccountTabs === 'Profile'" class="w-full lg:flex lg:justify-center">
         <form class="lg:justify-center lg:flex lg:w-1/2 lg:flex-col">
           <div class="mb-4">
             <label class="block text-gray-700">Name</label>
