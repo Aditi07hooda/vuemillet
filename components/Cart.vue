@@ -1,7 +1,7 @@
 <script setup>
 import { fetchCartItems, addToCart } from "~/composables/cart";
 import { useCartModelVisibilty } from "~/store/cart";
-import { Shield } from 'lucide-vue-next';
+import { Shield } from "lucide-vue-next";
 
 const cartModelVisible = useCartModelVisibilty();
 
@@ -119,20 +119,20 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
   <div class="w-full">
     <div
       @click="cartModelVisible.closeCartModel()"
-      class="flex gap-2 py-3 px-4 items-center align-middle border-b"
+      class="flex gap-2 py-3 px-4 items-center align-middle border-b cursor-pointer"
     >
       <LucideChevronLeft class="w-4 h-4" />
       <p class="text-sm font-serif">Continue Shopping</p>
     </div>
     <div>
-      <div class="flex flex-col justify-between">
-        <div class="flex flex-col flex-wrap w-full">
+      <div class="flex flex-col justify-between w-full">
+        <div class="flex flex-col overflow-y-scroll max-h-80">
           <p v-if="cartItems.cart.items.length === 0">Your cart is empty.</p>
           <div
             v-for="(cartItem, index) in cartItems.cart.items"
             :key="cartItem.id"
-            class="flex-grow-0 flex w-full md:w-auto px-4 py-2 border-b border-gray-200 hover:bg-gray-100 justify-between"
-          >
+            class="flex-grow-0 flex w-full px-4 py-2 border-b border-gray-200 hover:bg-gray-100 justify-between"
+            >
             <div class="flex items-center w-full">
               <img
                 :src="cartItems.cart.productImages[index] || '/favicon.ico'"
@@ -172,12 +172,12 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
         </div>
         <div class="mt-5">
           <div class="bg-green-700">
-            <div v-if="cartItems.cart.freeShipValue > cartItems.cart.orderValue">
+            <div
+              v-if="cartItems.cart.freeShipValue > cartItems.cart.orderValue"
+            >
               <p class="flex items-center text-white text-sm py-2 px-4">
                 Add worth Rs.
-                {{
-                  cartItems.cart.freeShipValue - cartItems.cart.orderValue
-                }}
+                {{ cartItems.cart.freeShipValue - cartItems.cart.orderValue }}
                 items to avoid shipping charges
               </p>
             </div>
