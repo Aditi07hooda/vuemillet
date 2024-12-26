@@ -191,8 +191,12 @@ const accountNavigation = () => {
         Account
       </div>
       <div class="hidden md:block">
-        <span class="uppercase font-semibold cursor-pointer" @click="cartModelVisible.openCartModel">Cart</span>
-        <UModal v-model="cartModelVisible.isCartModelOpen" :transition="true">
+        <span
+          class="uppercase font-semibold cursor-pointer"
+          @click="cartModelVisible.openCartModel"
+          >Cart</span
+        >
+        <UModal v-model="cartModelVisible.isCartModelOpen" prevent-close>
           <Cart />
         </UModal>
       </div>
@@ -201,11 +205,6 @@ const accountNavigation = () => {
       </div>
       <div class="text-black md:hidden">
         <LucideShoppingBag @click="cartModelVisible.openCartModel" />
-        <UModal v-model="cartModelVisible.isCartModelOpen" :transition="true">
-          <div class="bg-white">
-            <Cart />
-          </div>
-        </UModal>
       </div>
     </div>
   </div>
