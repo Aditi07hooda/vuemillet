@@ -11,6 +11,13 @@ const brand_id = config.public.brandID;
 const user = ref("");
 const sessionId = ref("");
 
+const router = useRouter();
+
+const navigateToCheckout = () => {
+  router.push("/user/checkout");
+  cartModelVisible.closeCartModel();
+}
+
 const cartItems = reactive({
   cart: {
     items: [],
@@ -201,7 +208,7 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
               </div>
             </div>
             <div class="mx-5 my-3 flex gap-3">
-              <UButton color="red" block>Checkout</UButton>
+              <UButton color="red" block @click="navigateToCheckout">Checkout</UButton>
             </div>
           </div>
         </div>

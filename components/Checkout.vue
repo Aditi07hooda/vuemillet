@@ -47,7 +47,7 @@ onMounted(async () => {
     <p v-if="!checkout.checkoutDetails">Loading...</p>
     <div v-else class="flex lg:flex-row flex-col lg:px-16 lg:gap-10 gap-4 px-4">
       <div
-        class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 h-fit gap-3 md:w-8/12"
+        class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 h-fit gap-3 md:w-[60%]"
       >
         <div
           v-for="address in checkout.checkoutDetails.addressList"
@@ -68,7 +68,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <div class="md:w-1/3 border-l bg-gray-100 py-3">
+      <div class="md:w-[40%] border-l bg-gray-100 py-3">
         <div class="">
           <p v-if="checkout.cartItems.length === 0">Your cart is empty.</p>
           <div

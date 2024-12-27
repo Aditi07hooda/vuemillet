@@ -1,0 +1,319 @@
+{
+    "orderValue": 950,
+    "orderValAfterDiscount": 950,
+    "minOrderValue": 100,
+    "customer": {
+        "latLng": [
+            12.898098455471294,
+            77.56534737671858
+        ],
+        "location": {
+            "latitude": 12.898098455471294,
+            "longitude": 77.56534737671858
+        },
+        "name": "gowthamaan",
+        "house": "",
+        "address": "",
+        "pinCode": "",
+        "deliveryArea": {
+            "name": "ONLINE-ORDERS",
+            "areaType": "APARTMENT",
+            "address": "",
+            "city": "Bangalore",
+            "stateName": "KARNATAKA",
+            "pinCode": "",
+            "minOrderValue": 600,
+            "daysOfDelivery": [],
+            "cutOffTime": null,
+            "subscriptionApplicable": true,
+            "googleGroupId": "contactGroups/38c95b070b33cd98",
+            "googleSyncAt": "2021-12-12T09:22:39.951899",
+            "displayName": "ONLINE-ORDERS (APARTMENT)",
+            "id": "7d857574-870f-44fa-8316-6cf0fd6b8dee",
+            "deleted": false,
+            "createdAt": "2021-12-06T07:25:06.928",
+            "modifiedAt": "2024-03-23T21:25:25.984",
+            "createdDateStr": "06 Dec, 2021"
+        },
+        "mobile": "1122334455",
+        "verified": false,
+        "city": "",
+        "displayName": "gowthamaan () (1122334455) (ONLINE-ORDERS) [The Millet Store]",
+        "profilePicUrl": "",
+        "description": "",
+        "email": "b301.gowthaman@basuvaraj.com",
+        "makeEmailVisible": false,
+        "whatsappConnect": false,
+        "websiteUrl": "",
+        "fbProfile": "",
+        "twitterProfile": "",
+        "instagramProfile": "",
+        "rpayCustId": null,
+        "googleContactId": "people/c4620851017175714001",
+        "googleSyncAt": "2024-10-07T15:09:14.048188",
+        "orderCount": 1,
+        "latestOrderAt": "17/Oct/2024",
+        "daysOfDelivery": [],
+        "reviewDone": false,
+        "discountCode": null,
+        "dnd": false,
+        "id": "5d27f7f9-8907-4620-a92b-93b95e019bb5",
+        "deleted": false,
+        "createdAt": "2024-10-07T14:05:19.877",
+        "modifiedAt": "2024-10-07T15:09:14.048",
+        "createdDateStr": "07 Oct, 2024",
+        "brand": {
+            "name": "The Millet Store",
+            "subTitle": "We Make Food Delicious",
+            "googleSiteVerification": "gmh01AaJAjzXrDi1nE-gCLs1Y3GjywsKN0syUNmXJFA",
+            "facebookSiteVerification": "l4ptinbn35rnvpo18hem7qkjsthb0o",
+            "brandHighlights": [
+                {
+                    "icon": "https://ms-profiles.objectstore.e2enetworks.net/718696-paU-Whole-Grain.svg",
+                    "name": "Fresh",
+                    "desc": "Our products are Made Only when you place the order."
+                },
+                {
+                    "icon": "https://ms-profiles.objectstore.e2enetworks.net/738961-6oo-Quality.svg",
+                    "name": "Quality",
+                    "desc": "we use the best quality & traditional ingredients"
+                },
+                {
+                    "icon": "https://ms-profiles.objectstore.e2enetworks.net/326458-AaL-Processing.svg",
+                    "name": "Processing",
+                    "desc": "minimal processing, to make your cooking easy"
+                },
+                {
+                    "icon": "https://ms-profiles.objectstore.e2enetworks.net/527003-5wM-Variety.svg",
+                    "name": "Variety",
+                    "desc": "catering to your taste and health requirements"
+                }
+            ],
+            "url": "themilletstore.in",
+            "logo": "https://ms-profiles.objectstore.e2enetworks.net/201816-KFb-logo-dark.png",
+            "logoDark": "https://ms-profiles.objectstore.e2enetworks.net/214703-yqL-logo-white.png",
+            "mobile": "6362033034",
+            "themeColor": "#000000",
+            "themeColorFont": "#ffffff",
+            "homePage": null,
+            "metaTags": [
+                {
+                    "name": "a",
+                    "value": "b",
+                    "link": "",
+                    "desc": ""
+                },
+                {
+                    "name": "google-site-verification",
+                    "value": "IB61dcA4ALB83WGLfRpGppOdJizJJj4px5_kiwq2mKU",
+                    "link": "",
+                    "desc": ""
+                }
+            ],
+            "banners": [
+                {
+                    "name": "https://ms-profiles.objectstore.e2enetworks.net/010733-MOr-moringa-infused-coconut-oil.jpg",
+                    "value": "New launch",
+                    "link": "https://themilletstore.in/product/979-moringa-infused-coconut-oil?from=search&term=moringa",
+                    "desc": "Moringa Infused Coconut Hair oil"
+                }
+            ],
+            "bannersForMobile": [
+                {
+                    "name": "https://ms-profiles.objectstore.e2enetworks.net/881296-bdP-moringa-infused-oil-2.jpg",
+                    "value": "NEW LAUNCH",
+                    "link": "https://themilletstore.in/product/979-moringa-infused-coconut-oil?from=search&term=moringa",
+                    "desc": "Moringa Infused Coconut Hair oil"
+                }
+            ],
+            "officialAPI": true,
+            "hasStore": true,
+            "apiProvider": "gallabox",
+            "productCommonImages": [],
+            "id": "eee2db48-5f44-4280-becc-2c25657a8e72",
+            "deleted": false,
+            "createdAt": "2021-08-03T09:39:08.287",
+            "modifiedAt": "2024-10-01T11:54:03.498",
+            "createdDateStr": "03 Aug, 2021"
+        }
+    },
+    "addressList": [
+        {
+            "door": "",
+            "apartment": "",
+            "address": "",
+            "person": "",
+            "pinCode": "",
+            "mobile": "",
+            "city": "",
+            "state": "KA",
+            "landmark": null,
+            "fullAddress": "",
+            "displayAddress": "(, )",
+            "latLng": [
+                12.9431045,
+                77.5903647
+            ],
+            "location": {
+                "latitude": 12.9431045,
+                "longitude": 77.5903647
+            },
+            "id": "84e54142-516f-420d-a6bc-101599872655",
+            "deleted": false,
+            "createdAt": "2024-10-28T17:14:02.481",
+            "modifiedAt": "2024-10-28T17:23:38.566",
+            "createdDateStr": "28 Oct, 2024"
+        },
+        {
+            "door": "b301",
+            "apartment": "brigade wisteria",
+            "address": "kanakapura road",
+            "person": "gowthaman",
+            "pinCode": "560082",
+            "mobile": "9591876072",
+            "city": "bangalore",
+            "state": "KA",
+            "landmark": null,
+            "fullAddress": "b301, brigade wisteria, kanakapura road, bangalore, 560082",
+            "displayAddress": "(gowthaman, 9591876072), b301, brigade wisteria, kanakapura road, bangalore, 560082",
+            "latLng": [
+                12.892358965709013,
+                77.56431798438103
+            ],
+            "location": {
+                "latitude": 12.892358965709013,
+                "longitude": 77.56431798438103
+            },
+            "id": "9b12ca78-7ef3-4ded-a4ac-c8f7d68441ae",
+            "deleted": false,
+            "createdAt": "2024-10-07T14:13:15.22",
+            "modifiedAt": "2024-10-07T14:13:15.22",
+            "createdDateStr": "07 Oct, 2024"
+        },
+        {
+            "door": "b311",
+            "apartment": "brigade wisteria",
+            "address": "kanakapura road",
+            "person": "gowthaman",
+            "pinCode": "560082",
+            "mobile": "9591876072",
+            "city": "bangalore",
+            "state": "KA",
+            "landmark": null,
+            "fullAddress": "b311, brigade wisteria, kanakapura road, bangalore, 560082",
+            "displayAddress": "(gowthaman, 9591876072), b311, brigade wisteria, kanakapura road, bangalore, 560082",
+            "latLng": [
+                12.892358965709013,
+                77.56431798438103
+            ],
+            "location": {
+                "latitude": 12.892358965709013,
+                "longitude": 77.56431798438103
+            },
+            "id": "36cfb45b-ecd0-4b48-b55d-1765e82415e4",
+            "deleted": false,
+            "createdAt": "2024-10-07T14:06:54.296",
+            "modifiedAt": "2024-10-07T14:06:54.296",
+            "createdDateStr": "07 Oct, 2024"
+        },
+        {
+            "door": "",
+            "apartment": "",
+            "address": "",
+            "person": "",
+            "pinCode": "",
+            "mobile": "",
+            "city": "",
+            "state": "KA",
+            "landmark": null,
+            "fullAddress": "",
+            "displayAddress": "(, )",
+            "latLng": [
+                12.9431045,
+                77.5903647
+            ],
+            "location": {
+                "latitude": 12.9431045,
+                "longitude": 77.5903647
+            },
+            "id": "e72da216-23ff-4218-8d0c-027e7e1890d2",
+            "deleted": false,
+            "createdAt": "2024-10-28T17:21:15.07",
+            "modifiedAt": "2024-10-28T17:24:03.205",
+            "createdDateStr": "28 Oct, 2024"
+        },
+        {
+            "door": "12",
+            "apartment": "asdxweqw",
+            "address": "qweerewre",
+            "person": "gowthamaan",
+            "pinCode": "560023",
+            "mobile": "1122334455",
+            "city": "Bengaluru",
+            "state": "KA",
+            "landmark": null,
+            "fullAddress": "12, asdxweqw, qweerewre, Bengaluru, 560023",
+            "displayAddress": "(gowthamaan, 1122334455), 12, asdxweqw, qweerewre, Bengaluru, 560023",
+            "latLng": [
+                12.898098455471294,
+                77.56534737671858
+            ],
+            "location": {
+                "latitude": 12.898098455471294,
+                "longitude": 77.56534737671858
+            },
+            "id": "79621ee9-ed0a-4fed-b5dd-cdb54cab71ec",
+            "deleted": false,
+            "createdAt": "2024-12-23T12:21:34.763",
+            "modifiedAt": "2024-12-23T12:21:34.763",
+            "createdDateStr": "23 Dec, 2024"
+        }
+    ],
+    "walletAmt": 0,
+    "cart": {
+        "items": [
+            {
+                "variantId": "96a868df-2e82-44a2-a5b7-76dc17b48d20",
+                "addedOn": "2024-12-26T11:26:01.340141075",
+                "qty": 1,
+                "price": 400,
+                "name": "Almond Flour ",
+                "variantName": "200g",
+                "totalAmt": 400,
+                "ip": "95.216.102.23",
+                "sessionId": "e6393be0-afa9-4efd-916d-7e46bad70cf9"
+            },
+            {
+                "variantId": "42980864-7b43-4060-b322-c6a05cd3f8c2",
+                "addedOn": "2024-12-26T11:59:22.676751116",
+                "qty": 2,
+                "price": 275,
+                "name": "Multi Millet Health Mix",
+                "variantName": "200g",
+                "totalAmt": 550,
+                "ip": "95.216.102.23",
+                "sessionId": "e6393be0-afa9-4efd-916d-7e46bad70cf9"
+            }
+        ],
+        "session": "e6393be0-afa9-4efd-916d-7e46bad70cf9",
+        "userId": "5d27f7f9-8907-4620-a92b-93b95e019bb5",
+        "userName": "gowthamaan",
+        "userMobile": "1122334455",
+        "ipAddr": "",
+        "frozen": false,
+        "frozenAt": null,
+        "razorPayOrderId": "",
+        "addressId": null,
+        "addressList": [],
+        "createdAt": "2024-12-24T13:50:55.730407293",
+        "draftId": null,
+        "code": "",
+        "brandId": "eee2db48-5f44-4280-becc-2c25657a8e72"
+    },
+    "inBlr": false,
+    "freeShipValue": 4999,
+    "shippingCharges": 100,
+    "totalOrderValue": 1050,
+    "addressSelected": null,
+    "discountAmt": 0
+}
