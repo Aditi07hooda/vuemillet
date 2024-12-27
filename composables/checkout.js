@@ -9,7 +9,22 @@ export const getCheckoutDetails = async (base_url, brand_id, sessionId) => {
       throw new Error("Failed to fetch checkout details");
     }
     const data = await res.json();
-    return data;
+    
+    const products = await fetchProducts(base_url, brand_id, sessionId);
+    let productImage = [];
+    data.cart.items.forEach((item) => {
+      var pr = null;
+      const product = products.forEach((p) => {
+        p.variants.find((variant) => {
+          if (variant.id === item.variantId) {
+            pr = p;
+          }
+        });
+      });
+      productImage.push(pr.oneImg);
+    });
+
+    return { data, productImage };
   } catch (error) {
     console.error("Error fetching checkout details:", error);
   }
