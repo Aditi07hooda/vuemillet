@@ -51,6 +51,12 @@ const accountNavigation = () => {
     router.push("/account/login")
   }
 }
+const handleClose=()=>{
+  isOpen.value=false
+  // nextTick(()=>{
+  //   $router.push(r)
+  // })
+}
 </script>
 
 <template>
@@ -135,20 +141,20 @@ const accountNavigation = () => {
         <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
           class="-my-1 text-3xl font-bold p-5 w-12 h-12" @click="isOpen = false" />
         <UAccordion :items="menuItems" variant="soft" color="white" class="p-8">
-          <template #learn #panel="{ close }">
+          <template #learn>
             <div class="flex flex-col space-y-4 pl-8">
-              <NuxtLink to="/blogs" class=" hover:text-pink-600 hover:scale-105 transition duration-500" @click="close">
+              <NuxtLink to="/blogs" class=" hover:text-pink-600 hover:scale-105 transition duration-500" @click="handleClose">
                 Blogs
               </NuxtLink>
-              <NuxtLink to="/about" class=" hover:text-pink-600 hover:scale-105 transition duration-500" @click="close">
+              <NuxtLink to="/about" class=" hover:text-pink-600 hover:scale-105 transition duration-500" @click="handleClose">
                 About Us
               </NuxtLink>
             </div>
           </template>
-          <template #categories #panel="{ close }">
+          <template #categories>
             <div class="flex flex-col space-y-4 pl-8">
               <NuxtLink v-for="category in categories" :to="`/category/${category.slug}`" :key="category.slug"
-                @click="close" class=" hover:text-pink-600 hover:scale-105 transition duration-500">
+                @click="handleClose" class=" hover:text-pink-600 hover:scale-105 transition duration-500">
                 {{ capitalize(category.name) }}
               </NuxtLink>
             </div>
