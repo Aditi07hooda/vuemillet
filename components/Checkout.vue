@@ -5,11 +5,15 @@ const brand_id = config.public.brandID;
 
 const user = ref(null);
 const sessionId = ref("");
+const discountInput = ref("");
+
+const router = useRouter();
 
 const checkout = reactive({
   checkoutDetails: {},
   productImage: null,
   cartItems: [],
+  discountApplied: false,
 });
 
 onMounted(async () => {
@@ -31,18 +35,42 @@ onMounted(async () => {
     }
   }
 });
+
+const applyingDiscount = async () => {
+  if (discountInput.value) {
+    const data = await applyDiscount(
+      base_url,
+      brand_id,
+      sessionId.value,
+      discountInput.value
+    );
+    if (data) {
+      console.log("Discount applied successfully: ", data);
+      checkout.discountApplied = true;
+    }
+  } else {
+    alert("Please enter a discount");
+  }
+  discountInput.value = "";
+};
 </script>
 <template>
   <div>
-    <h1>Checkout Details</h1>
+    <div class="flex gap-3 md:px-16 py-2 px-4 items-center">
+      <span class="text-red-500 font-medium text-sm" @click="">Cart </span>
+      <span class="text-2xl">&#129170;</span>
+      <span class="font-semibold text-sm">Information</span>
+      <span class="text-2xl">&#129170;</span>
+      <span class="text-gray-700 text-sm">Payment</span>
+    </div>
     <p v-if="!checkout.checkoutDetails">Loading...</p>
     <div v-else class="flex lg:flex-row flex-col lg:px-16 lg:gap-10 gap-4 px-4">
       <div
-        class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 gap-3 md:w-8/12"
+        class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 h-fit gap-3 md:w-[60%]"
       >
         <div
           v-for="address in checkout.checkoutDetails.addressList"
-          class="border p-4 rounded-lg bg-gray-50 shadow-md"
+          class="border p-4 rounded-lg bg-gray-50 shadow-md h-fit"
         >
           <p class="text-gray-700 font-bold capitalize">{{ address.person }}</p>
           <p
@@ -59,7 +87,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <div class="md:w-1/3">
+      <div class="md:w-[40%] border-l bg-gray-100 py-3">
         <div class="">
           <p v-if="checkout.cartItems.length === 0">Your cart is empty.</p>
           <div
@@ -96,8 +124,42 @@ onMounted(async () => {
             </p>
           </div>
         </div>
-        <div>
+        <div class="">
+          <div class="px-5 py-3">
+            <div
+              class="flex items-center border border-gray-300 rounded-md overflow-hidden"
+            >
+              <input
+                type="text"
+                placeholder="Apply Discount"
+                class="flex-1 border-none outline-none bg-inherit pl-3"
+                v-model="discountInput"
+                :disabled="checkout.checkoutDetails.discountAmt > 0"
+              />
+              <button
+                class="bg-gray-500 text-white px-4 py-2"
+                @click="applyingDiscount"
+              >
+                Apply
+              </button>
+            </div>
+          </div>
           <div>
+            <div class="bg-green-700 mt-4">
+              <div v-if="checkout.checkoutDetails.discountAmt > 0">
+                <p class="flex items-center text-white text-sm py-2 px-4">
+                  Discount applied!! You got discount of Rs.
+                  {{ checkout.checkoutDetails.discountAmt }}
+                </p>
+              </div>
+            </div>
+            <div class="bg-red-700 mt-4">
+              <div v-if="checkout.checkoutDetails.discountAmt === 0 && checkout.discountApplied">
+                <p class="flex items-center text-white text-sm py-2 px-4">
+                    Sorry, no discount applied. Please try again.
+                </p>
+              </div>
+            </div>
             <div class="flex justify-between w-full border-b px-4 py-2">
               <p>Order Summary</p>
               <p>{{ checkout.cartItems.length || 0 }} items</p>
@@ -109,19 +171,19 @@ onMounted(async () => {
               </div>
               <div class="flex justify-between w-full px-4 py-2">
                 <p>Shipping Charges</p>
-                <p>
-                  Rs. {{ checkout.checkoutDetails.shippingCharges || 0 }}
-                </p>
+                <p>Rs. {{ checkout.checkoutDetails.shippingCharges || 0 }}</p>
+              </div>
+              <div class="flex justify-between w-full px-4 py-2">
+                <p>Discount</p>
+                <p>Rs. {{ checkout.checkoutDetails.discountAmt || 0 }}</p>
               </div>
               <div class="flex justify-between w-full px-4 py-2 border-t">
                 <p>Total</p>
-                <p>
-                  Rs. {{ checkout.checkoutDetails.totalOrderValue || 0 }}
-                </p>
+                <p>Rs. {{ checkout.checkoutDetails.totalOrderValue || 0 }}</p>
               </div>
             </div>
             <div class="mx-5 my-3 flex gap-3">
-              <UButton color="red" block>Checkout</UButton>
+              <UButton color="gray" block>Continue Payment</UButton>
             </div>
           </div>
         </div>
