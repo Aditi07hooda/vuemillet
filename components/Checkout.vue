@@ -58,6 +58,9 @@ const applyingDiscount = async () => {
 const selectAddress = (address) => {
   checkout.selectedAddress = address;
 };
+const removeSelectedAddress = () => {
+  checkout.selectedAddress = null;
+};
 </script>
 <template>
   <div>
@@ -72,7 +75,7 @@ const selectAddress = (address) => {
     <div v-else class="flex lg:flex-row flex-col lg:px-16 lg:gap-10 gap-4 px-4">
       <div class="md:w-[60%]">
         <div
-          class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 h-fit gap-3 "
+          class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 h-fit gap-3"
         >
           <div
             v-for="address in checkout.checkoutDetails.addressList"
@@ -96,8 +99,50 @@ const selectAddress = (address) => {
             </p>
           </div>
         </div>
-        <div class="flex justify-between items-center py-3 border-t-2 border-gray-100">
-            <p>{{ checkout.selectedAddress }}</p>
+        <div
+          class="py-4 border-t-2 border-gray-100 bg-gray-50 rounded-md shadow-md px-4"
+          v-if="checkout.selectedAddress"
+        >
+          <div class="flex items-center space-x-3 mb-3">
+            <span class="bg-gray-700 text-white p-2 rounded-full">
+              <LucideMapPin />
+            </span>
+            <h3 class="text-lg font-bold text-gray-800">Shipping Address</h3>
+          </div>
+          <div class="mb-2">
+            <p class="text-lg font-semibold text-gray-800">
+              {{ checkout.selectedAddress.person }}
+              <span class="text-sm text-gray-500"
+                >({{ checkout.selectedAddress.mobile }})</span
+              >
+            </p>
+          </div>
+          <div class="text-gray-700 text-sm space-y-1">
+            <p>
+              <span class="font-semibold text-gray-600">Door/Apartment:</span>
+              {{ checkout.selectedAddress.door }},
+              {{ checkout.selectedAddress.apartment }}
+            </p>
+            <p>
+              <span class="font-semibold text-gray-600">Address:</span>
+              {{ checkout.selectedAddress.address }},
+              {{ checkout.selectedAddress.city }},
+              {{ checkout.selectedAddress.state }} -
+              {{ checkout.selectedAddress.pinCode }}
+            </p>
+            <p>
+              <span class="font-semibold text-gray-600">Landmark:</span>
+              {{ checkout.selectedAddress.landmark || "N/A" }}
+            </p>
+          </div>
+          <div class="mt-4 flex justify-end space-x-2">
+            <button
+              class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-md shadow-sm hover:bg-red-600 transition"
+              @click="removeSelectedAddress"
+            >
+              Remove
+            </button>
+          </div>
         </div>
       </div>
       <div class="md:w-[40%] border-l bg-gray-100 py-3">
@@ -201,7 +246,7 @@ const selectAddress = (address) => {
               </div>
             </div>
             <div class="mx-5 my-3 flex gap-3">
-              <UButton color="gray" block>Continue Payment</UButton>
+              <UButton color="emerald" block>Continue Payment</UButton>
             </div>
           </div>
         </div>
