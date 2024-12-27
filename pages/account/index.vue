@@ -97,7 +97,7 @@ const logout = async() => {
       <h2 class="text-2xl font-semibold text-center mb-6">My Account</h2>
 
       <div
-        class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 lg:w-full"
+        class="flex gap-5 border-2 justify-around mb-2 bg-secondary bg-opacity-45 lg:w-1/2 lg:justify-self-center"
       >
         <div
           class="flex flex-row mb-2 bg-secondary bg-opacity-45"
@@ -116,8 +116,8 @@ const logout = async() => {
         </div>
       </div>
 
-      <div v-if="AccountTabs === 'Profile'">
-        <form>
+      <div v-if="AccountTabs === 'Profile'" class="w-full lg:flex lg:justify-center">
+        <form class="lg:justify-center lg:flex lg:w-1/2 lg:flex-col">
           <div class="mb-4">
             <label class="block text-gray-700">Name</label>
             <input
