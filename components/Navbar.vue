@@ -175,10 +175,7 @@ const accountNavigation = () => {
         @click="isSearchOpen = true">
         Search</span>
       <div class="bg-red-600">
-        <UModal v-model="isSearchOpen" fullscreen prevent-close :ui="{
-          strategy: 'override',
-          background: 'bg-gray-600'
-        }">
+        <UModal v-model="isSearchOpen" fullscreen prevent-close>
           <div class="flex justify-end px-14 m-5">
             <UButton color="gray" variant="ghost" class="-my-1" @click="isSearchOpen = false">
               Go Back
@@ -191,11 +188,7 @@ const accountNavigation = () => {
         Account
       </div>
       <div class="hidden md:block">
-        <span
-          class="uppercase font-semibold cursor-pointer"
-          @click="cartModelVisible.openCartModel"
-          >Cart</span
-        >
+        <span class="uppercase font-semibold cursor-pointer" @click="cartModelVisible.openCartModel">Cart</span>
         <UModal v-model="cartModelVisible.isCartModelOpen" prevent-close>
           <Cart />
         </UModal>
