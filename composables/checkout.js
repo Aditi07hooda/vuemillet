@@ -41,7 +41,7 @@ export const applyDiscount = async (base_url, brand_id, sessionId, code) => {
             body: JSON.stringify({ code })
         })
         if (!res.ok) {
-            throw new Error("Failed to apply discount");
+            return "Invalid discount code";
         }
         const data = await res.json();
         return data;

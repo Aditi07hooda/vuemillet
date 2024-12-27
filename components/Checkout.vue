@@ -13,6 +13,7 @@ const checkout = reactive({
   checkoutDetails: {},
   productImage: null,
   cartItems: [],
+  discountApplied: false,
 });
 
 onMounted(async () => {
@@ -34,6 +35,24 @@ onMounted(async () => {
     }
   }
 });
+
+const applyingDiscount = async () => {
+  if (discountInput.value) {
+    const data = await applyDiscount(
+      base_url,
+      brand_id,
+      sessionId.value,
+      discountInput.value
+    );
+    if (data) {
+      console.log("Discount applied successfully: ", data);
+      checkout.discountApplied = true;
+    }
+  } else {
+    alert("Please enter a discount");
+  }
+  discountInput.value = "";
+};
 </script>
 <template>
   <div>
@@ -115,11 +134,32 @@ onMounted(async () => {
                 placeholder="Apply Discount"
                 class="flex-1 border-none outline-none bg-inherit pl-3"
                 v-model="discountInput"
+                :disabled="checkout.checkoutDetails.discountAmt > 0"
               />
-              <button class="bg-gray-500 text-white px-4 py-2">Apply</button>
+              <button
+                class="bg-gray-500 text-white px-4 py-2"
+                @click="applyingDiscount"
+              >
+                Apply
+              </button>
             </div>
           </div>
           <div>
+            <div class="bg-green-700 mt-4">
+              <div v-if="checkout.checkoutDetails.discountAmt > 0">
+                <p class="flex items-center text-white text-sm py-2 px-4">
+                  Discount applied!! You got discount of Rs.
+                  {{ checkout.checkoutDetails.discountAmt }}
+                </p>
+              </div>
+            </div>
+            <div class="bg-red-700 mt-4">
+              <div v-if="checkout.checkoutDetails.discountAmt === 0 && checkout.discountApplied">
+                <p class="flex items-center text-white text-sm py-2 px-4">
+                    Sorry, no discount applied. Please try again.
+                </p>
+              </div>
+            </div>
             <div class="flex justify-between w-full border-b px-4 py-2">
               <p>Order Summary</p>
               <p>{{ checkout.cartItems.length || 0 }} items</p>
@@ -132,6 +172,10 @@ onMounted(async () => {
               <div class="flex justify-between w-full px-4 py-2">
                 <p>Shipping Charges</p>
                 <p>Rs. {{ checkout.checkoutDetails.shippingCharges || 0 }}</p>
+              </div>
+              <div class="flex justify-between w-full px-4 py-2">
+                <p>Discount</p>
+                <p>Rs. {{ checkout.checkoutDetails.discountAmt || 0 }}</p>
               </div>
               <div class="flex justify-between w-full px-4 py-2 border-t">
                 <p>Total</p>
