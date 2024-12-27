@@ -8,7 +8,8 @@ const brandID = config.public.brandID
 const isHomePage = useRoute().path === '/'
 
 const props = defineProps({
-    product: { type: Object, required: true }
+    product: { type: Object, required: true },
+    categories: { type: Array, required: false }
 })
 
 const selectedSize = ref(
@@ -70,9 +71,20 @@ const addingToCart = async () => {
     console.log("Added to cart", data)
     cartModelVisible.openCartModel()
 }
+
+let slug = props.categories?.find(x => x.name === props.product?.category?.name)?.slug || '';
+console.log('Categories:', props.categories);
+console.log('Product Category Name:', props.product?.category?.name);
+console.log('Slug:', slug);
+
 </script>
 
 <template>
+    <div v-if="isHomePage" class="my-4">
+        <NuxtLink :to="slug ? `/category/${slug}` : '/'" class="text-pink-600 font-semibold">
+            <span>{{ capitalize(product?.category?.name || '') }}</span>
+        </NuxtLink>
+    </div>
     <NuxtLink :to="`/product/${product.id}`">
         <div class="product-image-container">
             <img :src="product.oneImg || product.images[0] || '/favicon.ico'" alt="Product Image"

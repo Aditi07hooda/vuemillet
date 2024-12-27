@@ -33,9 +33,10 @@
                 <div class="p-8">
                     <UCarousel v-slot="{ item }" :items="products.results"
                         :ui="{ container: 'gap-4', item: 'flex flex-col items-center', nav: 'hidden' }" indicators>
+                        <!-- <div class="border border-red-600 w-full text-center">Hi</div> -->
                         <div class="blog-item">
                             <div class="product-container rounded mb-10 mx-1 w-full sm:w-auto">
-                                <BlogProduct :product="item" />
+                                <BlogProduct :product="item" :categories="categories" />
                             </div>
                         </div>
                     </UCarousel>
