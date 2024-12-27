@@ -9,7 +9,7 @@ export const getCheckoutDetails = async (base_url, brand_id, sessionId) => {
       throw new Error("Failed to fetch checkout details");
     }
     const data = await res.json();
-    
+
     const products = await fetchProducts(base_url, brand_id, sessionId);
     let productImage = [];
     data.cart.items.forEach((item) => {
@@ -29,3 +29,23 @@ export const getCheckoutDetails = async (base_url, brand_id, sessionId) => {
     console.error("Error fetching checkout details:", error);
   }
 };
+
+export const applyDiscount = async (base_url, brand_id, sessionId, code) => {
+    try {
+        const res = await fetch(`${base_url}/store/${brand_id}/auth/checkout/discount`,{
+            method: 'POST',
+            headers: {
+                session: sessionId,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code })
+        })
+        if (!res.ok) {
+            throw new Error("Failed to apply discount");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error("Error applying discount:", error);
+    }
+}
