@@ -136,7 +136,7 @@ if (searchQuery.value) {
     </div>
 </template>
 
-<style scoped>
+<style>
 .u-modal-content {
     max-height: 100vh;
     overflow-x: hidden;
