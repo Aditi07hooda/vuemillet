@@ -136,14 +136,14 @@ const accountNavigation = () => {
       <UAccordion :items="menuItems" variant="soft" color="white" class="p-8">
         <template #learn>
           <div class="flex flex-col space-y-4 pl-8">
-            <NuxtLink to="/blogs">Blogs</NuxtLink>
-            <NuxtLink to="/about">About Us</NuxtLink>
+            <NuxtLink to="/blogs" class=" hover:text-pink-600 hover:scale-105 transition duration-500">Blogs</NuxtLink>
+            <NuxtLink to="/about" class=" hover:text-pink-600 hover:scale-105 transition duration-500">About Us</NuxtLink>
           </div>
         </template>
         <template #categories #panel="{ close }">
           <div class="flex flex-col space-y-4 pl-8">
             <NuxtLink v-for="category in categories" :to="`/category/${category.slug}`" :key="category.slug"
-              @click="close">
+              @click="close" class=" hover:text-pink-600 hover:scale-105 transition duration-500">
               {{ capitalize(category.name) }}
             </NuxtLink>
           </div>
