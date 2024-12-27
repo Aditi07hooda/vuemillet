@@ -40,7 +40,7 @@ const fetchResultsForEachQueryWord = async (query) => {
 
 const fetchResultsForQuerySentence = async () => {
     try {
-        const queries = searchQuery.value.split(' ').filter(Boolean) // Split by space and remove empty strings
+        const queries = searchQuery.value.split(' ') 
         let allResults = []
 
         for (const query of queries) {
