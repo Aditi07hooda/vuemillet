@@ -14,6 +14,7 @@ const checkout = reactive({
   productImage: null,
   cartItems: [],
   discountApplied: false,
+  selectedAddress: null,
 });
 
 onMounted(async () => {
@@ -53,6 +54,10 @@ const applyingDiscount = async () => {
   }
   discountInput.value = "";
 };
+
+const selectAddress = (address) => {
+  checkout.selectedAddress = address;
+};
 </script>
 <template>
   <div>
@@ -65,26 +70,34 @@ const applyingDiscount = async () => {
     </div>
     <p v-if="!checkout.checkoutDetails">Loading...</p>
     <div v-else class="flex lg:flex-row flex-col lg:px-16 lg:gap-10 gap-4 px-4">
-      <div
-        class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 h-fit gap-3 md:w-[60%]"
-      >
+      <div class="md:w-[60%]">
         <div
-          v-for="address in checkout.checkoutDetails.addressList"
-          class="border p-4 rounded-lg bg-gray-50 shadow-md h-fit"
+          class="grid grid-flow-row lg:grid-cols-3 grid-cols-1 py-2 h-fit gap-3 "
         >
-          <p class="text-gray-700 font-bold capitalize">{{ address.person }}</p>
-          <p
-            class="text-gray-600 flex flex-wrap gap-2 align-middle font-semibold"
+          <div
+            v-for="address in checkout.checkoutDetails.addressList"
+            class="border p-4 rounded-lg bg-gray-50 shadow-md h-fit"
+            @click="selectAddress(address)"
           >
-            {{ address.mobile }}
-          </p>
-          <p class="text-gray-600">
-            {{ address.door }}, {{ address.address }} {{ address.apartment }},
-            {{ address.landmark }}
-          </p>
-          <p class="text-gray-600">
-            {{ address.city }}, {{ address.state }}, {{ address.pinCode }}
-          </p>
+            <p class="text-gray-700 font-bold capitalize">
+              {{ address.person }}
+            </p>
+            <p
+              class="text-gray-600 flex flex-wrap gap-2 align-middle font-semibold"
+            >
+              {{ address.mobile }}
+            </p>
+            <p class="text-gray-600">
+              {{ address.door }}, {{ address.address }} {{ address.apartment }},
+              {{ address.landmark }}
+            </p>
+            <p class="text-gray-600">
+              {{ address.city }}, {{ address.state }}, {{ address.pinCode }}
+            </p>
+          </div>
+        </div>
+        <div class="flex justify-between items-center py-3 border-t-2 border-gray-100">
+            <p>{{ checkout.selectedAddress }}</p>
         </div>
       </div>
       <div class="md:w-[40%] border-l bg-gray-100 py-3">
@@ -154,9 +167,14 @@ const applyingDiscount = async () => {
               </div>
             </div>
             <div class="bg-red-700 mt-4">
-              <div v-if="checkout.checkoutDetails.discountAmt === 0 && checkout.discountApplied">
+              <div
+                v-if="
+                  checkout.checkoutDetails.discountAmt === 0 &&
+                  checkout.discountApplied
+                "
+              >
                 <p class="flex items-center text-white text-sm py-2 px-4">
-                    Sorry, no discount applied. Please try again.
+                  Sorry, no discount applied. Please try again.
                 </p>
               </div>
             </div>
