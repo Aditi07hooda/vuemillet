@@ -1,6 +1,6 @@
-export const getCheckoutDetails = async ({ baseUrl, brandId, sessionId }) => {
+export const getCheckoutDetails = async (base_url, brand_id, sessionId) => {
   try {
-    const res = await fetch(`${baseUrl}/store/${brandId}/auth/checkout`, {
+    const res = await fetch(`${base_url}/store/${brand_id}/auth/checkout`, {
       headers: {
         session: sessionId,
       },
