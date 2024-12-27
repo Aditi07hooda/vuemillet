@@ -70,8 +70,8 @@ if (searchQuery.value) {
 </script>
 
 <template>
-    <div class="u-modal-content hide-scrollbar">
-        <h1 class="text-center text-lg font-semibold pt-3 text-white">Search by name</h1>
+    <div class="u-modal-content hide-scrollbar ">
+        <h1 class="text-center text-lg font-semibold pt-3 text-gray-600">Search by name</h1>
         <div class="px-14 m-5 mt-2 flex w-full">
             <form class="relative w-full" @submit.prevent="fetchResultsForQuerySentence">
                 <UInput v-model="searchQuery" :ui="{
@@ -80,7 +80,7 @@ if (searchQuery.value) {
                 }" variant="outline" color="green" class="w-full pr-12" placeholder="Search products by name and click enter..." />
             </form>
         </div>
-        <div class="flex flex-wrap md:flex-nowrap px-14 w-full mb-36 mt-8 mx-5 gap-6 sm:gap-4 text-white">
+        <div class="flex flex-wrap md:flex-nowrap px-14 w-full mb-36 mt-8 mx-5 gap-6 sm:gap-4 text-gray-600">
             <div class="md:w-1/4 w-full">
                 <div class="flex flex-col">
                     <h3 class="text-lg font-semibold py-3">All Categories</h3>

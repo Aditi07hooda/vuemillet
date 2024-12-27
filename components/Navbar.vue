@@ -101,49 +101,14 @@ const accountNavigation = () => {
               </div>
             </div>
             <div class="">
-              <h3 class="uppercase text-lg font-semibold py-3">By Solution</h3>
+              <h3 class="uppercase text-lg font-semibold py-3">By Categories</h3>
               <div class="flex flex-col">
                 <ul class="flex flex-col space-y-4">
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Digestion
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="text-sm w-4 h-4" /> Protein
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Hormonal Health
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Skin & Hair
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Relax
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Energy
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Immunity
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Liver Health
-                    </li>
-                  </NuxtLink>
+                  <li v-for="category in categories" class="flex gap-3 text-sm font-medium items-center">
+                    <LucideChevronRight class="w-4 h-4" />
+                    <NuxtLink :to="`/category/${category.slug}`" class="w-full">
+                      {{ capitalize(category.name) }} </NuxtLink>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -175,10 +140,7 @@ const accountNavigation = () => {
         @click="isSearchOpen = true">
         Search</span>
       <div class="bg-red-600">
-        <UModal v-model="isSearchOpen" fullscreen prevent-close :ui="{
-          strategy: 'override',
-          background: 'bg-gray-600'
-        }">
+        <UModal v-model="isSearchOpen" fullscreen prevent-close>
           <div class="flex justify-end px-14 m-5">
             <UButton color="gray" variant="ghost" class="-my-1" @click="isSearchOpen = false">
               Go Back
@@ -191,11 +153,7 @@ const accountNavigation = () => {
         Account
       </div>
       <div class="hidden md:block">
-        <span
-          class="uppercase font-semibold cursor-pointer"
-          @click="cartModelVisible.openCartModel"
-          >Cart</span
-        >
+        <span class="uppercase font-semibold cursor-pointer" @click="cartModelVisible.openCartModel">Cart</span>
         <UModal v-model="cartModelVisible.isCartModelOpen" prevent-close>
           <Cart />
         </UModal>
