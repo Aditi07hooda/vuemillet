@@ -11,23 +11,13 @@ const closeModal = () => {
 
 const menuItems = [
   {
-    label: "Shop",
-    defaultOpen: true,
-    slot: "shop",
-  },
-  {
-    label: "Shop By Solutions",
+    label: "All Categories",
     defaultOpen: false,
-    slot: "shop-by-solutions",
+    slot: "categories",
   },
   {
-    label: "Blogs",
-    defaultOpen: false,
-    slot: "blogs",
-  },
-  {
-    label: "About Us",
-    slot: "about-us",
+    label: "Learn",
+    slot: "learn",
   },
 ]
 
@@ -70,43 +60,16 @@ const accountNavigation = () => {
       <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
         <UButton label="Shop" trailing-icon="i-heroicons-chevron-down-20-solid"
           class="uppercase font-semibold hidden bg-inherit text-black items-center md:flex text-md hover:bg-inherit" />
-        <template #panel>
+        <template #panel="{ close }">
           <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24">
-            <div class="">
-              <h3 class="uppercase text-lg font-semibold py-3">Shop</h3>
-              <div class="flex flex-col">
-                <ul class="flex flex-col space-y-4">
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> All Products
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="text-sm w-4 h-4" /> Best
-                      Sellers
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Bundles
-                    </li>
-                  </NuxtLink>
-                  <NuxtLink to="">
-                    <li class="uppercase flex gap-3 text-sm font-medium items-center">
-                      <LucideChevronRight class="w-4 h-4" /> Protein
-                    </li>
-                  </NuxtLink>
-                </ul>
-              </div>
-            </div>
-            <div class="">
+            <div>
               <h3 class="uppercase text-lg font-semibold py-3">By Categories</h3>
               <div class="flex flex-col">
                 <ul class="flex flex-col space-y-4">
                   <li v-for="category in categories" class="flex gap-3 text-sm font-medium items-center">
                     <LucideChevronRight class="w-4 h-4" />
-                    <NuxtLink :to="`/category/${category.slug}`" class="w-full">
+                    <NuxtLink :to="`/category/${category.slug}`" @click="close"
+                      class="w-full hover:text-pink-600 hover:scale-105 transition duration-500">
                       {{ capitalize(category.name) }} </NuxtLink>
                   </li>
                 </ul>
@@ -171,15 +134,18 @@ const accountNavigation = () => {
       <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
         class="-my-1 text-3xl font-bold p-5 w-12 h-12" @click="isOpen = false" />
       <UAccordion :items="menuItems" variant="soft" color="white" class="p-8">
-        <template #about-us>
-          <NuxtLink to="/about">About Us</NuxtLink>
-        </template>
-        <template #shop>
+        <template #learn>
           <div class="flex flex-col space-y-4 pl-8">
-            <NuxtLink to="">Shop All</NuxtLink>
-            <NuxtLink to="">Best Sellers</NuxtLink>
-            <NuxtLink to="">Bundles</NuxtLink>
-            <NuxtLink to="">Protein</NuxtLink>
+            <NuxtLink to="/blogs">Blogs</NuxtLink>
+            <NuxtLink to="/about">About Us</NuxtLink>
+          </div>
+        </template>
+        <template #categories #panel="{ close }">
+          <div class="flex flex-col space-y-4 pl-8">
+            <NuxtLink v-for="category in categories" :to="`/category/${category.slug}`" :key="category.slug"
+              @click="close">
+              {{ capitalize(category.name) }}
+            </NuxtLink>
           </div>
         </template>
       </UAccordion>
