@@ -131,24 +131,30 @@ const accountNavigation = () => {
   </div>
   <div class="flex justify-between align-middle items-center">
     <UModal v-model="isOpen" :transition="true" class="items-center" fullscreen>
-      <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
-        class="-my-1 text-3xl font-bold p-5 w-12 h-12" @click="isOpen = false" />
-      <UAccordion :items="menuItems" variant="soft" color="white" class="p-8">
-        <template #learn>
-          <div class="flex flex-col space-y-4 pl-8">
-            <NuxtLink to="/blogs" class=" hover:text-pink-600 hover:scale-105 transition duration-500">Blogs</NuxtLink>
-            <NuxtLink to="/about" class=" hover:text-pink-600 hover:scale-105 transition duration-500">About Us</NuxtLink>
-          </div>
-        </template>
-        <template #categories #panel="{ close }">
-          <div class="flex flex-col space-y-4 pl-8">
-            <NuxtLink v-for="category in categories" :to="`/category/${category.slug}`" :key="category.slug"
-              @click="close" class=" hover:text-pink-600 hover:scale-105 transition duration-500">
-              {{ capitalize(category.name) }}
-            </NuxtLink>
-          </div>
-        </template>
-      </UAccordion>
+      <div class="u-modal-content hide-scrollbar">
+        <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
+          class="-my-1 text-3xl font-bold p-5 w-12 h-12" @click="isOpen = false" />
+        <UAccordion :items="menuItems" variant="soft" color="white" class="p-8">
+          <template #learn #panel="{ close }">
+            <div class="flex flex-col space-y-4 pl-8">
+              <NuxtLink to="/blogs" class=" hover:text-pink-600 hover:scale-105 transition duration-500" @click="close">
+                Blogs
+              </NuxtLink>
+              <NuxtLink to="/about" class=" hover:text-pink-600 hover:scale-105 transition duration-500" @click="close">
+                About Us
+              </NuxtLink>
+            </div>
+          </template>
+          <template #categories #panel="{ close }">
+            <div class="flex flex-col space-y-4 pl-8">
+              <NuxtLink v-for="category in categories" :to="`/category/${category.slug}`" :key="category.slug"
+                @click="close" class=" hover:text-pink-600 hover:scale-105 transition duration-500">
+                {{ capitalize(category.name) }}
+              </NuxtLink>
+            </div>
+          </template>
+        </UAccordion>
+      </div>
     </UModal>
   </div>
 </template>
