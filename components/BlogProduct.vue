@@ -1,14 +1,15 @@
 <script setup>
-import { useCartModelVisibilty } from "~/store/cart";
+import { useCartModelVisibilty } from "~/store/cart"
 
-const cartModelVisible = useCartModelVisibilty();
-
-const config = useRuntimeConfig();
-const baseURL = config.public.baseURL;
-const brandID = config.public.brandID;
+const cartModelVisible = useCartModelVisibilty()
+const config = useRuntimeConfig()
+const baseURL = config.public.baseURL
+const brandID = config.public.brandID
+const isHomePage = useRoute().path === '/'
 
 const props = defineProps({
-    product: { type: Object, required: true }
+    product: { type: Object, required: true },
+    categories: { type: Array, required: false }
 })
 
 const selectedSize = ref(
@@ -59,20 +60,31 @@ const logOption = () => {
 }
 
 const addingToCart = async () => {
-  const sessionId = localStorage.getItem("sessionId");
-  const data = await addToCart(
-    baseURL,
-    brandID,
-    sessionId,
-    selectedSize.value.id,
-    selectedSize.value.name
-  );
-  console.log("Added to cart", data);
-  cartModelVisible.openCartModel();
-};
+    const sessionId = localStorage.getItem("sessionId");
+    const data = await addToCart(
+        baseURL,
+        brandID,
+        sessionId,
+        selectedSize.value.id,
+        selectedSize.value.name
+    );
+    console.log("Added to cart", data)
+    cartModelVisible.openCartModel()
+}
+
+let slug = props.categories?.find(x => x.name === props.product?.category?.name)?.slug || '';
+console.log('Categories:', props.categories);
+console.log('Product Category Name:', props.product?.category?.name);
+console.log('Slug:', slug);
+
 </script>
 
 <template>
+    <div v-if="isHomePage" class="my-4">
+        <NuxtLink :to="slug ? `/category/${slug}` : '/'" class="text-pink-600 font-semibold">
+            <span>{{ capitalize(product?.category?.name || '') }}</span>
+        </NuxtLink>
+    </div>
     <NuxtLink :to="`/product/${product.id}`">
         <div class="product-image-container">
             <img :src="product.oneImg || product.images[0] || '/favicon.ico'" alt="Product Image"
@@ -80,41 +92,44 @@ const addingToCart = async () => {
         </div>
         <div class="product-name">{{ capitalize(product.name) }}</div>
     </NuxtLink>
-    <div v-if="containsOnlySize(product.variantTypes)">
-        <div class="mb-2">Select Size</div>
-        <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-            <option v-for="option in product.variants" :value="option">
-                {{ option.name }}
-            </option>
-        </select>
-    </div>
-    <div v-else>
-        <div class="mb-2">Select {{ capitalize(product?.variantTypes[0]) }}</div>
-        <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-            <option v-for="option in product.variantMatrix[product.variantTypes[0]]" :value="option">
-                {{ option }}
-            </option>
-        </select>
-        <div class="mb-2">Select {{ capitalize(product.variantTypes[1]) }}</div>
-        <select class="mb-2 dropdown" v-model="selectedVariant" @change="logOption">
-            <option v-for="option in product.variantMatrix[product.variantTypes[1]]" :value="option">
-                {{ capitalize(option) }}
-            </option>
-        </select>
-    </div>
-    <div class="font-bold mb-2">
-        <template v-if="containsOnlySize(product.variantTypes)">
-            <DiscountPriceBlock :price="selectedSize.price" :offerPrice="selectedSize.offerPrice" />
-        </template>
-        <template v-else>
-            <DiscountPriceBlock :price="selectedOption?.price" :offerPrice="selectedOption?.offerPrice" />
-        </template>
-    </div>
-    <div>
-        <button @click="addingToCart" class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
-            Add
-            to cart
-        </button>
+    <div v-if="!isHomePage">
+        <div v-if="containsOnlySize(product.variantTypes)">
+            <div class="mb-2">Select Size</div>
+            <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
+                <option v-for="option in product.variants" :value="option">
+                    {{ option.name }}
+                </option>
+            </select>
+        </div>
+        <div v-else>
+            <div class="mb-2">Select {{ capitalize(product?.variantTypes[0]) }}</div>
+            <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
+                <option v-for="option in product.variantMatrix[product.variantTypes[0]]" :value="option">
+                    {{ option }}
+                </option>
+            </select>
+            <div class="mb-2">Select {{ capitalize(product.variantTypes[1]) }}</div>
+            <select class="mb-2 dropdown" v-model="selectedVariant" @change="logOption">
+                <option v-for="option in product.variantMatrix[product.variantTypes[1]]" :value="option">
+                    {{ capitalize(option) }}
+                </option>
+            </select>
+        </div>
+        <div class="font-bold mb-2">
+            <template v-if="containsOnlySize(product.variantTypes)">
+                <DiscountPriceBlock :price="selectedSize.price" :offerPrice="selectedSize.offerPrice" />
+            </template>
+            <template v-else>
+                <DiscountPriceBlock :price="selectedOption?.price" :offerPrice="selectedOption?.offerPrice" />
+            </template>
+        </div>
+        <div>
+            <button @click="addingToCart"
+                class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl">
+                Add
+                to cart
+            </button>
+        </div>
     </div>
 </template>
 
