@@ -61,11 +61,15 @@ const selectAddress = (address) => {
 const removeSelectedAddress = () => {
   checkout.selectedAddress = null;
 };
+
+const navigateToCart = () => {
+  router.push("./cart");
+}
 </script>
 <template>
   <div>
     <div class="flex gap-3 md:px-16 py-2 px-4 items-center">
-      <span class="text-red-500 font-medium text-sm" @click="">Cart </span>
+      <span class="text-red-500 font-medium text-sm" @click="navigateToCart">Cart </span>
       <span class="text-2xl">&#129170;</span>
       <span class="font-semibold text-sm">Information</span>
       <span class="text-2xl">&#129170;</span>
