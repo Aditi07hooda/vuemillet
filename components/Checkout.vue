@@ -80,6 +80,7 @@ const removeSelectedAddress = () => {
           <div
             v-for="address in checkout.checkoutDetails.addressList"
             class="border p-4 rounded-lg bg-gray-50 shadow-md h-fit"
+            :class="{'border-green-500 lg:border-none border-2': checkout.selectedAddress === address}"
             @click="selectAddress(address)"
           >
             <p class="text-gray-700 font-bold capitalize">
@@ -100,7 +101,7 @@ const removeSelectedAddress = () => {
           </div>
         </div>
         <div
-          class="py-4 border-t-2 border-gray-100 bg-gray-50 rounded-md shadow-md px-4"
+          class="py-4 border-t-2 border-gray-100 bg-gray-50 rounded-md shadow-md px-4 hidden md:block"
           v-if="checkout.selectedAddress"
         >
           <div class="flex items-center space-x-3 mb-3">
