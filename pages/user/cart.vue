@@ -19,6 +19,10 @@ const navigateToCheckout = () => {
   router.push("/user/checkout");
 };
 
+const navigateToShopping = () => {
+  router.push("/");
+};
+
 const cartItems = reactive({
   cart: {
     items: [],
@@ -70,7 +74,6 @@ const fetchCartData = async () => {
         walletAmt: data.walletAmt || 0,
         productImages: productImage || null,
       };
-      pageCount.value = Math.ceil(cartItems.cart.items.length / 5);
     }
   } catch (error) {
     console.error("Error fetching cart data:", error);
@@ -182,8 +185,23 @@ const columns = [
             <span class="">Rs. {{ row.totalAmt }}</span>
           </template>
         </UTable>
-        <div class="mt-4 flex justify-end">
-          <UPagination v-model="page" :page-count="pageCount" :total="cartItems.cart.items.length" :class="{'hidden': cartItems.cart.items.length < 5}" />
+        <div class="flex justify-between">
+          <div class="mt-4">
+            <button
+              class="bg-green-700 text-white py-2 px-4 rounded-lg text-center text-md hover:bg-green-500"
+              @click="navigateToShopping"
+            >
+              Continue Shopping
+            </button>
+          </div>
+          <div class="mt-4 flex justify-end">
+            <UPagination
+              v-model="page"
+              :page-count="pageCount"
+              :total="cartItems.cart.items.length"
+              :class="{ hidden: cartItems.cart.items.length < 5 }"
+            />
+          </div>
         </div>
       </div>
       <div class="flex-shrink-0 w-80">

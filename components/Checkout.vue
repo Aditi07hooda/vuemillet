@@ -64,12 +64,14 @@ const removeSelectedAddress = () => {
 
 const navigateToCart = () => {
   router.push("./cart");
-}
+};
 </script>
 <template>
   <div>
     <div class="flex gap-3 md:px-16 py-2 px-4 items-center">
-      <span class="text-red-500 font-medium text-sm" @click="navigateToCart">Cart </span>
+      <span class="text-red-500 font-medium text-sm" @click="navigateToCart"
+        >Cart
+      </span>
       <span class="text-2xl">&#129170;</span>
       <span class="font-semibold text-sm">Information</span>
       <span class="text-2xl">&#129170;</span>
@@ -83,8 +85,11 @@ const navigateToCart = () => {
         >
           <div
             v-for="address in checkout.checkoutDetails.addressList"
-            class="border p-4 rounded-lg bg-gray-50 shadow-md h-fit"
-            :class="{'border-green-500 lg:border-none border-2': checkout.selectedAddress === address}"
+            class="border p-4 rounded-lg bg-gray-50 shadow-md h-fit cursor-pointer"
+            :class="{
+              'border-green-500 lg:border-none border-2':
+                checkout.selectedAddress === address,
+            }"
             @click="selectAddress(address)"
           >
             <p class="text-gray-700 font-bold capitalize">
@@ -251,7 +256,11 @@ const navigateToCart = () => {
               </div>
             </div>
             <div class="mx-5 my-3 flex gap-3">
-              <UButton color="emerald" block>Continue Payment</UButton>
+              <button
+                class="bg-green-700 text-white py-2 px-4 w-full rounded-lg text-center text-md hover:bg-green-500"
+              >
+                Continue Payment
+              </button>
             </div>
           </div>
         </div>
