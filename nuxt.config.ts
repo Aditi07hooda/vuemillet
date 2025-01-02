@@ -14,4 +14,14 @@ export default defineNuxtConfig({
       brandID: process.env.BRAND_ID,
     },
   },
+  app: {
+    head: {
+      script: [
+        {
+          src: "https://checkout.razorpay.com/v1/checkout.js",
+          defer: true,
+        },
+      ],
+    },
+  },
 })

@@ -1,4 +1,11 @@
 <script setup>
+import Razorpay from "razorpay";
+import {
+  handleStartPayment,
+  handlePaymentComplete,
+  handlePaymentCancel,
+} from "../composables/payment";
+
 const config = useRuntimeConfig();
 const base_url = config.public.baseURL;
 const brand_id = config.public.brandID;
@@ -64,6 +71,70 @@ const removeSelectedAddress = () => {
 
 const navigateToCart = () => {
   router.push("./cart");
+};
+
+const startPayment = async () => {
+  try {
+    if (!checkout.selectedAddress) {
+      alert("Please select an address");
+      return;
+    }
+
+    const data = await handleStartPayment(
+      base_url,
+      brand_id,
+      sessionId.value,
+      checkout.selectedAddress
+    );
+
+    console.log("Payment started successfully: ", data);
+
+    const options = {
+      key_id: data.key,
+      ...data,
+      handler: async (response) => {
+        await handlePaymentComplete(
+          base_url,
+          brand_id,
+          sessionId.value,
+          response
+        );
+      },
+      modal: {
+        ondismiss: async () => {
+          console.log("Payment window dismissed");
+          await handlePaymentCancel(
+            base_url,
+            brand_id,
+            sessionId.value,
+            "Payment abandoned",
+            data.order_id
+          );
+        },
+      },
+    };
+
+    if (window.Razorpay) {
+      const rzpay = new window.Razorpay(options);
+      console.log("Payment window opened", rzpay);
+      rzpay.open();
+    } else {
+      console.error("Razorpay is not defined");
+    }
+
+    rzpay.on("payment.failed", async (response) => {
+      console.error("Payment failed:", response.error);
+      await handlePaymentCancel(
+        base_url,
+        brand_id,
+        sessionId.value,
+        "Payment failed",
+        response.error.metadata.order_id
+      );
+    });
+  } catch (error) {
+    console.error("Payment start failed: ", error);
+  }
 };
 </script>
 <template>
@@ -258,6 +329,7 @@ const navigateToCart = () => {
             <div class="mx-5 my-3 flex gap-3">
               <button
                 class="bg-green-700 text-white py-2 px-4 w-full rounded-lg text-center text-md hover:bg-green-500"
+                @click="startPayment"
               >
                 Continue Payment
               </button>
