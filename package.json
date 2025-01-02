@@ -18,6 +18,7 @@
     "nuxt-app": "file:",
     "nuxt-lucide-icons": "1.0.5",
     "pinia": "^2.3.0",
+    "razorpay": "^2.9.5",
     "vue": "latest",
     "vue-router": "latest",
     "zod": "^3.24.1"
