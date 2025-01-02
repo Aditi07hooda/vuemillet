@@ -22,6 +22,8 @@ const checkout = reactive({
   cartItems: [],
   discountApplied: false,
   selectedAddress: null,
+  order_id: "",
+  orderStatus: null,
 });
 
 onMounted(async () => {
@@ -132,8 +134,26 @@ const startPayment = async () => {
         response.error.metadata.order_id
       );
     });
+
+    rzpay.on("payment.success", async (response) => {
+      console.log("Payment successful:", response);
+      checkout.orderStatus = response.status;
+      checkout.order_id = response.orderId;
+
+      const { data, productImage } = await getCheckoutDetails(
+        base_url,
+        brand_id,
+        sessionId.value
+      );
+      if (data) {
+        checkout.checkoutDetails = data;
+        checkout.productImage = productImage;
+        checkout.cartItems = data.cart.items;
+      }
+    });
   } catch (error) {
     console.error("Payment start failed: ", error);
+    checkout.orderStatus = false;
   }
 };
 </script>
@@ -333,6 +353,9 @@ const startPayment = async () => {
               >
                 Continue Payment
               </button>
+            </div>
+            <div class="flex gap-3 my-3" v-if="!checkout.orderStatus">
+              <p>Payment is cancelled or failed.</p>
             </div>
           </div>
         </div>
