@@ -16,7 +16,7 @@ const router = useRouter();
 const navigateToCheckout = () => {
   router.push("/user/checkout");
   cartModelVisible.closeCartModel();
-}
+};
 
 const cartItems = reactive({
   cart: {
@@ -133,12 +133,12 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
     <div>
       <div class="flex flex-col justify-between w-full">
         <div class="flex flex-col overflow-y-scroll max-h-80">
-          <p v-if="cartItems.cart.items.length === 0">Your cart is empty.</p>
+          <p v-if="cartItems.cart.items.length === 0" class="pl-3">Your cart is empty.</p>
           <div
             v-for="(cartItem, index) in cartItems.cart.items"
             :key="cartItem.id"
             class="flex-grow-0 flex w-full px-4 py-2 border-b border-gray-200 hover:bg-gray-100 justify-between"
-            >
+          >
             <div class="flex items-center w-full">
               <img
                 :src="cartItems.cart.productImages[index] || '/favicon.ico'"
@@ -208,7 +208,13 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
               </div>
             </div>
             <div class="mx-5 my-3 flex gap-3">
-              <UButton color="red" block @click="navigateToCheckout">Checkout</UButton>
+              <UButton
+                color="red"
+                block
+                @click="navigateToCheckout"
+                :disabled="cartItems.cart.items.length === 0"
+                >Checkout</UButton
+              >
             </div>
           </div>
         </div>

@@ -92,6 +92,10 @@ const logout = async() => {
     <p>Loading...</p>
   </div>
 
+  <div v-if="user === null">
+    <UserNotFound />
+  </div>
+
   <div v-else-if="user !== ''">
     <div class="w-full px-6 bg-white rounded-lg py-8 my-2">
       <h2 class="text-2xl font-semibold text-center mb-6">My Account</h2>
