@@ -33,7 +33,6 @@
                 <div class="p-8">
                     <UCarousel v-slot="{ item }" :items="products.results"
                         :ui="{ container: 'gap-4', item: 'flex flex-col items-center', nav: 'hidden' }" indicators>
-                        <!-- <div class="border border-red-600 w-full text-center">Hi</div> -->
                         <div class="blog-item">
                             <div class="product-container rounded mb-10 mx-1 w-full sm:w-auto">
                                 <BlogProduct :product="item" :categories="categories" />
@@ -94,9 +93,9 @@ console.log('recom product', products.value)
 }
 
 .blog-item {
-    max-height: 350px;
+    max-height: 500px;
     width: 300px;
-    height: 350px;
+    height: 500px;
     color: #67645b;
 }
 

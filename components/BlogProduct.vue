@@ -73,18 +73,15 @@ const addingToCart = async () => {
 }
 
 let slug = props.categories?.find(x => x.name === props.product?.category?.name)?.slug || '';
-console.log('Categories:', props.categories);
-console.log('Product Category Name:', props.product?.category?.name);
-console.log('Slug:', slug);
 
 </script>
 
 <template>
-    <div v-if="isHomePage" class="my-4">
+    <!-- <div v-if="isHomePage" class="my-4">
         <NuxtLink :to="slug ? `/category/${slug}` : '/'" class="text-pink-600 font-semibold">
             <span>{{ capitalize(product?.category?.name || '') }}</span>
         </NuxtLink>
-    </div>
+    </div> -->
     <NuxtLink :to="`/product/${product.id}`">
         <div class="product-image-container">
             <img :src="product.oneImg || product.images[0] || '/favicon.ico'" alt="Product Image"
@@ -92,6 +89,11 @@ console.log('Slug:', slug);
         </div>
         <div class="product-name">{{ capitalize(product.name) }}</div>
     </NuxtLink>
+    <div v-if="isHomePage" class="my-4">
+        <NuxtLink :to="slug ? `/category/${slug}` : '/'" class="text-pink-600 font-semibold">
+            <span>{{ capitalize(product?.category?.name || '') }}</span>
+        </NuxtLink>
+    </div>
     <div v-if="!isHomePage">
         <div v-if="containsOnlySize(product.variantTypes)">
             <div class="mb-2">Select Size</div>

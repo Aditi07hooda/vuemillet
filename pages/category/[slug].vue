@@ -20,24 +20,24 @@ const { data: categories, error: categoriesError, loading: categoriesLoading } =
     }
 })
 
-const products = ref(categories.value.filter(x => x.slug === route.params.slug)[0])
+const products = ref(categories.value.find(x => x.slug === route.params.slug) || [])
 
 const sortedProducts = computed(() => {
     if (sortOrder.value === 'desc') {
-        return products.value.products.sort((a, b) => b.name.localeCompare(a.name))
+        return products?.value?.products.sort((a, b) => b.name.localeCompare(a.name))
     } else if (sortOrder.value === 'asc') {
-        return products.value.products.sort((a, b) => a.name.localeCompare(b.name))
+        return products?.value?.products.sort((a, b) => a.name.localeCompare(b.name))
     } else if (sortOrder.value === 'low') {
-        return products.value.products.sort((a, b) => a.variants[0].offerPrice - b.variants[0].offerPrice)
+        return products?.value?.products.sort((a, b) => a.variants[0].offerPrice - b.variants[0].offerPrice)
     } else if (sortOrder.value === 'high') {
-        return products.value.products.sort((a, b) => b.variants[0].offerPrice - a.variants[0].offerPrice)
+        return products?.value?.products.sort((a, b) => b.variants[0].offerPrice - a.variants[0].offerPrice)
     } else return []
 })
 
 const page = ref(1)
 const pageCount = 8
 const paginatedProducts = computed(() => {
-    return sortedProducts.value.slice((page.value - 1) * pageCount, (page.value) * pageCount)
+    return sortedProducts?.value?.slice((page.value - 1) * pageCount, (page.value) * pageCount)
 })
 
 console.log('product in each category', products.value)
@@ -56,7 +56,7 @@ console.log('product in each category', products.value)
         <div class="hero-image px-14 mt-7 mb-5">
             <img :src="products?.imageUrl" alt="image" />
             <div class="hero-overlay">
-                <h1 class="text-center uppercase">{{ products.name }}</h1>
+                <h1 class="text-center uppercase">{{ products?.name }}</h1>
             </div>
         </div>
         <div class="px-14 description" v-html="products?.description"></div>
@@ -74,7 +74,7 @@ console.log('product in each category', products.value)
                     @click="sortOrder = 'desc'">Alphabetically (Z-A)</button>
             </div>
         </div>
-        <div v-if="products.length !== 0">
+        <div v-if="products?.length !== 0">
             <div class="flex justify-center w-full flex-wrap">
                 <div v-for="paginatedProduct in paginatedProducts" :key="paginatedProduct.id"
                     class="product-container rounded mb-10 mx-1 w-full sm:w-auto">
@@ -82,7 +82,7 @@ console.log('product in each category', products.value)
                 </div>
             </div>
             <div class="flex justify-center">
-                <UPagination v-model="page" :page-count="pageCount" :total="sortedProducts.length" />
+                <UPagination v-model="page" :page-count="pageCount" :total="sortedProducts?.length || 0" />
             </div>
         </div>
     </div>
