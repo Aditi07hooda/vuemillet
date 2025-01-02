@@ -158,15 +158,20 @@ const startPayment = async () => {
 };
 </script>
 <template>
-  <div>
+  <div v-if="user === null">
+    <UserNotFound />
+  </div>
+  <div v-else>
     <div class="flex gap-3 md:px-16 py-2 px-4 items-center">
-      <span class="text-red-500 font-medium text-sm" @click="navigateToCart"
+      <span
+        class="text-red-500 font-medium text-sm cursor-pointer"
+        @click="navigateToCart"
         >Cart
       </span>
       <span class="text-2xl">&#129170;</span>
       <span class="font-semibold text-sm">Information</span>
       <span class="text-2xl">&#129170;</span>
-      <span class="text-gray-700 text-sm">Payment</span>
+      <span class="text-gray-700 text-sm cursor-default">Payment</span>
     </div>
     <p v-if="!checkout.checkoutDetails">Loading...</p>
     <div v-else class="flex lg:flex-row flex-col lg:px-16 lg:gap-10 gap-4 px-4">
@@ -246,7 +251,7 @@ const startPayment = async () => {
           </div>
         </div>
       </div>
-      <div class="md:w-[40%] border-l bg-gray-100 py-3">
+      <div class="md:w-[40%] border-l bg-gray-100 py-3 h-fit">
         <div class="">
           <p v-if="checkout.cartItems.length === 0">Your cart is empty.</p>
           <div
@@ -283,7 +288,7 @@ const startPayment = async () => {
             </p>
           </div>
         </div>
-        <div class="">
+        <div class="h-fit">
           <div class="px-5 py-3">
             <div
               class="flex items-center border border-gray-300 rounded-md overflow-hidden"
@@ -354,9 +359,9 @@ const startPayment = async () => {
                 Continue Payment
               </button>
             </div>
-            <div class="flex gap-3 my-3" v-if="!checkout.orderStatus">
+            <!-- <div class="flex gap-3 my-3" v-if="!checkout.orderStatus">
               <p>Payment is cancelled or failed.</p>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

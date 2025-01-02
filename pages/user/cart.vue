@@ -136,7 +136,10 @@ const columns = [
 </script>
 
 <template>
-  <div class="w-full px-8 my-10">
+  <div v-if="user === null">
+    <UserNotFound />
+  </div>
+  <div class="w-full px-8 my-10" v-else>
     <div class="flex flex-wrap justify-between gap-10">
       <div class="flex-1">
         <p v-if="cartItems.cart.items.length === 0">Your cart is empty.</p>
