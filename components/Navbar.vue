@@ -100,7 +100,7 @@ const handleClose=()=>{
         <LucideSearch @click="isSearchOpen = true" />
       </div>
     </div>
-    <div class="flex justify-center uppercase w-full font-bold text-2xl">
+    <div class="flex justify-center uppercase w-full font-bold md:text-2xl text-xl">
       <ULink to="/">The Millet Store </ULink>
     </div>
     <div class="flex justify-between gap-3 md:w-full ">

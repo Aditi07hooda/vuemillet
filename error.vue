@@ -1,18 +1,19 @@
 <script setup>
-import { clearError } from '#app'
+import { clearError } from "#app";
 
 const props = defineProps({
-  error: Object
-})
+  error: Object,
+});
 
 const handleError = () => {
-  clearError({ redirect: '/' })
-}
+  clearError({ redirect: "/" });
+};
 </script>
 
 <template>
+  <Navbar />
   <div>
-    <NotFound />
-    <button @click="handleError">Clear errors</button>
+    <NotFound :click="handleError" />
   </div>
+  <Footer />
 </template>
