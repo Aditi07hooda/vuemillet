@@ -11,6 +11,13 @@ const brand_id = config.public.brandID;
 const user = ref("");
 const sessionId = ref("");
 
+defineProps({
+  showDiv: {
+    type: Boolean,
+    default: true,
+  }
+});
+
 const router = useRouter();
 
 const navigateToCheckout = () => {
@@ -126,6 +133,7 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
     <div
       @click="cartModelVisible.closeCartModel()"
       class="flex gap-2 py-3 px-4 items-center align-middle border-b cursor-pointer"
+      v-if="showDiv"
     >
       <LucideChevronLeft class="w-4 h-4" />
       <p class="text-sm font-serif">Continue Shopping</p>

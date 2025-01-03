@@ -140,7 +140,7 @@ const columns = [
     <UserNotFound />
   </div>
   <div class="w-full px-8 my-10" v-else>
-    <div class="flex flex-wrap justify-between gap-10">
+    <div class="md:flex md:flex-wrap md:justify-between md:gap-10 hidden">
       <div class="flex-1">
         <p v-if="cartItems.cart.items.length === 0">Your cart is empty.</p>
         <UTable
@@ -149,6 +149,7 @@ const columns = [
           :columns="columns"
           :loading="false"
           class="font-semibold"
+          responsive
         >
           <template #name-data="{ row, index }">
             <div class="flex items-center">
@@ -227,6 +228,9 @@ const columns = [
           </UButton>
         </div>
       </div>
+    </div>
+    <div class="md:hidden">
+        <Cart :showDiv="false" />
     </div>
   </div>
 </template>
