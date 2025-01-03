@@ -53,9 +53,7 @@
             indicators
           >
             <div class="blog-item">
-              <div
-                class="product-container rounded mb-10 mx-1 w-full sm:w-auto"
-              >
+              <div class="product-container rounded mx-1 w-full sm:w-auto">
                 <BlogProduct :product="item" :categories="categories" />
               </div>
             </div>
