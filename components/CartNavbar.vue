@@ -44,9 +44,15 @@ const selectedSize = ref(
 );
 
 const fetchingCartItems = async () => {
-  const { data, productImage } = await fetchCartItems(baseURL, brandID, sessionId.value);
+  const { data, productImage } = await fetchCartItems(
+    baseURL,
+    brandID,
+    sessionId.value
+  );
   if (data && data.cart) {
-    const x = data.cart.items.find((item) => item.variantId === selectedSize.value.id);
+    const x = data.cart.items.find(
+      (item) => item.variantId === selectedSize.value.id
+    );
     console.log("Fetched cart items:", x);
     selectedItemInCart.value = x?.qty || 1;
   }
@@ -58,9 +64,9 @@ onMounted(async () => {
 
 const logOptionSize = async (option) => {
   selectedSize.value = option;
-//   console.log("Selected size in cart navbar:", selectedSize.value);
+  //   console.log("Selected size in cart navbar:", selectedSize.value);
   await fetchingCartItems();
-//   console.log("Fetched cart items after selecting size:", selectedItemInCart.value);
+  //   console.log("Fetched cart items after selecting size:", selectedItemInCart.value);
 };
 
 watch(selectedSize, async (newSize) => {
@@ -69,7 +75,38 @@ watch(selectedSize, async (newSize) => {
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-// console.log(selectedItemInCart.value);
+const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
+  try {
+    console.log("Selected size:", selectedSize);
+    let data = null;
+    if (incrementTask) {
+      data = await addToCart(
+        baseURL,
+        brandID,
+        sessionId.value,
+        selectedSize.id,
+        selectedSize.name
+      );
+    } else {
+      data = await removeFromCart(
+        baseURL,
+        brandID,
+        sessionId.value,
+        selectedSize.id,
+        selectedSize.name
+      );
+    }
+    if (data) {
+      await fetchingCartItems();
+    } else {
+      console.error("Cart data is missing or malformed:", data);
+    }
+  } catch (error) {
+    console.error("Error increasing quantity in Cart.vue:", error);
+  }
+};
+
+console.log(selectedSize.value);
 </script>
 
 <template>
@@ -100,14 +137,14 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
         <div class="border border-black flex gap-3 w-fit mt-2 h-fit">
           <p
             class="border-r border-black px-2 font-bold cursor-pointer"
-            @click="increaseOrDecreaseQuantity(cartItem, false)"
+            @click="increaseOrDecreaseQuantity(selectedSize, false)"
           >
             -
           </p>
           <p>{{ selectedItemInCart }}</p>
           <p
             class="border-l border-black px-2 font-bold cursor-pointer"
-            @click="increaseOrDecreaseQuantity(cartItem, true)"
+            @click="increaseOrDecreaseQuantity(selectedSize, true)"
           >
             +
           </p>
