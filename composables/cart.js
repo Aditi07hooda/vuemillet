@@ -10,7 +10,7 @@ export const fetchCartItems = async (base_url, brand_id, sessionId) => {
     }
     const data = await response.json();
     const products = await fetchProducts(base_url, brand_id, sessionId);
-    console.log("Fetched Products in cart:", products);
+    // console.log("Fetched Products in cart:", products);
 
     let productImage = [];
     data.cart.items.forEach((item) => {
@@ -25,7 +25,7 @@ export const fetchCartItems = async (base_url, brand_id, sessionId) => {
       productImage.push(pr.oneImg);
     });
 
-    console.log("Fetched Product Images in cart:", productImage);
+    // console.log("Fetched Product Images in cart:", productImage);
     return { data, productImage };
   } catch (error) {
     console.error("Error fetching cart items:", error);

@@ -1,31 +1,21 @@
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref, defineProps, watch, onMounted } from "vue";
 import { useRuntimeConfig, useRoute, useFetch } from "#app";
 
 defineProps({
-  productPrice: {
-    type: Number,
-    required: false,
-  },
-  productImage: {
-    type: String,
-    required: false,
-  },
-  addToCart: {
-    type: Function,
-    required: false,
-  },
-  removeFromCart: {
-    type: Function,
-    required: false,
-  },
+  productPrice: { type: Number, required: false },
+  productImage: { type: String, required: false },
+  addToCart: { type: Function, required: false },
+  removeFromCart: { type: Function, required: false },
 });
 
 const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
 const route = useRoute();
+
 const sessionId = ref(null);
+const selectedItemInCart = ref(1);
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -53,18 +43,33 @@ const selectedSize = ref(
         product.value?.variantMatrix?.SIZE?.[0]
 );
 
-const logOptionSize = (option) => {
-  selectedSize.value = option;
-  console.log("Selected size in cart navbar:", selectedSize.value);
+const fetchingCartItems = async () => {
+  const { data, productImage } = await fetchCartItems(baseURL, brandID, sessionId.value);
+  if (data && data.cart) {
+    const x = data.cart.items.find((item) => item.variantId === selectedSize.value.id);
+    console.log("Fetched cart items:", x);
+    selectedItemInCart.value = x?.qty || 1;
+  }
 };
 
-watch(selectedSize, (newSize) => {
-  logOptionSize(newSize);
+onMounted(async () => {
+  await fetchingCartItems();
+});
+
+const logOptionSize = async (option) => {
+  selectedSize.value = option;
+//   console.log("Selected size in cart navbar:", selectedSize.value);
+  await fetchingCartItems();
+//   console.log("Fetched cart items after selecting size:", selectedItemInCart.value);
+};
+
+watch(selectedSize, async (newSize) => {
+  await logOptionSize(newSize);
 });
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-console.log(product);
+// console.log(selectedItemInCart.value);
 </script>
 
 <template>
@@ -99,7 +104,7 @@ console.log(product);
           >
             -
           </p>
-          <p>{{ selectedSize.moq }}</p>
+          <p>{{ selectedItemInCart }}</p>
           <p
             class="border-l border-black px-2 font-bold cursor-pointer"
             @click="increaseOrDecreaseQuantity(cartItem, true)"
