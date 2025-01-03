@@ -1,14 +1,12 @@
 <script setup>
-import { reactive, onMounted, computed } from "vue";
+import { reactive, onMounted } from "vue";
 
 const orders = reactive({
   orderList: [],
   orderDetails: [],
 });
 
-const getSessionId = () => {
-  return localStorage.getItem("sessionId");
-};
+const getSessionId = () => localStorage.getItem("sessionId");
 
 const config = useRuntimeConfig();
 const baseUrl = config.public.baseURL;
@@ -17,9 +15,7 @@ const brandId = config.public.brandID;
 const getOrders = async () => {
   try {
     const response = await fetch(`${baseUrl}/store/${brandId}/auth/orders`, {
-      headers: {
-        session: getSessionId(),
-      },
+      headers: { session: getSessionId() },
     });
 
     if (!response.ok) {
@@ -27,11 +23,8 @@ const getOrders = async () => {
     }
 
     const data = await response.json();
-    console.log("Fetched orders:", data);
-
     orders.orderList = data || [];
-    const detail = await getOrderDetailsForAll(data);
-    orders.orderDetails = detail || [];
+    orders.orderDetails = await getOrderDetailsForAll(data) || [];
   } catch (error) {
     console.error("Error fetching orders:", error);
   }
@@ -41,21 +34,17 @@ const getOrderDetails = async (orderId) => {
   try {
     const response = await fetch(
       `${baseUrl}/store/${brandId}/auth/orders/${orderId}`,
-      {
-        headers: {
-          session: getSessionId(),
-        },
-      }
+      { headers: { session: getSessionId() } }
     );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
-    console.error("Error fetching order details:", error);
+    console.error(`Error fetching details for order ID ${orderId}:`, error);
+    return null;
   }
 };
 
@@ -63,10 +52,10 @@ const getOrderDetailsForAll = async (orders) => {
   try {
     const detailsPromises = orders.map((order) => getOrderDetails(order.id));
     const details = await Promise.all(detailsPromises);
-    console.log("Fetched all order details:", details);
-    return details;
+    return details.map((detail) => detail || {});
   } catch (error) {
     console.error("Error fetching all order details:", error);
+    return [];
   }
 };
 
@@ -81,7 +70,6 @@ onMounted(() => {
   >
     <h2 class="text-2xl font-bold mb-6 text-gray-800">My Orders</h2>
 
-    <!-- Check if there are orders -->
     <div v-if="orders.orderList.length > 0">
       <div
         v-for="(order, index) in orders.orderList"
@@ -103,18 +91,17 @@ onMounted(() => {
           </p>
           <p class="text-sm text-gray-500">{{ order.date }}</p>
         </div>
-        <div class="lg:flex lg:justify-between">
-          <div class="">
-            <p class="text-base font-semibold text-gray-800 mt-2">Items:</p>
 
+        <div class="lg:flex lg:justify-between">
+          <div>
+            <p class="text-base font-semibold text-gray-800 mt-2">Items:</p>
             <div
-              v-for="(item, i) in orders.orderDetails[index].lineItems ?? []"
+              v-for="(item, i) in orders.orderDetails[index]?.lineItems ?? []"
               :key="i"
               class="mt-2 ml-4"
             >
               <p class="text-sm">
-                Product:
-                <span class="font-medium">{{ item.product.name }}</span>
+                Product: <span class="font-medium">{{ item.product.name }}</span>
               </p>
               <p class="text-sm">
                 Quantity: <span class="font-medium">{{ item.qty }}</span>
@@ -132,46 +119,41 @@ onMounted(() => {
               </p>
               <hr class="my-2" />
             </div>
-            <p class="text-sm font-semibold mt-3">
+            <p v-if="orders.orderDetails[index]" class="text-sm font-semibold mt-3">
               Total Amount:
-              <span class="text-red-600"
-                >Rs.
-                {{
+              <span class="text-red-600">
+                Rs. {{
                   orders.orderDetails[index].netValue -
                   orders.orderDetails[index].discount
-                }}</span
-              >
+                }}
+              </span>
             </p>
           </div>
-          <hr class="my-3 lg:hidden" />
+
           <div>
-            <p class="text-base font-semibold mt-3">Shipping Details: </p>
-            <p class="text-sm font-semibold mt-2">
+            <p class="text-base font-semibold mt-3">Shipping Details:</p>
+            <p v-if="orders.orderDetails[index]" class="text-sm font-semibold mt-2">
               Payment Method:
               <span class="font-semibold text-gray-500">{{
                 orders.orderDetails[index].modeOfPayment === "LATER"
                   ? "Cash"
-                  : order.orderDetails[index].modeOfPayment
+                  : orders.orderDetails[index].modeOfPayment
               }}</span>
             </p>
-            <p class="text-sm font-semibold">
+            <p v-if="orders.orderDetails[index]" class="text-sm font-semibold">
               Shipping Address:
-              <span class="font-normal text-gray-500"
-                ><br /><span class="font-bold">{{
-                  capitalize(orders.orderDetails[index].customerAddress.person)
-                }}</span
-                ><br />{{
-                  orders.orderDetails[index].customerAddress.fullAddress
-                }}</span
-              >
+              <span class="font-normal text-gray-500">
+                <br /><span class="font-bold">{{
+                  orders.orderDetails[index]?.customerAddress?.person || "N/A"
+                }}</span>
+                <br />{{ orders.orderDetails[index]?.customerAddress?.fullAddress || "N/A" }}
+              </span>
             </p>
           </div>
-          <hr class="my-3 lg:hidden" />
         </div>
       </div>
     </div>
 
-    <!-- No orders message -->
     <p v-else class="text-gray-500">No orders found.</p>
   </div>
 </template>
