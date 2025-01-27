@@ -39,6 +39,32 @@
           </NuxtLink>
         </div>
       </UCarousel>
+      <UCarousel
+        v-slot="{ item }"
+        :items="filteredCollections"
+        :ui="{
+          item: 'basis-full md:basis-1/2 lg:basis-1/3 flex flex-col gap-4',
+        }"
+        indicators
+        class="rounded-lg overflow-hidden"
+      >
+        <div class="w-full space-y-4 px-2" v-if="item.frontPage !== false">
+          <NuxtLink>
+            <img
+              :src="item.imageUrl || '/favicon.ico'"
+              class="w-full rounded-3xl shadow-md"
+              draggable="false"
+            />
+            <div class="flex justify-center">
+              <p
+                class="text-sm mb-10 mt-2 text-center border-black border-2 rounded-3xl p-2 w-1/2 hover:bg-pink-600 transition duration-500"
+              >
+                {{ item.name }}
+              </p>
+            </div>
+          </NuxtLink>
+        </div>
+      </UCarousel>
       <div>
         <h2 class="text-center mt-5">Shop the essentials</h2>
         <div class="p-8">
@@ -112,6 +138,20 @@ const {
   headers: {
     session: sessionId.value,
   },
+});
+
+const {
+  data: collections,
+  error: collectionsError,
+  loading: collectionsLoading,
+} = useFetch(`${baseURL}/store/${brandID}/collections?`, {
+  headers: {
+    session: sessionId.value,
+  },
+});
+
+const filteredCollections = computed(() => {
+  return collections.value.filter((item) => item.frontPage === true);
 });
 
 const {
