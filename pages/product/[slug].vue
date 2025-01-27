@@ -92,6 +92,10 @@ const selectedOption = computed(() => {
   );
 });
 
+const filteredProductVariant = computed(() => {
+  return product.value.variants.map((variant) => [variant]);
+});
+
 const logOptionSize = (option) => {
   selectedSize.value = option;
   console.log("Selected size:", selectedSize.value);
@@ -126,8 +130,8 @@ const addingToCart = async () => {
 
 const showNavbar = ref(false);
 const handleScroll = () => {
-  showNavbar.value = window.scrollY >= (window.innerHeight - 200);
-  console.log("showNavbar", showNavbar.value);  
+  showNavbar.value = window.scrollY >= window.innerHeight - 200;
+  console.log("showNavbar", showNavbar.value);
 };
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
@@ -213,7 +217,60 @@ onUnmounted(() => {
               >
                 Size
               </div>
-              <div class="flex flex-wrap">
+              <div
+                class="flex flex-wrap w-full ml-3"
+                v-if="product.variantMatrixSelect.size === 'TABS'"
+              >
+                <div
+                  v-for="option in product.variants"
+                  :key="option"
+                  @click="logOptionSize(option)"
+                  class="px-7 mb-2 p-2 options cursor-pointer border-2 border-black"
+                  :class="selectedSize === option ? 'selected' : ''"
+                >
+                  {{ option.name }}
+                </div>
+              </div>
+              <div
+                class="flex flex-wrap"
+                v-else-if="product.variantMatrixSelect.size === 'Pills'"
+              >
+                <div
+                  v-for="option in product.variants"
+                  :key="option"
+                  @click="logOptionSize(option)"
+                  class="rounded-full px-2 mx-2 mb-2 p-2 options cursor-pointer"
+                  :class="selectedSize === option ? 'selected' : ''"
+                >
+                  {{ option.name }}
+                </div>
+              </div>
+              <div
+                class="flex flex-wrap w-full ml-3"
+                v-else-if="product.variantMatrixSelect.size === 'DROPDOWN'"
+              >
+                <UDropdown
+                  :items="filteredProductVariant"
+                  :ui="{
+                    item: { disabled: 'cursor-text select-text' },
+                    width: '100%',
+                  }"
+                  :popper="{ placement: 'bottom-start' }"
+                >
+                  <UButton
+                    color="white"
+                    :label="selectedSize ? selectedSize.name : 'Options'"
+                    trailing-icon="i-heroicons-chevron-down-20-solid"
+                  />
+
+                  <template #item="{ item }">
+                    <span @click="logOptionSize(item)" class="cursor-pointer">{{
+                      item.name
+                    }}</span>
+                  </template>
+                </UDropdown>
+              </div>
+              <div class="flex flex-wrap" v-else>
                 <div
                   v-for="option in product.variants"
                   :key="option"
