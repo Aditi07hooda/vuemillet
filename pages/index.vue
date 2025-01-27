@@ -49,7 +49,7 @@
         class="rounded-lg overflow-hidden"
       >
         <div class="w-full space-y-4 px-2" v-if="item.frontPage !== false">
-          <NuxtLink>
+          <NuxtLink :to="`/collections/${item.id}`">
             <img
               :src="item.imageUrl || '/favicon.ico'"
               class="w-full rounded-3xl shadow-md"
