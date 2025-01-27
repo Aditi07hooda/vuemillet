@@ -47,25 +47,37 @@ const collection = ref(
 
 const sortedProducts = computed(() => {
   if (sortOrder.value === "desc") {
-    return collectionProducts?.value?.products.sort((a, b) =>
+    return collectionProducts?.value?.sort((a, b) =>
       b.name.localeCompare(a.name)
     );
   } else if (sortOrder.value === "asc") {
-    return collectionProducts?.value?.products.sort((a, b) =>
+    return collectionProducts?.value?.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
   } else if (sortOrder.value === "low") {
-    return collectionProducts?.value?.products.sort(
+    return collectionProducts?.value?.sort(
       (a, b) => a.variants[0].offerPrice - b.variants[0].offerPrice
     );
   } else if (sortOrder.value === "high") {
-    return collectionProducts?.value?.products.sort(
+    return collectionProducts?.value?.sort(
       (a, b) => b.variants[0].offerPrice - a.variants[0].offerPrice
     );
   } else return [];
 });
 
-console.log("collections inside each collection page - ", collection.value);
+console.log(
+  "collections inside each sorted collection page - ",
+  sortedProducts.value
+);
+
+const page = ref(1);
+const pageCount = 8;
+const paginatedProducts = computed(() => {
+  return sortedProducts?.value?.slice(
+    (page.value - 1) * pageCount,
+    page.value * pageCount
+  );
+});
 </script>
 
 <template>
@@ -126,12 +138,19 @@ console.log("collections inside each collection page - ", collection.value);
     </div>
     <div class="flex justify-center w-full flex-wrap">
       <div
-        v-for="product in collectionProducts"
+        v-for="product in paginatedProducts"
         :key="product.id"
         class="product-container rounded mb-10 mx-1 w-full sm:w-auto"
       >
         <BlogProduct :product="product" />
       </div>
+    </div>
+    <div class="flex justify-center">
+      <UPagination
+        v-model="page"
+        :page-count="pageCount"
+        :total="sortedProducts?.length || 0"
+      />
     </div>
   </div>
 </template>
