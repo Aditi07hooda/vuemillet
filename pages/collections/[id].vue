@@ -45,7 +45,27 @@ const collection = ref(
   collections.value.find((x) => x.id === route.params.id) || {}
 );
 
-console.log("collections inside each collection page - ", collection.value)
+const sortedProducts = computed(() => {
+  if (sortOrder.value === "desc") {
+    return collectionProducts?.value?.products.sort((a, b) =>
+      b.name.localeCompare(a.name)
+    );
+  } else if (sortOrder.value === "asc") {
+    return collectionProducts?.value?.products.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  } else if (sortOrder.value === "low") {
+    return collectionProducts?.value?.products.sort(
+      (a, b) => a.variants[0].offerPrice - b.variants[0].offerPrice
+    );
+  } else if (sortOrder.value === "high") {
+    return collectionProducts?.value?.products.sort(
+      (a, b) => b.variants[0].offerPrice - a.variants[0].offerPrice
+    );
+  } else return [];
+});
+
+console.log("collections inside each collection page - ", collection.value);
 </script>
 
 <template>
@@ -58,11 +78,7 @@ console.log("collections inside each collection page - ", collection.value)
         :to="`/collections/${c.id}`"
         :key="c"
         class="nuxtlink"
-        :class="
-          c.id === route.params.id
-            ? 'active'
-            : 'transparent-underline '
-        "
+        :class="c.id === route.params.id ? 'active' : 'transparent-underline '"
       >
         {{ capitalize(c.name) }}
       </NuxtLink>
@@ -75,6 +91,39 @@ console.log("collections inside each collection page - ", collection.value)
     </div>
     <div class="px-14 description" v-html="products?.description"></div>
     <h2 class="text-center my-4">Our Products</h2>
+    <div class="px-14 text-end mb-4">
+      <div class="flex justify-center gap-4 flex-wrap">
+        <div class="flex items-center">Filters :</div>
+        <button
+          class="filter"
+          :class="sortOrder === 'low' ? 'active-filter' : ''"
+          @click="sortOrder = 'low'"
+        >
+          Price (Low to High)
+        </button>
+        <button
+          class="filter"
+          :class="sortOrder === 'high' ? 'active-filter' : ''"
+          @click="sortOrder = 'high'"
+        >
+          Price (High to Low)
+        </button>
+        <button
+          class="filter"
+          :class="sortOrder === 'asc' ? 'active-filter' : ''"
+          @click="sortOrder = 'asc'"
+        >
+          Alphabetically (A-Z)
+        </button>
+        <button
+          class="filter"
+          :class="sortOrder === 'desc' ? 'active-filter' : ''"
+          @click="sortOrder = 'desc'"
+        >
+          Alphabetically (Z-A)
+        </button>
+      </div>
+    </div>
     <div class="flex justify-center w-full flex-wrap">
       <div
         v-for="product in collectionProducts"
