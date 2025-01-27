@@ -13,7 +13,7 @@
         Overwhelmed by quick fixes and diet culture, we bring you nutritious,
         healthy and yet very delicious items
       </h3>
-      <UCarousel
+      <!-- <UCarousel
         v-slot="{ item }"
         :items="categories"
         :ui="{
@@ -38,7 +38,7 @@
             </div>
           </NuxtLink>
         </div>
-      </UCarousel>
+      </UCarousel> -->
       <UCarousel
         v-slot="{ item }"
         :items="filteredCollections"
