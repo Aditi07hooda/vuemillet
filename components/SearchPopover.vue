@@ -172,7 +172,11 @@ onMounted(async () => {
                 {{ collection.collectionDetail.name }}
               </h4>
             </NuxtLink>
-            <div v-for="p in collection.products" :key="p.id" class="w-full">
+            <div
+              v-for="p in collection.products.slice(0, 5)"
+              :key="p.id"
+              class="w-full"
+            >
               <NuxtLink
                 :to="`/product/${p.id}`"
                 @click="closeModal"
@@ -186,6 +190,18 @@ onMounted(async () => {
                 <div class="w-[150px] mt-2 font-normal text-sm">
                   {{ p.name }}
                 </div>
+              </NuxtLink>
+            </div>
+            <div
+              class="flex flex-col gap-3 mt-4"
+              v-if="collection.products.length > 5"
+            >
+              <NuxtLink
+                :to="`/collections/${collection.collectionDetail.id}`"
+                @click="closeModal"
+                class="text-sm text-gray-600 hover:text-pink-600 hover:scale-105 transition duration-500"
+              >
+                View more
               </NuxtLink>
             </div>
           </div>
