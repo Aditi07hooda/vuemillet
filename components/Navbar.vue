@@ -173,9 +173,9 @@ const handleClose = () => {
           @click="cartModelVisible.openCartModel"
           >Cart</span
         >
-        <UModal v-model="cartModelVisible.isCartModelOpen" prevent-close>
+        <USlideover v-model="cartModelVisible.isCartModelOpen" prevent-close>
           <Cart />
-        </UModal>
+        </USlideover>
       </div>
       <div
         class="text-black md:hidden cursor-pointer"
