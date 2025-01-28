@@ -22,6 +22,7 @@ const searchResults = ref("");
 const route = useRoute().path.split("/");
 const searchQuery = ref(route[1] === "search" ? route[2] : "");
 const collectionProducts = ref(null);
+const products = ref(null);
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -73,18 +74,48 @@ if (searchQuery.value) {
   fetchResultsForQuerySentence();
 }
 
-const fetchCollectionProducts = async(id) => {
-    try {
-        const {data} = await fetchProductsForCollection(baseURL, brandID, sessionId.value, id);
-        collectionProducts.value = data;
-    } catch (error) {
-        console.error("error fetching products for collection")
-    }
-}
+const fetchCollectionProducts = async (id) => {
+  try {
+    const { data } = await fetchProductsForCollection(
+      baseURL,
+      brandID,
+      sessionId.value,
+      id
+    );
+    collectionProducts.value = data;
+    return data;
+  } catch (error) {
+    console.error("error fetching products for collection");
+  }
+};
 
-onMounted(async()=>{
-    await fetchCollectionProducts(props.collections[0].id);
-})
+const collectionAndProducts = async () => {
+  let result = [];
+  for (let i = 0; i < props.collections.length; i++) {
+    const data = await fetchProductsForCollection(
+      baseURL,
+      brandID,
+      sessionId.value,
+      props.collections[i].id
+    );
+    if (!data || data.length === 0) {
+      continue;
+    } else {
+      result.push({
+        id: i,
+        collectionDetail: props.collections[i],
+        products: data,
+      });
+    }
+  }
+  console.log("result of collection and products", result);
+  products.value = result;
+};
+
+onMounted(async () => {
+  await fetchCollectionProducts(props.collections[0].id);
+  await collectionAndProducts();
+});
 </script>
 
 <template>
@@ -130,23 +161,33 @@ onMounted(async()=>{
         </div>
       </div>
       <div v-if="!searchResults" class="md:w-3/4 w-full">
-        <h3 class="text-lg font-semibold py-3">All Categories</h3>
-        <div class="flex gap-4 flex-wrap">
-          <div v-for="category in categories" :key="category.id" class="">
+        <div class="flex gap-4 flex-wrap flex-col">
+          <div v-for="collection in products" :key="collection.id" class="">
             <NuxtLink
-              :to="`/category/${category.slug}`"
+              :to="`/collections/${collection.collectionDetail.id}`"
               @click="closeModal"
-              class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500"
+              class="hover:text-pink-600 hover:scale-105 transition duration-500"
             >
-              <img
-                :src="category.imageUrl"
-                :alt="category.name"
-                class="w-[150px] h-[150px] object-cover rounded-lg"
-              />
-              <div class="w-[150px] mt-2 font-semibold">
-                {{ category.name }}
-              </div>
+              <h4 class="text-lg font-semibold py-3">
+                {{ collection.collectionDetail.name }}
+              </h4>
             </NuxtLink>
+            <div v-for="p in collection.products" :key="p.id" class="w-full">
+              <NuxtLink
+                :to="`/product/${p.id}`"
+                @click="closeModal"
+                class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
+              >
+                <img
+                  :src="p.oneImg || p.images[0] || '/favicon.ico'"
+                  :alt="p.name"
+                  class="w-[150px] h-[150px] object-cover rounded-lg"
+                />
+                <div class="w-[150px] mt-2 font-normal text-sm">
+                  {{ p.name }}
+                </div>
+              </NuxtLink>
+            </div>
           </div>
         </div>
       </div>
