@@ -24,6 +24,8 @@ const searchQuery = ref(route[1] === "search" ? route[2] : "");
 const collectionProducts = ref(null);
 const products = ref(null);
 
+const collectionListCarouselRef = ref();
+
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
 }
@@ -112,6 +114,19 @@ const collectionAndProducts = async () => {
   products.value = result;
 };
 
+onMounted(() => {
+  setInterval(() => {
+    if (!collectionListCarouselRef.value) return;
+    if (
+      collectionListCarouselRef.value.page ===
+      collectionListCarouselRef.value.pages
+    ) {
+      collectionListCarouselRef.value.select(0);
+    }
+    collectionListCarouselRef.value.next();
+  }, 5000);
+});
+
 onMounted(async () => {
   await fetchCollectionProducts(props.collections[0].id);
   await collectionAndProducts();
@@ -160,17 +175,26 @@ onMounted(async () => {
               </NuxtLink>
             </li>
           </ul>
-          <div class="block md:hidden">
-            <UHorizontalNavigation :links="collections">
-              <template #default="{ link }">
-                <NuxtLink :to="`/collections/${link.id}`" @click="closeModal">
-                  <span
-                    class="relative text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
-                    >{{ link.name }}</span
-                  >
-                </NuxtLink>
-              </template>
-            </UHorizontalNavigation>
+          <div class="block md:hidden px-3">
+            <UCarousel
+              v-slot="{ item }"
+              :items="collections"
+              :ui="{
+                item: 'basis-1/5 items-center justify-center text-xsm mx-1 border bg-gray-200 hover:text-white hover:bg-pink-600 transition duration-500 rounded-lg px-2 py-2',
+              }"
+              indicators
+            >
+              <NuxtLink
+                :to="`/collections/${item.id}`"
+                @click="closeModal"
+                class="justify-center"
+              >
+                <span
+                  class="relative text-sm font-medium items-center justify-center hover:text-pink-600 hover:scale-105 transition duration-500"
+                  >{{ item.name }}</span
+                >
+              </NuxtLink>
+            </UCarousel>
           </div>
         </div>
       </div>
