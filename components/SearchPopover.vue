@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   categories: {
     type: Object,
     required: true,
@@ -21,6 +21,7 @@ const sessionId = ref(null);
 const searchResults = ref("");
 const route = useRoute().path.split("/");
 const searchQuery = ref(route[1] === "search" ? route[2] : "");
+const collectionProducts = ref(null);
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -71,6 +72,19 @@ const fetchResultsForQuerySentence = async () => {
 if (searchQuery.value) {
   fetchResultsForQuerySentence();
 }
+
+const fetchCollectionProducts = async(id) => {
+    try {
+        const {data} = await fetchProductsForCollection(baseURL, brandID, sessionId.value, id);
+        collectionProducts.value = data;
+    } catch (error) {
+        console.error("error fetching products for collection")
+    }
+}
+
+onMounted(async()=>{
+    await fetchCollectionProducts(props.collections[0].id);
+})
 </script>
 
 <template>
