@@ -44,9 +44,11 @@
         :items="filteredCollections"
         :ui="{
           item: 'basis-full md:basis-1/2 lg:basis-1/3 flex flex-col gap-4',
+          container: 'scroll-smooth',
         }"
         indicators
         class="rounded-lg overflow-hidden"
+        ref="collectionCarouselRef"
       >
         <div class="w-full space-y-4 px-2" v-if="item.frontPage !== false">
           <NuxtLink :to="`/collections/${item.id}`">
@@ -72,11 +74,12 @@
             v-slot="{ item }"
             :items="products.results"
             :ui="{
-              container: 'gap-4',
+              container: 'gap-4 scroll-smooth',
               item: 'flex flex-col items-center',
               nav: 'hidden',
             }"
             indicators
+            ref="productCarouselRef"
           >
             <div class="blog-item">
               <div class="product-container rounded mx-1 w-full sm:w-auto">
@@ -97,10 +100,11 @@
         </h3>
         <div class="p-8">
           <UCarousel
+            ref="blogCarouselRef"
             v-slot="{ item }"
             :items="blogs"
             :ui="{
-              container: 'gap-4',
+              container: 'gap-4 scroll-smooth',
               item: 'flex flex-col items-center',
               nav: 'hidden',
             }"
@@ -121,6 +125,10 @@ const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
 const sessionId = ref(null);
+
+const blogCarouselRef = ref();
+const collectionCarouselRef = ref();
+const productCarouselRef = ref();
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -159,12 +167,45 @@ const {
   error: blogsError,
   loading: blogsLoading,
 } = await useFetch(`${baseURL}/store/${brandID}/blogs`);
+
 const {
   data: products,
   error: productsError,
   loading: productsLoading,
 } = await useFetch(`${baseURL}/store/${brandID}/search?q=`);
 console.log("recom product", products.value);
+
+onMounted(() => {
+  setInterval(() => {
+    if (!blogCarouselRef.value) return;
+    if (blogCarouselRef.value.page === blogCarouselRef.value.pages) {
+      blogCarouselRef.value.select(0);
+    }
+    blogCarouselRef.value.next();
+  }, 5000);
+});
+
+onMounted(() => {
+  setInterval(() => {
+    if (!collectionCarouselRef.value) return;
+    if (
+      collectionCarouselRef.value.page === collectionCarouselRef.value.pages
+    ) {
+      collectionCarouselRef.value.select(0);
+    }
+    collectionCarouselRef.value.next();
+  }, 7000);
+});
+
+onMounted(() => {
+  setInterval(() => {
+    if (!productCarouselRef.value) return;
+    if (productCarouselRef.value.page === productCarouselRef.value.pages) {
+      productCarouselRef.value.select(0);
+    }
+    productCarouselRef.value.next();
+  }, 7000);
+});
 </script>
 
 <style>
