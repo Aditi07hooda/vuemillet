@@ -123,7 +123,7 @@ onMounted(async () => {
     <h1 class="text-center text-lg font-semibold pt-3 text-gray-600">
       Search by name
     </h1>
-    <div class="px-14 m-5 mt-2 flex w-full">
+    <div class="md:px-14 px-5 md:m-5 mt-2 flex w-full">
       <form
         class="relative w-full"
         @submit.prevent="fetchResultsForQuerySentence"
@@ -136,18 +136,20 @@ onMounted(async () => {
           }"
           variant="outline"
           color="green"
-          class="w-full pr-12"
+          class="w-full md:pr-12"
           placeholder="Search products by name and click enter..."
         />
       </form>
     </div>
     <div
-      class="flex flex-wrap md:flex-nowrap px-14 w-full mb-36 mt-8 mx-5 gap-6 sm:gap-4 text-gray-600"
+      class="flex flex-wrap md:flex-nowrap md:px-14 w-full mb-36 mt-8 md:mx-5 gap-6 sm:gap-4 text-gray-600"
     >
       <div class="md:w-1/4 w-full">
         <div class="flex flex-col">
-          <h3 class="text-lg font-semibold py-3">All Categories</h3>
-          <ul class="flex flex-col space-y-4">
+          <h3 class="text-lg font-semibold py-3 px-5 md:px-0">
+            All Categories
+          </h3>
+          <ul class="md:flex md:flex-col flex-row space-y-4 px-2 hidden">
             <li
               v-for="category in collections"
               :key="category.id"
@@ -158,9 +160,21 @@ onMounted(async () => {
               </NuxtLink>
             </li>
           </ul>
+          <div class="block md:hidden">
+            <UHorizontalNavigation :links="collections">
+              <template #default="{ link }">
+                <NuxtLink :to="`/collections/${link.id}`" @click="closeModal">
+                  <span
+                    class="relative text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
+                    >{{ link.name }}</span
+                  >
+                </NuxtLink>
+              </template>
+            </UHorizontalNavigation>
+          </div>
         </div>
       </div>
-      <div v-if="!searchResults" class="md:w-3/4 w-full">
+      <div v-if="!searchResults" class="md:w-3/4 w-full px-5 md:px-0">
         <div class="flex gap-4 flex-wrap flex-col">
           <div v-for="collection in products" :key="collection.id" class="">
             <NuxtLink
@@ -207,7 +221,7 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div v-else class="md:w-3/4 w-full">
+      <div v-else class="md:w-3/4 w-full px-5">
         <h3 class="text-lg font-semibold py-3">
           <template v-if="searchResults.term">
             <template v-if="searchResults.results.length !== 0">
