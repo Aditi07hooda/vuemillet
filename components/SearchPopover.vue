@@ -213,7 +213,7 @@ onMounted(async () => {
             <div
               v-for="p in collection.products.slice(0, 5)"
               :key="p.id"
-              class="w-full"
+              class="w-full flex flex-row flex-wrap"
             >
               <NuxtLink
                 :to="`/product/${p.id}`"
