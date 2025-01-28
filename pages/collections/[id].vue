@@ -38,12 +38,21 @@ const {
 );
 
 const filteredCollections = computed(() => {
-  return collections.value.filter((item) => item.frontPage === true);
+  watchEffect(() => {
+    if (collections.value) {
+      return collections.value.filter((item) => item.frontPage === true);
+    }
+  });
 });
 
-const collection = ref(
-  collections.value.find((x) => x.id === route.params.id) || {}
-);
+const collection = ref({});
+
+watchEffect(() => {
+  if (collections.value) {
+    collection.value =
+      collections.value.find((x) => x.id === route.params.id) || {};
+  }
+});
 
 const sortedProducts = computed(() => {
   if (sortOrder.value === "desc") {
@@ -101,7 +110,7 @@ const paginatedProducts = computed(() => {
         <h1 class="text-center uppercase">{{ collection?.name }}</h1>
       </div>
     </div>
-    <div class="px-14 description" v-html="products?.description"></div>
+    <div class="px-14 description" v-html="collection?.description"></div>
     <h2 class="text-center my-4">Our Products</h2>
     <div class="px-14 text-end mb-4">
       <div class="flex justify-center gap-4 flex-wrap">

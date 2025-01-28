@@ -108,13 +108,10 @@ const collectionAndProducts = async () => {
   products.value = result;
 };
 
-console.log("collection in navbar shop " + collection.value);
-
 onMounted(async () => {
   // Wait until collection is loaded before accessing its elements
-  await watchEffect(async () => {
+  watchEffect(async () => {
     if (collection.value) {
-      console.log("collection in navbar shop " + collection.value);
       await fetchCollectionProducts(collection.value[0].id);
       await collectionAndProducts();
     }
@@ -157,55 +154,55 @@ onMounted(async () => {
                     </NuxtLink>
                   </li>
                 </ul>
-                <div class="">
-                  <div class="flex gap-4 flex-wrap flex-col">
-                    <div
-                      v-for="collection in products"
-                      :key="collection.id"
-                      class=""
+              </div>
+            </div>
+            <div class="mt-10">
+              <div class="flex gap-4 flex-wrap flex-col">
+                <div
+                  v-for="collection in products"
+                  :key="collection.id"
+                  class=""
+                >
+                  <NuxtLink
+                    :to="`/collections/${collection.collectionDetail.id}`"
+                    @click="closeModal"
+                    class="hover:text-pink-600 hover:scale-105 transition duration-500"
+                  >
+                    <h4 class="text-base font-semibold py-3">
+                      {{ collection.collectionDetail.name }}
+                    </h4>
+                  </NuxtLink>
+                  <div
+                    v-for="p in collection.products.slice(0, 5)"
+                    :key="p.id"
+                    class="w-full"
+                  >
+                    <NuxtLink
+                      :to="`/product/${p.id}`"
+                      @click="closeModal"
+                      class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
                     >
-                      <NuxtLink
-                        :to="`/collections/${collection.collectionDetail.id}`"
-                        @click="closeModal"
-                        class="hover:text-pink-600 hover:scale-105 transition duration-500"
-                      >
-                        <h4 class="text-lg font-semibold py-3">
-                          {{ collection.collectionDetail.name }}
-                        </h4>
-                      </NuxtLink>
-                      <div
-                        v-for="p in collection.products.slice(0, 5)"
-                        :key="p.id"
-                        class="w-full"
-                      >
-                        <NuxtLink
-                          :to="`/product/${p.id}`"
-                          @click="closeModal"
-                          class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
-                        >
-                          <img
-                            :src="p.oneImg || p.images[0] || '/favicon.ico'"
-                            :alt="p.name"
-                            class="w-[150px] h-[150px] object-cover rounded-lg"
-                          />
-                          <div class="w-[150px] mt-2 font-normal text-sm">
-                            {{ p.name }}
-                          </div>
-                        </NuxtLink>
+                      <img
+                        :src="p.oneImg || p.images[0] || '/favicon.ico'"
+                        :alt="p.name"
+                        class="w-[150px] h-[150px] object-cover rounded-lg"
+                      />
+                      <div class="w-[150px] mt-2 font-normal text-sm">
+                        {{ p.name }}
                       </div>
-                      <div
-                        class="flex flex-col gap-3 mt-4"
-                        v-if="collection.products.length > 5"
-                      >
-                        <NuxtLink
-                          :to="`/collections/${collection.collectionDetail.id}`"
-                          @click="closeModal"
-                          class="text-sm text-gray-600 hover:text-pink-600 hover:scale-105 transition duration-500"
-                        >
-                          View more
-                        </NuxtLink>
-                      </div>
-                    </div>
+                    </NuxtLink>
+                  </div>
+                  <div
+                    class="flex flex-col gap-3 mt-4"
+                    v-if="collection.products.length > 5"
+                  >
+                    <NuxtLink
+                      :to="`/collections/${collection.collectionDetail.id}`"
+                      @click="closeModal"
+                      class="text-sm text-gray-600 hover:text-pink-600 hover:scale-105 transition duration-500"
+                    >
+                      View more
+                    </NuxtLink>
                   </div>
                 </div>
               </div>
