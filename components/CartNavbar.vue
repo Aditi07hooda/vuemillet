@@ -150,17 +150,21 @@ console.log("selected size product " + selectedSize.value);
             Add to cart
           </button>
         </div>
-        <div class="border border-black flex gap-3 w-fit mt-2 h-fit" v-else>
+        <div
+          class="flex items-center gap-4 w-fit h-fit mt-2 border border-gray-700 rounded-lg overflow-hidden bg-white"
+          v-else
+        >
           <p
-            class="border-r border-black px-2 font-bold cursor-pointer"
+            class="px-2 py-1 font-bold text-base cursor-pointer border-r border-gray-700 hover:bg-gray-200 transition"
             @click="increaseOrDecreaseQuantity(selectedSize, false)"
           >
-            -
+            −
           </p>
-
-          <p>{{ selectedItemInCart }}</p>
+          <p class="px-2 py-1 text-base font-semibold">
+            {{ selectedItemInCart }}
+          </p>
           <p
-            class="border-l border-black px-2 font-bold cursor-pointer"
+            class="px-2 py-1 font-bold text-base cursor-pointer border-l border-gray-700 hover:bg-gray-200 transition"
             @click="increaseOrDecreaseQuantity(selectedSize, true)"
           >
             +
