@@ -151,7 +151,7 @@ console.log("selected size product " + selectedSize.value);
               :options="product.variantMatrix[variantType]"
               placeholder="Select"
               option-attribute="name"
-              @update:model-value="logOptionSize"
+              @update:model-value="logOptionSize(selectedOptions[variantType])"
             />
           </div>
         </div>
