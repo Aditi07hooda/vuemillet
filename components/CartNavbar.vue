@@ -1,6 +1,9 @@
 <script setup>
 import { ref, defineProps, watch, onMounted } from "vue";
 import { useRuntimeConfig, useRoute, useFetch } from "#app";
+import { useCartModelVisibilty } from "~/store/cart";
+
+const cartModelVisible = useCartModelVisibilty();
 
 defineProps({
   productPrice: { type: Number, required: false },
@@ -88,6 +91,7 @@ const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
         selectedSize.id,
         selectedSize.name
       );
+      cartModelVisible.openCartModel();
     } else {
       data = await removeFromCart(
         baseURL,
@@ -96,6 +100,7 @@ const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
         selectedSize.id,
         selectedSize.name
       );
+      cartModelVisible.openCartModel();
     }
     if (data) {
       await fetchingCartItems();

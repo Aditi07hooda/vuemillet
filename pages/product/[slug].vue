@@ -147,7 +147,7 @@ onUnmounted(() => {
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error.message }}</div>
     <div v-else>
-      <div v-if="showNavbar" class="ease-in-out duration-300">
+      <div v-if="showNavbar" class="md:ease-in-out md:duration-300 hidden md:block">
         <CartNavbar
           :productImage="product.images[0]"
           :addToCart="addingToCart"
