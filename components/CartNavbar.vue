@@ -15,7 +15,8 @@ const brandID = config.public.brandID;
 const route = useRoute();
 
 const sessionId = ref(null);
-const selectedItemInCart = ref(1);
+const selectedItemInCart = ref(0);
+const selectedSizeOption = ref();
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -54,7 +55,7 @@ const fetchingCartItems = async () => {
       (item) => item.variantId === selectedSize.value.id
     );
     console.log("Fetched cart items:", x);
-    selectedItemInCart.value = x?.qty || 1;
+    selectedItemInCart.value = x?.qty || 0;
   }
 };
 
@@ -106,7 +107,13 @@ const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
   }
 };
 
-console.log(selectedSize.value);
+watchEffect(() => {
+  if (product.value) {
+    selectedSizeOption.value = product.value.variants[0].name;
+  }
+});
+
+console.log("selected size product " + selectedSize.value);
 </script>
 
 <template>
@@ -122,25 +129,34 @@ console.log(selectedSize.value);
         </div>
       </div>
       <div class="flex justify-between w-1/4">
-        <div class="flex flex-col">
+        <div class="flex flex-row items-center justify-center gap-2">
           <label for="variantSelect">Size:</label>
-          <select id="variantSelect" v-model="selectedSize">
-            <option
-              v-for="variant in product.variants"
-              :key="variant"
-              :value="variant"
-            >
-              {{ variant.name }}
-            </option>
-          </select>
+          <USelectMenu
+            v-model="selectedSizeOption"
+            :options="product.variants"
+            placeholder="Select size"
+            option-attribute="name"
+          />
         </div>
-        <div class="border border-black flex gap-3 w-fit mt-2 h-fit">
+        <div
+          class="flex flex-row items-center justify-center"
+          v-if="selectedItemInCart === 0"
+        >
+          <button
+            @click="increaseOrDecreaseQuantity(selectedSize, true)"
+            class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-fit text-base h-fit px-4 py-1 rounded-3xl"
+          >
+            Add to cart
+          </button>
+        </div>
+        <div class="border border-black flex gap-3 w-fit mt-2 h-fit" v-else>
           <p
             class="border-r border-black px-2 font-bold cursor-pointer"
             @click="increaseOrDecreaseQuantity(selectedSize, false)"
           >
             -
           </p>
+
           <p>{{ selectedItemInCart }}</p>
           <p
             class="border-l border-black px-2 font-bold cursor-pointer"
