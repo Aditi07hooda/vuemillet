@@ -19,7 +19,9 @@ const route = useRoute();
 
 const sessionId = ref(null);
 const selectedItemInCart = ref(0);
-const selectedSizeOption = ref();
+const selectVariant = ref({});
+const selectedOptions = ref({});
+const availableVariants = ref();
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -66,11 +68,9 @@ onMounted(async () => {
   await fetchingCartItems();
 });
 
-const logOptionSize = async () => {
-  selectedSize.value = selectedSizeOption.value;
-  //   console.log("Selected size in cart navbar:", selectedSize.value);
+const logOptionSize = async (option) => {
+  selectedSize.value = option;
   await fetchingCartItems();
-  //   console.log("Fetched cart items after selecting size:", selectedItemInCart.value);
 };
 
 watch(selectedSize, async (newSize) => {
@@ -113,8 +113,17 @@ const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
 };
 
 watchEffect(() => {
+  if (product.value && availableVariants.value) {
+    availableVariants.forEach((variantType) => {
+      selectedOptions.value[variantType] =
+        product.value.variantMatrix[variantType]?.[0]?.name || null;
+    });
+  }
+});
+
+watchEffect(() => {
   if (product.value) {
-    selectedSizeOption.value = product.value.variants[0].name;
+    availableVariants.value = product.value.variantTypes;
   }
 });
 
@@ -133,47 +142,51 @@ console.log("selected size product " + selectedSize.value);
           <p>Rs. {{ selectedSize.offerPrice }}</p>
         </div>
       </div>
-      <div class="flex justify-between w-1/4">
-        <div class="flex flex-row items-center justify-center gap-2">
-          <label for="variantSelect">Size:</label>
-          <USelectMenu
-            v-model="selectedSizeOption"
-            :options="product.variants"
-            placeholder="Select size"
-            option-attribute="name"
-            @update:model-value="logOptionSize"
-          />
+      <div class="flex justify-between w-1/2">
+        <div class="" v-for="variantType in availableVariants">
+          <div class="flex flex-row items-center justify-center gap-2">
+            <label for="variantSelect">{{ variantType }}:</label>
+            <USelectMenu
+              v-model="selectedOptions[variantType]"
+              :options="product.variantMatrix[variantType]"
+              placeholder="Select"
+              option-attribute="name"
+              @update:model-value="logOptionSize"
+            />
+          </div>
         </div>
-        <div
-          class="flex flex-row items-center justify-center"
-          v-if="selectedItemInCart === 0"
-        >
-          <button
-            @click="increaseOrDecreaseQuantity(selectedSize, true)"
-            class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-fit text-base h-fit px-4 py-1 rounded-3xl"
+        <div>
+          <div
+            class="flex flex-row items-center justify-center"
+            v-if="selectedItemInCart === 0"
           >
-            Add to cart
-          </button>
-        </div>
-        <div
-          class="flex items-center gap-4 w-fit h-fit mt-2 border border-gray-700 rounded-lg overflow-hidden bg-white"
-          v-else
-        >
-          <p
-            class="px-2 py-1 font-bold text-base cursor-pointer border-r border-gray-700 hover:bg-gray-200 transition"
-            @click="increaseOrDecreaseQuantity(selectedSize, false)"
+            <button
+              @click="increaseOrDecreaseQuantity(selectedSize, true)"
+              class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-fit text-base h-fit px-4 py-1 rounded-3xl"
+            >
+              Add to cart
+            </button>
+          </div>
+          <div
+            class="flex items-center gap-4 w-fit h-fit mt-2 border border-gray-700 rounded-lg overflow-hidden bg-white"
+            v-else
           >
-            −
-          </p>
-          <p class="px-2 py-1 text-base font-semibold">
-            {{ selectedItemInCart }}
-          </p>
-          <p
-            class="px-2 py-1 font-bold text-base cursor-pointer border-l border-gray-700 hover:bg-gray-200 transition"
-            @click="increaseOrDecreaseQuantity(selectedSize, true)"
-          >
-            +
-          </p>
+            <p
+              class="px-2 py-1 font-bold text-base cursor-pointer border-r border-gray-700 hover:bg-gray-200 transition"
+              @click="increaseOrDecreaseQuantity(selectedSize, false)"
+            >
+              −
+            </p>
+            <p class="px-2 py-1 text-base font-semibold">
+              {{ selectedItemInCart }}
+            </p>
+            <p
+              class="px-2 py-1 font-bold text-base cursor-pointer border-l border-gray-700 hover:bg-gray-200 transition"
+              @click="increaseOrDecreaseQuantity(selectedSize, true)"
+            >
+              +
+            </p>
+          </div>
         </div>
       </div>
     </div>
