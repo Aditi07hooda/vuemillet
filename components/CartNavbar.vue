@@ -63,8 +63,8 @@ onMounted(async () => {
   await fetchingCartItems();
 });
 
-const logOptionSize = async (option) => {
-  selectedSize.value = option;
+const logOptionSize = async () => {
+  selectedSize.value = selectedSizeOption.value;
   //   console.log("Selected size in cart navbar:", selectedSize.value);
   await fetchingCartItems();
   //   console.log("Fetched cart items after selecting size:", selectedItemInCart.value);
@@ -136,6 +136,7 @@ console.log("selected size product " + selectedSize.value);
             :options="product.variants"
             placeholder="Select size"
             option-attribute="name"
+            @update:model-value="logOptionSize"
           />
         </div>
         <div
