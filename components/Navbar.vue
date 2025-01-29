@@ -124,6 +124,8 @@ onMounted(async () => {
     class="flex md:justify-evenly justify-between bg-inherit w-full md:pt-4 md:px-24 p-3 items-center overflow-x-hidden"
   >
     <div class="flex justify-between items-center md:w-full">
+
+      <!-- shop large and small screen -->
       <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
         <UButton
           label="Shop"
@@ -161,7 +163,7 @@ onMounted(async () => {
                 <div
                   v-for="collection in products"
                   :key="collection.id"
-                  class=""
+                  class="w-full"
                 >
                   <NuxtLink
                     :to="`/collections/${collection.collectionDetail.id}`"
@@ -172,25 +174,27 @@ onMounted(async () => {
                       {{ collection.collectionDetail.name }}
                     </h4>
                   </NuxtLink>
-                  <div
-                    v-for="p in collection.products.slice(0, 5)"
-                    :key="p.id"
-                    class="w-full flex flex-row flex-wrap"
-                  >
-                    <NuxtLink
-                      :to="`/product/${p.id}`"
-                      @click="closeModal"
-                      class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
+                  <div class="flex flex-row">
+                    <div
+                      v-for="p in collection.products.slice(0, 5)"
+                      :key="p.id"
+                      class="w-fit mx-3"
                     >
-                      <img
-                        :src="p.oneImg || p.images[0] || '/favicon.ico'"
-                        :alt="p.name"
-                        class="w-[150px] h-[150px] object-cover rounded-lg"
-                      />
-                      <div class="w-[150px] mt-2 font-normal text-sm">
-                        {{ p.name }}
-                      </div>
-                    </NuxtLink>
+                      <NuxtLink
+                        :to="`/product/${p.id}`"
+                        @click="closeModal"
+                        class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
+                      >
+                        <img
+                          :src="p.oneImg || p.images[0] || '/favicon.ico'"
+                          :alt="p.name"
+                          class="w-[150px] h-[150px] object-cover rounded-lg"
+                        />
+                        <div class="w-[150px] mt-2 font-normal text-sm">
+                          {{ p.name }}
+                        </div>
+                      </NuxtLink>
+                    </div>
                   </div>
                   <div
                     class="flex flex-col gap-3 mt-4"
@@ -210,12 +214,16 @@ onMounted(async () => {
           </div>
         </template>
       </UPopover>
+
+      <!-- blogs and about us large screen -->
       <div class="uppercase font-semibold hidden md:block">
         <NuxtLink to="/blogs">Blogs</NuxtLink>
       </div>
       <div class="uppercase font-semibold hidden md:block">
         <NuxtLink to="/about">About Us</NuxtLink>
       </div>
+
+      <!-- menu and search small screen -->
       <UButton
         @click="isOpen = true"
         label="open"
@@ -229,12 +237,15 @@ onMounted(async () => {
         <LucideSearch @click="isSearchOpen = true" />
       </div>
     </div>
+
     <div
       class="flex justify-center uppercase w-full font-bold md:text-2xl text-xl"
     >
       <ULink to="/">The Millet Store </ULink>
     </div>
+
     <div class="flex justify-between gap-3 md:w-full">
+      <!-- search large screen -->
       <span
         label="Search"
         trailing-icon="i-heroicons-chevron-down-20-solid"
@@ -262,6 +273,7 @@ onMounted(async () => {
           />
         </UModal>
       </div>
+      <!-- account and shop large screen -->
       <div
         class="uppercase font-semibold hidden md:block cursor-pointer"
         @click="accountNavigation"
@@ -278,6 +290,7 @@ onMounted(async () => {
           <Cart />
         </USlideover>
       </div>
+      <!-- account and shop small screen -->
       <div
         class="text-black md:hidden cursor-pointer"
         @click="accountNavigation"
@@ -289,6 +302,7 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+
   <div class="flex justify-between align-middle items-center">
     <UModal v-model="isOpen" :transition="true" class="items-center" fullscreen>
       <div class="u-modal-content hide-scrollbar">

@@ -210,25 +210,27 @@ onMounted(async () => {
                 {{ collection.collectionDetail.name }}
               </h4>
             </NuxtLink>
-            <div
-              v-for="p in collection.products.slice(0, 5)"
-              :key="p.id"
-              class="w-full flex flex-row flex-wrap"
-            >
-              <NuxtLink
-                :to="`/product/${p.id}`"
-                @click="closeModal"
-                class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
+            <div class="flex flex-row">
+              <div
+                v-for="p in collection.products.slice(0, 5)"
+                :key="p.id"
+                class="w-fit mx-3"
               >
-                <img
-                  :src="p.oneImg || p.images[0] || '/favicon.ico'"
-                  :alt="p.name"
-                  class="w-[150px] h-[150px] object-cover rounded-lg"
-                />
-                <div class="w-[150px] mt-2 font-normal text-sm">
-                  {{ p.name }}
-                </div>
-              </NuxtLink>
+                <NuxtLink
+                  :to="`/product/${p.id}`"
+                  @click="closeModal"
+                  class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
+                >
+                  <img
+                    :src="p.oneImg || p.images[0] || '/favicon.ico'"
+                    :alt="p.name"
+                    class="w-[150px] h-[150px] object-cover rounded-lg"
+                  />
+                  <div class="w-[150px] mt-2 font-normal text-sm">
+                    {{ p.name }}
+                  </div>
+                </NuxtLink>
+              </div>
             </div>
             <div
               class="flex flex-col gap-3 mt-4"
