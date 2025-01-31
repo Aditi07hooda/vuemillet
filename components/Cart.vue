@@ -1,6 +1,7 @@
 <script setup>
 import { fetchCartItems, addToCart } from "~/composables/cart";
 import { useCartModelVisibilty } from "~/store/cart";
+import { X, Trash2  } from "lucide-vue-next";
 
 const cartModelVisible = useCartModelVisibilty();
 
@@ -15,7 +16,7 @@ defineProps({
   showDiv: {
     type: Boolean,
     default: true,
-  }
+  },
 });
 
 const router = useRouter();
@@ -131,17 +132,26 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
 <template>
   <div class="w-full">
     <div
-      @click="cartModelVisible.closeCartModel()"
-      class="flex gap-2 py-3 px-4 items-center align-middle border-b cursor-pointer"
+      class="flex flex-row justify-between py-3 px-4 items-center align-middle border-b"
       v-if="showDiv"
     >
-      <LucideChevronLeft class="w-4 h-4" />
-      <p class="text-sm font-serif">Continue Shopping</p>
+      <div
+        @click="cartModelVisible.closeCartModel()"
+        class="flex gap-2 cursor-pointer"
+      >
+        <LucideChevronLeft class="w-4 h-4" />
+        <p class="text-sm font-serif">Continue Shopping</p>
+      </div>
+      <div class="flex gap-2 cursor-pointer">
+        <Trash2 class="text-red-400 w-4 h-4"/>
+      </div>
     </div>
     <div>
       <div class="flex flex-col justify-between w-full">
-        <div class="flex flex-col overflow-y-scroll max-h-[340px]">
-          <p v-if="cartItems.cart.items.length === 0" class="pl-3">Your cart is empty.</p>
+        <div class="flex flex-col overflow-y-scroll max-h-[350px]">
+          <p v-if="cartItems.cart.items.length === 0" class="pl-3">
+            Your cart is empty.
+          </p>
           <div
             v-for="(cartItem, index) in cartItems.cart.items"
             :key="cartItem.id"
@@ -177,11 +187,18 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
                 </div>
               </div>
             </div>
-            <p
-              class="items-end flex font-semibold text-sm w-full justify-end text-green-950"
-            >
-              Rs. {{ cartItem.price * cartItem.qty }}
-            </p>
+            <div class="w-full justify-between flex flex-col">
+              <div
+                class="items-start flex w-full justify-end"
+              >
+                <X class="text-gray-400 w-4 h-4"/>
+              </div>
+              <p
+                class="items-end flex font-semibold text-sm w-full justify-end text-green-950"
+              >
+                Rs. {{ cartItem.price * cartItem.qty }}
+              </p>
+            </div>
           </div>
         </div>
         <div class="mt-5">
