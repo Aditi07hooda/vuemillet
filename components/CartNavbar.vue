@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, watch, onMounted } from "vue";
+import { ref, defineProps, watch, onMounted, reactive, computed } from "vue";
 import { useRuntimeConfig, useRoute, useFetch } from "#app";
 import { useCartModelVisibilty } from "~/store/cart";
 
@@ -19,8 +19,7 @@ const route = useRoute();
 
 const sessionId = ref(null);
 const selectedItemInCart = ref(0);
-const selectedSizeOption = ref();
-const selectedVariantType = ref();
+const selectedVariants = reactive({});
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -40,23 +39,30 @@ const mainImg = ref(
   product.value?.oneImg || product.value?.images[0] || "/favicon.ico"
 );
 
-const selectedSize = ref(
-  containsOnlySize(product.value?.variantTypes)
-    ? product.value?.variants?.[0]
-    : product.value?.variantMatrix?.Size?.[0] ||
-        product.value?.variantMatrix?.size?.[0] ||
-        product.value?.variantMatrix?.SIZE?.[0]
-);
+// Initialize selectedVariants with the first option for each variant type
+watchEffect(() => {
+  if (product.value) {
+    product.value.variantTypes.forEach((variantType) => {
+      selectedVariants[variantType] = product.value.variantMatrix[variantType][0];
+    });
+  }
+});
+
+// Find the selected variant object based on the selected variants
+const selectedVariant = computed(() => {
+  return product.value?.variants.find((variant) =>
+    product.value.variantTypes.every(
+      (variantType) =>
+        variant.matrix[variantType] === selectedVariants[variantType]
+    )
+  );
+});
 
 const fetchingCartItems = async () => {
-  const { data, productImage } = await fetchCartItems(
-    baseURL,
-    brandID,
-    sessionId.value
-  );
+  const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
   if (data && data.cart) {
     const x = data.cart.items.find(
-      (item) => item.variantId === selectedSize.value.id
+      (item) => item.variantId === selectedVariant.value?.id
     );
     console.log("Fetched cart items:", x);
     selectedItemInCart.value = x?.qty || 0;
@@ -67,30 +73,32 @@ onMounted(async () => {
   await fetchingCartItems();
 });
 
-const logOptionSize = async () => {
-  selectedSize.value = selectedSizeOption.value;
-  //   console.log("Selected size in cart navbar:", selectedSize.value);
+const logOptionVariant = async (variantType, selectedOption) => {
+  selectedVariants[variantType] = selectedOption;
   await fetchingCartItems();
-  //   console.log("Fetched cart items after selecting size:", selectedItemInCart.value);
 };
 
-watch(selectedSize, async (newSize) => {
-  await logOptionSize(newSize);
+watch(selectedVariants, async () => {
+  await fetchingCartItems();
 });
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
+const increaseOrDecreaseQuantity = async (incrementTask) => {
   try {
-    console.log("Selected size:", selectedSize);
+    if (!selectedVariant.value) {
+      console.error("Selected variant not found");
+      return;
+    }
+
     let data = null;
     if (incrementTask) {
       data = await addToCart(
         baseURL,
         brandID,
         sessionId.value,
-        selectedSize.id,
-        selectedSize.name
+        selectedVariant.value.id,
+        selectedVariant.value.name
       );
       cartModelVisible.openCartModel();
     } else {
@@ -98,8 +106,8 @@ const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
         baseURL,
         brandID,
         sessionId.value,
-        selectedSize.id,
-        selectedSize.name
+        selectedVariant.value.id,
+        selectedVariant.value.name
       );
       cartModelVisible.openCartModel();
     }
@@ -112,19 +120,6 @@ const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
     console.error("Error increasing quantity in Cart.vue:", error);
   }
 };
-
-watchEffect(() => {
-  if (product.value) {
-    selectedSizeOption.value =
-      product.value.variantMatrix[product.value.variantTypes[0]][0];
-    if (product.value.variantMatrix.length > 1) {
-      selectedVariantType.value =
-        product.value.variantMatrix[product.value.variantTypes[1]][0];
-    }
-  }
-});
-
-console.log("selected size product " + selectedSize.value);
 </script>
 
 <template>
@@ -134,46 +129,22 @@ console.log("selected size product " + selectedSize.value);
         <img :src="mainImg" alt="Product image" class="h-12 w-12" />
         <div class="">
           <h2 class="text-base">
-            {{ capitalize(product.name || product.webName) }}
+            {{ capitalize(product?.name || product?.webName) }}
           </h2>
-          <p>Rs. {{ selectedSize.offerPrice }}</p>
+          <p>Rs. {{ selectedVariant?.offerPrice }}</p>
         </div>
       </div>
       <div class="flex justify-between w-[30%]">
         <div class="flex flex-row items-center justify-center gap-2">
-          <!-- <label for="variantSelect">Size:</label>
-          <USelectMenu
-            v-model="selectedSizeOption"
-            :options="product.variants"
-            placeholder="Select size"
-            option-attribute="name"
-            @update:model-value="logOptionSize"
-          /> -->
-          <div v-for="variant in product.variantTypes">
-            <div
-              v-if="
-                variant === 'size' || variant === 'Size' || variant === 'SIZE'
-              "
-            >
-              <label for="variantSelect">Size:</label>
-              <USelectMenu
-                v-model="selectedSizeOption"
-                :options="product.variantMatrix[variant]"
-                placeholder="Select size"
-                option-attribute="name"
-                @update:model-value="logOptionSize"
-              />
-            </div>
-            <div v-else>
-              <label for="variantSelect">{{ variant }}:</label>
-              <USelectMenu
-                v-model="selectedVariantType"
-                :options="product.variantMatrix[variant]"
-                placeholder="Select"
-                option-attribute="name"
-                @update:model-value="logOptionSize"
-              />
-            </div>
+          <div v-for="variantType in product?.variantTypes" :key="variantType">
+            <label :for="variantType">{{ capitalize(variantType) }}:</label>
+            <USelectMenu
+              v-model="selectedVariants[variantType]"
+              :options="product.variantMatrix[variantType]"
+              :placeholder="`Select ${variantType}`"
+              option-attribute="name"
+              @update:model-value="logOptionVariant(variantType, $event)"
+            />
           </div>
         </div>
         <div
@@ -181,7 +152,7 @@ console.log("selected size product " + selectedSize.value);
           v-if="selectedItemInCart === 0"
         >
           <button
-            @click="increaseOrDecreaseQuantity(selectedSize, true)"
+            @click="increaseOrDecreaseQuantity(true)"
             class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-fit text-base h-fit px-4 py-1 rounded-3xl"
           >
             Add to cart
@@ -193,7 +164,7 @@ console.log("selected size product " + selectedSize.value);
         >
           <p
             class="px-2 py-1 font-bold text-base cursor-pointer border-r border-gray-700 hover:bg-gray-200 transition"
-            @click="increaseOrDecreaseQuantity(selectedSize, false)"
+            @click="increaseOrDecreaseQuantity(false)"
           >
             −
           </p>
@@ -202,7 +173,7 @@ console.log("selected size product " + selectedSize.value);
           </p>
           <p
             class="px-2 py-1 font-bold text-base cursor-pointer border-l border-gray-700 hover:bg-gray-200 transition"
-            @click="increaseOrDecreaseQuantity(selectedSize, true)"
+            @click="increaseOrDecreaseQuantity(true)"
           >
             +
           </p>
