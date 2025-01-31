@@ -123,60 +123,56 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
 </script>
 
 <template>
-  <div class="fixed top-0 w-full ease-in-out duration-300">
-    <div class="flex w-full px-20 py-5 bg-orange-100 justify-between">
-      <div class="flex justify-between gap-8">
-        <img :src="mainImg" alt="Product image" class="h-12 w-12" />
-        <div class="">
-          <h2 class="text-base">
+  <div class="fixed top-0 w-full bg-white shadow-md ease-in-out duration-300">
+    <div class="flex w-full px-10 py-4 bg-orange-50 justify-between items-center border-b border-gray-200">
+      <div class="flex items-center gap-6">
+        <img :src="mainImg" alt="Product image" class="h-16 w-16 rounded-lg shadow-md object-cover" />
+        <div>
+          <h2 class="text-lg font-semibold text-gray-800">
             {{ capitalize(product?.name || product?.webName) }}
           </h2>
-          <p>Rs. {{ selectedVariant?.offerPrice }}</p>
+          <p class="text-sm text-gray-600 font-medium">Rs. {{ selectedVariant?.offerPrice }}</p>
         </div>
       </div>
-      <div class="flex justify-between w-[30%]">
-        <div class="flex flex-row items-center justify-center gap-2">
-          <div v-for="variantType in product?.variantTypes" :key="variantType">
-            <label :for="variantType">{{ capitalize(variantType) }}:</label>
+      
+      <div class="flex items-center gap-6 w-[35%]">
+        <div class="flex items-center gap-4">
+          <div v-for="variantType in product?.variantTypes" :key="variantType" class="flex flex-col">
+            <label :for="variantType" class="text-sm font-medium text-gray-700">{{ capitalize(variantType) }}:</label>
             <USelectMenu
               v-model="selectedVariants[variantType]"
               :options="product.variantMatrix[variantType]"
               :placeholder="`Select ${variantType}`"
               option-attribute="name"
               @update:model-value="logOptionVariant(variantType, $event)"
+              class="rounded-md px-3 py-1 text-gray-700 focus:ring-2 focus:ring-orange-400"
             />
           </div>
         </div>
-        <div
-          class="flex flex-row items-center justify-center"
-          v-if="selectedItemInCart === 0"
-        >
+        
+        <div v-if="selectedItemInCart === 0" class="flex items-center">
           <button
             @click="increaseOrDecreaseQuantity(true)"
-            class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-fit text-base h-fit px-4 py-1 rounded-3xl"
+            class="bg-pink-500 text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-2 rounded-full shadow-md"
           >
             Add to cart
           </button>
         </div>
-        <div
-          class="flex items-center gap-4 w-fit h-fit mt-2 border border-gray-700 rounded-lg overflow-hidden bg-white"
-          v-else
-        >
-          <p
-            class="px-2 py-1 font-bold text-base cursor-pointer border-r border-gray-700 hover:bg-gray-200 transition"
+        
+        <div v-else class="flex items-center gap-2 border border-gray-300 rounded-lg bg-white shadow-sm">
+          <button
             @click="increaseOrDecreaseQuantity(false)"
+            class="px-3 py-2 font-bold text-lg text-gray-700 border-r border-gray-300 hover:bg-gray-200 transition"
           >
             −
-          </p>
-          <p class="px-2 py-1 text-base font-semibold">
-            {{ selectedItemInCart }}
-          </p>
-          <p
-            class="px-2 py-1 font-bold text-base cursor-pointer border-l border-gray-700 hover:bg-gray-200 transition"
+          </button>
+          <p class="px-4 py-2 text-lg font-semibold text-gray-800">{{ selectedItemInCart }}</p>
+          <button
             @click="increaseOrDecreaseQuantity(true)"
+            class="px-3 py-2 font-bold text-lg text-gray-700 border-l border-gray-300 hover:bg-gray-200 transition"
           >
             +
-          </p>
+          </button>
         </div>
       </div>
     </div>
