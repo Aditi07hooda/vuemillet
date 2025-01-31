@@ -10,6 +10,7 @@ const closeModal = () => {
 };
 const collectionProducts = ref(null);
 const products = ref(null);
+const cartLength = ref(0);
 
 const menuItems = [
   {
@@ -116,6 +117,12 @@ onMounted(async () => {
       await collectionAndProducts();
     }
   });
+  const { data, productImage } = await fetchCartItems(
+    baseURL,
+    brandID,
+    sessionId.value
+  );
+  cartLength.value = data.cart.items.length;
 });
 </script>
 
@@ -124,7 +131,6 @@ onMounted(async () => {
     class="flex md:justify-evenly justify-between bg-inherit w-full md:pt-4 md:px-24 p-3 items-center overflow-x-hidden"
   >
     <div class="flex justify-between items-center md:w-full">
-
       <!-- shop large and small screen -->
       <UPopover overlay :popper="{ placement: 'bottom-start' }" class="">
         <UButton
@@ -284,7 +290,7 @@ onMounted(async () => {
         <span
           class="uppercase font-semibold cursor-pointer"
           @click="cartModelVisible.openCartModel"
-          >Cart</span
+          >Cart ({{ cartLength }})</span
         >
         <USlideover v-model="cartModelVisible.isCartModelOpen" prevent-close>
           <Cart />
@@ -298,7 +304,9 @@ onMounted(async () => {
         <LucideCircleUserRound />
       </div>
       <div class="text-black md:hidden">
-        <LucideShoppingBag @click="cartModelVisible.openCartModel" />
+        <UChip :text="cartLength" size="2xl">
+          <LucideShoppingBag @click="cartModelVisible.openCartModel" />
+        </UChip>
       </div>
     </div>
   </div>
