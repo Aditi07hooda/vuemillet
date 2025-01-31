@@ -115,7 +115,12 @@ const increaseOrDecreaseQuantity = async (selectedSize, incrementTask) => {
 
 watchEffect(() => {
   if (product.value) {
-    selectedSizeOption.value = product.value.variants[0].name;
+    selectedSizeOption.value =
+      product.value.variantMatrix[product.value.variantTypes[0]][0];
+    if (product.value.variantMatrix.length > 1) {
+      selectedVariantType.value =
+        product.value.variantMatrix[product.value.variantTypes[1]][0];
+    }
   }
 });
 
@@ -134,7 +139,7 @@ console.log("selected size product " + selectedSize.value);
           <p>Rs. {{ selectedSize.offerPrice }}</p>
         </div>
       </div>
-      <div class="flex justify-between w-1/4">
+      <div class="flex justify-between w-[30%]">
         <div class="flex flex-row items-center justify-center gap-2">
           <!-- <label for="variantSelect">Size:</label>
           <USelectMenu
@@ -153,7 +158,7 @@ console.log("selected size product " + selectedSize.value);
               <label for="variantSelect">Size:</label>
               <USelectMenu
                 v-model="selectedSizeOption"
-                :options="product.variants"
+                :options="product.variantMatrix[variant]"
                 placeholder="Select size"
                 option-attribute="name"
                 @update:model-value="logOptionSize"
