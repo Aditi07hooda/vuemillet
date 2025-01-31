@@ -20,6 +20,7 @@ const route = useRoute();
 const sessionId = ref(null);
 const selectedItemInCart = ref(0);
 const selectedSizeOption = ref();
+const selectedVariantType = ref();
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -135,14 +136,40 @@ console.log("selected size product " + selectedSize.value);
       </div>
       <div class="flex justify-between w-1/4">
         <div class="flex flex-row items-center justify-center gap-2">
-          <label for="variantSelect">Size:</label>
+          <!-- <label for="variantSelect">Size:</label>
           <USelectMenu
             v-model="selectedSizeOption"
             :options="product.variants"
             placeholder="Select size"
             option-attribute="name"
             @update:model-value="logOptionSize"
-          />
+          /> -->
+          <div v-for="variant in product.variantTypes">
+            <div
+              v-if="
+                variant === 'size' || variant === 'Size' || variant === 'SIZE'
+              "
+            >
+              <label for="variantSelect">Size:</label>
+              <USelectMenu
+                v-model="selectedSizeOption"
+                :options="product.variants"
+                placeholder="Select size"
+                option-attribute="name"
+                @update:model-value="logOptionSize"
+              />
+            </div>
+            <div v-else>
+              <label for="variantSelect">{{ variant }}:</label>
+              <USelectMenu
+                v-model="selectedVariantType"
+                :options="product.variantMatrix[variant]"
+                placeholder="Select"
+                option-attribute="name"
+                @update:model-value="logOptionSize"
+              />
+            </div>
+          </div>
         </div>
         <div
           class="flex flex-row items-center justify-center"
