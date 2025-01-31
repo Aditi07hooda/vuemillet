@@ -140,7 +140,7 @@ const increaseOrDecreaseQuantity = async (cartItem, incrementTask) => {
     </div>
     <div>
       <div class="flex flex-col justify-between w-full">
-        <div class="flex flex-col overflow-y-scroll max-h-80">
+        <div class="flex flex-col overflow-y-scroll max-h-[340px]">
           <p v-if="cartItems.cart.items.length === 0" class="pl-3">Your cart is empty.</p>
           <div
             v-for="(cartItem, index) in cartItems.cart.items"
