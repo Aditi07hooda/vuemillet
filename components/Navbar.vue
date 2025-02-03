@@ -15,7 +15,7 @@ const cartLength = ref(0);
 const menuItems = [
   {
     label: "All Categories",
-    defaultOpen: false,
+    defaultOpen: true,
     slot: "categories",
   },
   {
@@ -173,7 +173,7 @@ onMounted(async () => {
                 >
                   <NuxtLink
                     :to="`/collections/${collection.collectionDetail.id}`"
-                    @click="closeModal"
+                    @click="close"
                     class="hover:text-pink-600 hover:scale-105 transition duration-500"
                   >
                     <h4 class="text-base font-semibold py-3">
@@ -188,7 +188,7 @@ onMounted(async () => {
                     >
                       <NuxtLink
                         :to="`/product/${p.id}`"
-                        @click="closeModal"
+                        @click="close"
                         class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
                       >
                         <img
@@ -208,7 +208,7 @@ onMounted(async () => {
                   >
                     <NuxtLink
                       :to="`/collections/${collection.collectionDetail.id}`"
-                      @click="closeModal"
+                      @click="close"
                       class="text-sm text-gray-600 hover:text-pink-600 hover:scale-105 transition duration-500"
                     >
                       View more
@@ -279,7 +279,8 @@ onMounted(async () => {
           />
         </UModal>
       </div>
-      <!-- account and shop large screen -->
+
+      <!-- account and cart large screen -->
       <div
         class="uppercase font-semibold hidden md:block cursor-pointer"
         @click="accountNavigation"
@@ -296,7 +297,7 @@ onMounted(async () => {
           <Cart />
         </USlideover>
       </div>
-      <!-- account and shop small screen -->
+      <!-- account and cart small screen -->
       <div
         class="text-black md:hidden cursor-pointer"
         @click="accountNavigation"
@@ -311,6 +312,7 @@ onMounted(async () => {
     </div>
   </div>
 
+  <!-- shop small screen content -->
   <div class="flex justify-between align-middle items-center">
     <UModal v-model="isOpen" :transition="true" class="items-center" fullscreen>
       <div class="u-modal-content hide-scrollbar">
@@ -341,7 +343,9 @@ onMounted(async () => {
             </div>
           </template>
           <template #categories>
-            <div class="flex flex-col space-y-4 pl-8">
+            <div
+              class="md:flex md:flex-col grid grid-flow-row grid-cols-2 gap-4"
+            >
               <NuxtLink
                 v-for="category in collection"
                 :to="`/collections/${category.id}`"
@@ -349,7 +353,18 @@ onMounted(async () => {
                 @click="handleClose"
                 class="hover:text-pink-600 hover:scale-105 transition duration-500"
               >
-                {{ capitalize(category.name) }}
+                <div
+                  class="flex flex-col md:flex-row items-center justify-center gap-2"
+                >
+                  <img
+                    :src="category?.imageUrl || '/favicon.ico'"
+                    alt="image"
+                    class="h-10 w-10 rounded-lg"
+                  />
+                  <h1 class="text-center">
+                    {{ category?.name }}
+                  </h1>
+                </div>
               </NuxtLink>
             </div>
           </template>
@@ -358,3 +373,50 @@ onMounted(async () => {
     </UModal>
   </div>
 </template>
+
+<style scoped>
+.hero-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-image img {
+  width: 15%;
+  height: 15%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: black;
+}
+
+.hero-overlay h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hero-overlay p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .hero-overlay h1 {
+    font-size: 1rem;
+  }
+
+  .hero-overlay p {
+    font-size: 0.5rem;
+  }
+
+  .hero-overlay button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+</style>
