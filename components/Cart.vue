@@ -143,7 +143,6 @@ const deleteCartItem = async (cartItem) => {
     console.error("error emptying the cart");
   }
 };
-
 </script>
 
 <template>
@@ -163,102 +162,97 @@ const deleteCartItem = async (cartItem) => {
         <Trash2 class="text-red-400 w-4 h-4"/>
       </div> -->
     </div>
-    <div>
-      <div class="flex flex-col justify-between w-full">
-        <div class="flex flex-col overflow-y-scroll max-h-[350px]">
-          <p v-if="cartItems.cart.items.length === 0" class="pl-3">
-            Your cart is empty.
-          </p>
-          <div
-            v-for="(cartItem, index) in cartItems.cart.items"
-            :key="cartItem.id"
-            class="flex-grow-0 flex w-full px-4 py-2 border-b border-gray-200 hover:bg-gray-100 justify-between"
-          >
-            <div class="flex items-center w-full">
-              <img
-                :src="cartItems.cart.productImages[index] || '/favicon.ico'"
-                alt="alt"
-                class="rounded-xl w-12 h-12"
-              />
-              <div class="ml-3">
-                <p class="font-bold text-black text-base">
-                  {{ cartItem.name }}
-                </p>
-                <p class="font-semibold text-gray-500 text-sm flex flex-wrap">
-                  {{ cartItem.variantName }}
-                </p>
-                <div class="border flex gap-3 w-fit mt-2">
-                  <p
-                    class="border-r px-2 font-bold cursor-pointer"
-                    @click="increaseOrDecreaseQuantity(cartItem, false)"
-                  >
-                    -
-                  </p>
-                  <p>{{ cartItem.qty }}</p>
-                  <p
-                    class="border-l px-2 font-bold cursor-pointer"
-                    @click="increaseOrDecreaseQuantity(cartItem, true)"
-                  >
-                    +
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="w-full justify-between flex flex-col">
-              <div
-                class="items-start flex w-full justify-end"
-                @click="deleteCartItem(cartItem)"
-              >
-                <X class="text-gray-400 w-4 h-4" />
-              </div>
-              <p
-                class="items-end flex font-semibold text-sm w-full justify-end text-green-950"
-              >
-                Rs. {{ cartItem.price * cartItem.qty }}
+    <div class="flex flex-col justify-between w-full">
+      <div class="flex flex-col overflow-y-scroll max-h-[350px] h-[330px]">
+        <p v-if="cartItems.cart.items.length === 0" class="pl-3">
+          Your cart is empty.
+        </p>
+        <div
+          v-for="(cartItem, index) in cartItems.cart.items"
+          :key="cartItem.id"
+          class="flex-grow-0 flex w-full px-4 py-2 border-b border-gray-200 hover:bg-gray-100"
+        >
+          <div class="flex items-center w-3/4">
+            <img
+              :src="cartItems.cart.productImages[index] || '/favicon.ico'"
+              alt="alt"
+              class="rounded-xl w-12 h-12"
+            />
+            <div class="ml-3 w-full">
+              <p class="font-bold text-black text-base w-full">
+                {{ cartItem.name }}
               </p>
+              <p class="font-semibold text-gray-500 text-sm flex flex-wrap">
+                {{ cartItem.variantName }}
+              </p>
+              <div class="border flex gap-3 w-fit mt-2">
+                <p
+                  class="border-r px-2 font-bold cursor-pointer"
+                  @click="increaseOrDecreaseQuantity(cartItem, false)"
+                >
+                  -
+                </p>
+                <p>{{ cartItem.qty }}</p>
+                <p
+                  class="border-l px-2 font-bold cursor-pointer"
+                  @click="increaseOrDecreaseQuantity(cartItem, true)"
+                >
+                  +
+                </p>
+              </div>
             </div>
+          </div>
+          <div class="w-1/4 justify-between flex flex-col">
+            <div
+              class="items-start flex w-full justify-end"
+              @click="deleteCartItem(cartItem)"
+            >
+              <X class="text-gray-400 w-4 h-4" />
+            </div>
+            <p
+              class="items-end flex font-semibold text-sm w-full justify-end text-green-950"
+            >
+              Rs. {{ cartItem.price * cartItem.qty }}
+            </p>
           </div>
         </div>
-        <div class="mt-5">
-          <div class="bg-green-700">
-            <div
-              v-if="cartItems.cart.freeShipValue > cartItems.cart.orderValue"
-            >
-              <p class="flex items-center text-white text-sm py-2 px-4">
-                Add worth Rs.
-                {{ cartItems.cart.freeShipValue - cartItems.cart.orderValue }}
-                items to avoid shipping charges
-              </p>
-            </div>
+      </div>
+      <div class="mt-5">
+        <div
+          class="bg-green-700"
+          v-if="cartItems.cart.freeShipValue > cartItems.cart.orderValue"
+        >
+          <p class="flex items-center text-white text-sm py-2 px-4">
+            Add worth Rs.
+            {{ cartItems.cart.freeShipValue - cartItems.cart.orderValue }}
+            items to avoid shipping charges
+          </p>
+        </div>
+        <div class="w-full">
+          <div class="flex justify-between w-full border-b px-4 py-2">
+            <p>Order Summary</p>
+            <p>{{ cartItems.cart.items.length || 0 }} items</p>
           </div>
-          <div class="w-full">
-            <div class="flex justify-between w-full border-b px-4 py-2">
-              <p>Order Summary</p>
-              <p>{{ cartItems.cart.items.length || 0 }} items</p>
-            </div>
-            <div class="">
-              <div class="flex justify-between w-full px-4 py-2">
-                <p>Sub Total</p>
-                <p>Rs. {{ cartItems.cart.orderValue || 0 }}</p>
-              </div>
-              <div class="flex justify-between w-full px-4 py-2">
-                <p>Shipping Charges</p>
-                <p>Rs. {{ cartItems.cart.shippingCharges || 0 }}</p>
-              </div>
-              <div class="flex justify-between w-full px-4 py-2 border-t">
-                <p>Total</p>
-                <p>Rs. {{ cartItems.cart.totalOrderValue || 0 }}</p>
-              </div>
-            </div>
-            <div class="mx-5 my-3 flex gap-3">
-              <UButton
-                color="red"
-                block
-                @click="navigateToCheckout"
-                :disabled="cartItems.cart.items.length === 0"
-                >Checkout</UButton
-              >
-            </div>
+          <div class="flex justify-between w-full px-4 py-2">
+            <p>Sub Total</p>
+            <p>Rs. {{ cartItems.cart.orderValue || 0 }}</p>
+          </div>
+          <div class="flex justify-between w-full px-4 py-2">
+            <p>Shipping Charges</p>
+            <p>Rs. {{ cartItems.cart.shippingCharges || 0 }}</p>
+          </div>
+          <div class="flex justify-between w-full px-4 py-2 border-t">
+            <p>Total</p>
+            <p>Rs. {{ cartItems.cart.totalOrderValue || 0 }}</p>
+          </div>
+          <div class="mx-5 my-3 flex gap-3">
+            <UButton
+              color="red"
+              block
+              @click="navigateToCheckout"
+              :disabled="cartItems.cart.items.length === 0"
+              >Checkout</UButton
+            >
           </div>
         </div>
       </div>

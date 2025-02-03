@@ -139,7 +139,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
 </script>
 
 <template>
@@ -147,7 +146,10 @@ onUnmounted(() => {
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error.message }}</div>
     <div v-else>
-      <div v-if="showNavbar" class="md:ease-in-out md:duration-300 hidden md:block">
+      <div
+        v-if="showNavbar"
+        class="md:ease-in-out md:duration-300 hidden md:block"
+      >
         <CartNavbar
           :productImage="product.images[0]"
           :addToCart="addingToCart"
@@ -186,11 +188,11 @@ onUnmounted(() => {
         <div
           class="w-full md:w-1/2 flex flex-col justify-center text-center md:text-left"
         >
-          <h2
-            class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center"
+          <p
+            class="custom-underline md:text-2xl text-lg/10 font-semibold text-gray-800 mb-2 text-center"
           >
             {{ capitalize(product.name || product.webName) }}
-          </h2>
+          </p>
           <div class="flex justify-evenly mb-4 items-start">
             <div
               v-for="tag in product.tags"
@@ -252,7 +254,7 @@ onUnmounted(() => {
                 <UDropdown
                   :items="filteredProductVariant"
                   :ui="{
-                    item: { disabled: 'cursor-text select-text' },
+                    item: { disabled: 'cursor-text select-text w-full' },
                     width: '100%',
                   }"
                   :popper="{ placement: 'bottom-start' }"
@@ -347,12 +349,12 @@ onUnmounted(() => {
           </button>
         </div>
       </div>
-      <div class="mt-10 max-w-6xl mx-auto">
-        <h2
-          class="custom-underline text-2xl font-semibold text-gray-800 mb-2 text-center"
+      <div class="mt-10 max-w-6xl mx-auto w-full">
+        <p
+          class="custom-underline md:text-3xl flex flex-wrap text-lg/7 mx-auto px-5 font-semibold text-gray-800 mb-2 justify-center"
         >
           {{ capitalize(product.webName || product.name) }}
-        </h2>
+        </p>
         <div class="text-gray-600 mb-4 px-4">
           <div
             v-if="product.ingredients.length !== 0"
@@ -421,11 +423,11 @@ onUnmounted(() => {
 
 <style scoped>
 .custom-underline {
-  font-size: 2.5em;
   padding-bottom: 1em;
   background-position: bottom;
   background-repeat: no-repeat;
   background-image: url("@/assets/images/underline.svg");
+  background-size: auto 0.9em;
 }
 
 .variant-label {
