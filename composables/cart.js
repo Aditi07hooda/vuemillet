@@ -106,3 +106,30 @@ export const fetchProducts = async (base_url, brand_id, sessionId) => {
     console.error("Error fetching products:", error);
   }
 };
+
+export const emptyCart = async (base_url, brand_id, sessionId, cartItem) => {
+  const { data, productImage } = await fetchCartItems(
+    base_url,
+    brand_id,
+    sessionId
+  );
+  if (data.cart.items.length === 0) {
+    return;
+  }
+  let productData = {};
+  data.cart.items.forEach((item) => {
+    if (cartItem.variantId === item.variantId) {
+      productData = item;
+    }
+  });
+  for (let i = 0; i < productData.qty; i++) {
+    await removeFromCart(
+      base_url,
+      brand_id,
+      sessionId,
+      productData.variantId,
+      productData.size
+    );
+  }
+  return "successfully deleted the cart item";
+};
