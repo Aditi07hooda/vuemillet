@@ -216,7 +216,7 @@ onMounted(() => {
 .blog-item {
   max-height: 500px;
   width: 300px;
-  height: 500px;
+  height: 330px;
   color: #67645b;
 }
 
