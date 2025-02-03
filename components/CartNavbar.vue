@@ -135,7 +135,7 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
         </div>
       </div>
       
-      <div class="flex items-center gap-6 w-[35%]">
+      <div class="flex items-center gap-6 w-[35%] justify-end">
         <div class="flex items-center gap-4">
           <div v-for="variantType in product?.variantTypes" :key="variantType" class="flex flex-col">
             <label :for="variantType" class="text-sm font-medium text-gray-700">{{ capitalize(variantType) }}:</label>

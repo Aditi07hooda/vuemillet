@@ -1,5 +1,6 @@
 <script setup>
 import { useCartModelVisibilty } from "~/store/cart";
+import { X } from "lucide-vue-next";
 
 const cartModelVisible = useCartModelVisibilty();
 const isOpen = ref(false);
@@ -262,14 +263,14 @@ onMounted(async () => {
       >
       <div class="bg-red-600">
         <UModal v-model="isSearchOpen" fullscreen prevent-close>
-          <div class="flex justify-end px-14 m-5">
+          <div class="flex justify-end md:px-14 m-5">
             <UButton
               color="gray"
               variant="ghost"
               class="-my-1"
               @click="isSearchOpen = false"
             >
-              Go Back
+              <X class="text-gray-400 w-4 h-4 md:w-8 md:h-8" />
             </UButton>
           </div>
           <SearchPopover
@@ -373,50 +374,3 @@ onMounted(async () => {
     </UModal>
   </div>
 </template>
-
-<style scoped>
-.hero-image {
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-image img {
-  width: 15%;
-  height: 15%;
-  object-fit: cover;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: black;
-}
-
-.hero-overlay h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.hero-overlay p {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-@media (max-width: 768px) {
-  .hero-overlay h1 {
-    font-size: 1rem;
-  }
-
-  .hero-overlay p {
-    font-size: 0.5rem;
-  }
-
-  .hero-overlay button {
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
-}
-</style>
