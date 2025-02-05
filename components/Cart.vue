@@ -1,7 +1,7 @@
 <script setup>
 import { fetchCartItems, addToCart } from "~/composables/cart";
 import { useCartModelVisibilty } from "~/store/cart";
-import { X, Trash2 } from "lucide-vue-next";
+import { X } from "lucide-vue-next";
 
 const cartModelVisible = useCartModelVisibilty();
 
@@ -175,9 +175,6 @@ const getProduct = async (cartItem) => {
         <LucideChevronLeft class="w-4 h-4" />
         <p class="text-sm font-serif">Continue Shopping</p>
       </div>
-      <!-- <div class="flex gap-2 cursor-pointer">
-        <Trash2 class="text-red-400 w-4 h-4"/>
-      </div> -->
     </div>
     <div class="flex flex-col justify-between w-full">
       <div class="flex flex-col overflow-y-scroll max-h-[350px] h-[330px]">
@@ -193,7 +190,7 @@ const getProduct = async (cartItem) => {
             <img
               :src="cartItems.cart.productImages[index] || '/favicon.ico'"
               alt="alt"
-              class="rounded-xl w-20 h-16"
+              class="rounded-xl w-20 h-16 cursor-pointer"
               @click="getProduct(cartItem)"
             />
             <div class="ml-3 w-full">

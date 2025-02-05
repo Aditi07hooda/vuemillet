@@ -64,7 +64,7 @@ console.log("product in each category", products.value);
   <div v-if="categoriesLoading">Loading...</div>
   <div v-else-if="categoriesError">Error: {{ error.message }}</div>
   <div v-else>
-    <div class="flex flex-wrap px-14 gap-4 font-bold mt-4 justify-center">
+    <div class="flex flex-wrap md:px-14 px-2 gap-4 font-bold mt-4 justify-center">
       <NuxtLink
         :to="`/category/${category.slug}`"
         v-for="category in categories"
@@ -79,49 +79,50 @@ console.log("product in each category", products.value);
         {{ capitalize(category.name) }}
       </NuxtLink>
     </div>
-    <div class="hero-image px-14 mt-7 mb-5">
+    <div class="hero-image md:px-14 px-3 mt-7 mb-5">
       <img :src="products?.imageUrl" alt="image" />
       <div class="hero-overlay">
         <h1 class="text-center uppercase">{{ products?.name }}</h1>
       </div>
     </div>
-    <div class="px-14 description" v-html="products?.description"></div>
+    <div class="md:px-14 px-3 description" v-html="products?.description"></div>
     <h2 class="text-center my-4">Our Products</h2>
-    <div class="px-14 text-end mb-4">
-      <div class="flex justify-center gap-4 flex-wrap">
-        <div class="flex items-center">Filters :</div>
-        <button
-          class="filter"
-          :class="sortOrder === 'low' ? 'active-filter' : ''"
-          @click="sortOrder = 'low'"
-        >
-          Price (Low to High)
-        </button>
-        <button
-          class="filter"
-          :class="sortOrder === 'high' ? 'active-filter' : ''"
-          @click="sortOrder = 'high'"
-        >
-          Price (High to Low)
-        </button>
-        <button
-          class="filter"
-          :class="sortOrder === 'asc' ? 'active-filter' : ''"
-          @click="sortOrder = 'asc'"
-        >
-          Alphabetically (A-Z)
-        </button>
-        <button
-          class="filter"
-          :class="sortOrder === 'desc' ? 'active-filter' : ''"
-          @click="sortOrder = 'desc'"
-        >
-          Alphabetically (Z-A)
-        </button>
+    <div class="md:px-14 px-3 text-end mb-4">
+      <div class="flex justify-center flex-wrap">
+        <div class="grid grid-flow-row grid-cols-2 md:grid-cols-4 gap-3">
+          <button
+            class="bg-[#ffffff] border-2 border-[#ccc] rounded-[25px] py-1.5 md:p-[5px] px-1 text-sm md:text-[16px] text-[#333] cursor-pointer outline-none w-fit md:w-[200px] hover:border-[#888] focus:border-[#007bff] focus:shadow-[0 0 5px rgba(0, 123, 255, 0.5)]"
+            :class="sortOrder === 'low' ? 'active-filter' : ''"
+            @click="sortOrder = 'low'"
+          >
+            Price (Low to High)
+          </button>
+          <button
+            class="bg-[#ffffff] border-2 border-[#ccc] rounded-[25px] py-1.5 md:p-[5px] px-1 text-sm md:text-[16px] text-[#333] cursor-pointer outline-none w-fit md:w-[200px] hover:border-[#888] focus:border-[#007bff] focus:shadow-[0 0 5px rgba(0, 123, 255, 0.5)]"
+            :class="sortOrder === 'high' ? 'active-filter' : ''"
+            @click="sortOrder = 'high'"
+          >
+            Price (High to Low)
+          </button>
+          <button
+            class="bg-[#ffffff] border-2 border-[#ccc] rounded-[25px] py-1.5 md:p-[5px] px-1 text-sm md:text-[16px] text-[#333] cursor-pointer outline-none w-fit md:w-[200px] hover:border-[#888] focus:border-[#007bff] focus:shadow-[0 0 5px rgba(0, 123, 255, 0.5)]"
+            :class="sortOrder === 'asc' ? 'active-filter' : ''"
+            @click="sortOrder = 'asc'"
+          >
+            Alphabetically (A-Z)
+          </button>
+          <button
+            class="bg-[#ffffff] border-2 border-[#ccc] rounded-[25px] py-1.5 md:p-[5px] px-1 text-sm md:text-[16px] text-[#333] cursor-pointer outline-none w-fit md:w-[200px] hover:border-[#888] focus:border-[#007bff] focus:shadow-[0 0 5px rgba(0, 123, 255, 0.5)]"
+            :class="sortOrder === 'desc' ? 'active-filter' : ''"
+            @click="sortOrder = 'desc'"
+          >
+            Alphabetically (Z-A)
+          </button>
+        </div>
       </div>
     </div>
     <div v-if="products?.length !== 0">
-      <div class="flex justify-center w-full flex-wrap">
+      <div class="grid grid-flow-row md:grid-cols-4 grid-cols-2 items-center justify-center w-full md:px-14 px-3">
         <div
           v-for="paginatedProduct in paginatedProducts"
           :key="paginatedProduct.id"
