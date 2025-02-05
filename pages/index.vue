@@ -69,7 +69,7 @@
       </UCarousel>
 
       <!-- shop essential -->
-      <div>
+      <div class="shop">
         <h2 class="text-center mt-5">Shop the essentials</h2>
         <div class="p-8">
           <div class="blog-item">
@@ -80,6 +80,9 @@
                 container: 'gap-4 scroll-smooth',
                 item: 'flex flex-col items-center',
                 nav: 'hidden',
+                indicators: {
+                  wrapper: 'relative bottom-0 mt-4',
+                },
               }"
               indicators
               ref="productCarouselRef"
