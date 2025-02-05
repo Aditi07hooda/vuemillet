@@ -79,31 +79,44 @@ let slug =
 </script>
 
 <template>
-  <div
-    class="flex-1 min-w-[calc(25%-10px)] max-w-[250px] border-2 text-center rounded-lg overflow-hidden p-4 shadow-sm shadow-[rgba(0,0,0,0.1)] mx-1 w-full sm:w-auto bg-white"
-  >
-    <NuxtLink :to="slug ? `/category/${slug}` : '/'">
-      <div class="bg-pink-600 py-1 px-2 mt-2 rounded-md inline-block">
-        <p class="text-white text-sm font-medium">
-          {{ capitalize(product?.category?.name || "") }}
-        </p>
+  <div class="pt-5">
+    <div
+      class="relative min-w-[calc(25%-10px)] max-w-[250px] border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)] w-full sm:w-auto bg-white"
+    >
+      <!-- Category Label with Borders -->
+      <div
+        class="flex items-center justify-center w-full absolute top-0 -translate-y-1/2"
+      >
+        <div class="flex-grow border-t-2 border-gray-200 rounded-lg"></div>
+        <NuxtLink :to="slug ? `/category/${slug}` : '/'">
+          <div
+            class="px-3 text-white text-xs font-medium whitespace-nowrap z-50 bg-pink-600 rounded-lg"
+          >
+            {{ capitalize(product?.category?.name || "") }}
+          </div>
+        </NuxtLink>
+        <div class="flex-grow border-t-2 border-gray-200 rounded-lg"></div>
       </div>
-    </NuxtLink>
-    
-    <!-- Product Image -->
-    <NuxtLink :to="`/product/${product.id}`">
-      <div class="relative w-full pt-[100%] overflow-hidden rounded-lg">
-        <img
-          :src="product.oneImg || product.images[0] || '/favicon.ico'"
-          alt="Product Image"
-          class="absolute top-0 left-0 w-full h-full object-cover"
-        />
-      </div>
-    </NuxtLink>
 
-    <!-- Product Name -->
-    <NuxtLink :to="`/product/${product.id}`">
-      <div class="mt-2 text-lg font-medium">{{ capitalize(product.name) }}</div>
-    </NuxtLink>
+      <div class="flex-1 text-center overflow-hidden p-4 pt-5 mx-1 w-full sm:w-auto">
+        <!-- Product Image -->
+        <NuxtLink :to="`/product/${product.id}`">
+          <div class="relative w-full pt-[100%] overflow-hidden rounded-lg">
+            <img
+              :src="product.oneImg || product.images[0] || '/favicon.ico'"
+              alt="Product Image"
+              class="absolute top-0 left-0 w-full h-full object-cover"
+            />
+          </div>
+        </NuxtLink>
+
+        <!-- Product Name -->
+        <NuxtLink :to="`/product/${product.id}`">
+          <div class="mt-2 text-lg font-medium">
+            {{ capitalize(product.name) }}
+          </div>
+        </NuxtLink>
+      </div>
+    </div>
   </div>
 </template>

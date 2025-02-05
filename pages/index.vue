@@ -72,7 +72,7 @@
       <div class="shop">
         <h2 class="text-center mt-5">Shop the essentials</h2>
         <div class="p-8">
-          <div class="blog-item">
+          <div class="w-full h-full">
             <UCarousel
               v-slot="{ item }"
               :items="products.results"
