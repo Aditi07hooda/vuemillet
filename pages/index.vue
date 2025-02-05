@@ -67,28 +67,30 @@
           </NuxtLink>
         </div>
       </UCarousel>
+
+      <!-- shop essential -->
       <div>
         <h2 class="text-center mt-5">Shop the essentials</h2>
         <div class="p-8">
-          <UCarousel
-            v-slot="{ item }"
-            :items="products.results"
-            :ui="{
-              container: 'gap-4 scroll-smooth',
-              item: 'flex flex-col items-center',
-              nav: 'hidden',
-            }"
-            indicators
-            ref="productCarouselRef"
-          >
-            <div class="blog-item">
-              <div class="product-container rounded mx-1 w-full sm:w-auto">
-                <ShopEssentialProduct :product="item" :categories="categories" />
-              </div>
-            </div>
-          </UCarousel>
+          <div class="blog-item">
+            <UCarousel
+              v-slot="{ item }"
+              :items="products.results"
+              :ui="{
+                container: 'gap-4 scroll-smooth',
+                item: 'flex flex-col items-center',
+                nav: 'hidden',
+              }"
+              indicators
+              ref="productCarouselRef"
+            >
+              <ShopEssentialProduct :product="item" :categories="categories" />
+            </UCarousel>
+          </div>
         </div>
       </div>
+
+      <!-- blog -->
       <div class="text-center my-5">
         <h2 class="uppercase">Commited to being education first</h2>
         <h3 class="mb-2">
@@ -227,16 +229,5 @@ h2 {
 
 h3 {
   font-size: 20px;
-}
-
-.product-container {
-  flex: 1 1 calc(25% - 10px);
-  max-width: 250px;
-  text-align: center;
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 30px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 80%;
 }
 </style>

@@ -79,162 +79,24 @@ let slug =
 </script>
 
 <template>
-  <!-- <div v-if="isHomePage">
-        <NuxtLink :to="slug ? `/category/${slug}` : '/'" class="text-pink-600 font-semibold">
-            <span class="mb-5">{{ capitalize(product?.category?.name || '') }}</span>
-        </NuxtLink>
-    </div> -->
-  <NuxtLink :to="`/product/${product.id}`">
-    <div class="product-image-container">
-      <img
-        :src="product.oneImg || product.images[0] || '/favicon.ico'"
-        alt="Product Image"
-        class="product-image"
-      />
-    </div>
-    <div class="product-name">{{ capitalize(product.name) }}</div>
-  </NuxtLink>
-  <div v-if="isHomePage" class="my-4">
-    <NuxtLink
-      :to="slug ? `/category/${slug}` : '/'"
-      class="text-pink-600 font-semibold"
-    >
-      <span>{{ capitalize(product?.category?.name || "") }}</span>
+  <div class="flex-1 min-w-[calc(25%-10px)] max-w-[250px] text-center rounded-lg overflow-hidden p-8 shadow-sm shadow-[rgba(0,0,0,0.1)] mx-1 w-full sm:w-auto">
+    <NuxtLink :to="`/product/${product.id}`">
+      <div class="relative w-full pt-[100%] overflow-hidden rounded-lg">
+        <img
+          :src="product.oneImg || product.images[0] || '/favicon.ico'"
+          alt="Product Image"
+          class="absolute top-0 left-0 w-full h-full object-cover"
+        />
+      </div>
+      <div class="mt-2 text-lg font-medium">{{ capitalize(product.name) }}</div>
     </NuxtLink>
-  </div>
-  <div v-if="!isHomePage">
-    <div v-if="containsOnlySize(product.variantTypes)">
-      <div class="mb-2">Select Size</div>
-      <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-        <option v-for="option in product.variants" :value="option">
-          {{ option.name }}
-        </option>
-      </select>
-    </div>
-    <div v-else>
-      <div class="mb-2">Select {{ capitalize(product?.variantTypes[0]) }}</div>
-      <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
-        <option
-          v-for="option in product.variantMatrix[product.variantTypes[0]]"
-          :value="option"
-        >
-          {{ option }}
-        </option>
-      </select>
-      <div class="mb-2">Select {{ capitalize(product.variantTypes[1]) }}</div>
-      <select
-        class="mb-2 dropdown"
-        v-model="selectedVariant"
-        @change="logOption"
+    <div class="h-full">
+      <NuxtLink
+        :to="slug ? `/category/${slug}` : '/'"
+        class="text-pink-600 font-semibold"
       >
-        <option
-          v-for="option in product.variantMatrix[product.variantTypes[1]]"
-          :value="option"
-        >
-          {{ capitalize(option) }}
-        </option>
-      </select>
-    </div>
-    <div class="font-bold mb-2">
-      <template v-if="containsOnlySize(product.variantTypes)">
-        <DiscountPriceBlock
-          :price="selectedSize.price"
-          :offerPrice="selectedSize.offerPrice"
-        />
-      </template>
-      <template v-else>
-        <DiscountPriceBlock
-          :price="selectedOption?.price"
-          :offerPrice="selectedOption?.offerPrice"
-        />
-      </template>
-    </div>
-    <div>
-      <button
-        @click="addingToCart"
-        class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl"
-      >
-        Add to cart
-      </button>
+        <span>{{ capitalize(product?.category?.name || "") }}</span>
+      </NuxtLink>
     </div>
   </div>
 </template>
-
-<style scoped>
-.product-image-container {
-  width: 100%;
-  padding-top: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-}
-
-.product-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.product-name {
-  margin-top: 10px;
-  font-size: 20px;
-}
-
-.dropdown {
-  width: 100%;
-  max-width: 200px;
-  padding: 10px 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  color: #333;
-  appearance: none;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-}
-
-.dropdown:hover,
-.dropdown:focus {
-  border-color: #007bff;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.dropdown option {
-  padding: 10px;
-  font-size: 16px;
-}
-
-@media (max-width: 768px) {
-  .product-container {
-    flex: 1 1 calc(50% - 10px);
-    /* Two items per row */
-  }
-
-  .dropdown {
-    width: 100%;
-    max-width: unset;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .product-container {
-    flex: 1 1 100%;
-    /* One item per row */
-  }
-
-  .dropdown {
-    width: 100%;
-    font-size: 12px;
-  }
-}
-</style>
