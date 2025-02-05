@@ -83,7 +83,7 @@
           >
             <div class="blog-item">
               <div class="product-container rounded mx-1 w-full sm:w-auto">
-                <BlogProduct :product="item" :categories="categories" />
+                <ShopEssentialProduct :product="item" :categories="categories" />
               </div>
             </div>
           </UCarousel>
