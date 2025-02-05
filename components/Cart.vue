@@ -12,6 +12,8 @@ const brand_id = config.public.brandID;
 const user = ref("");
 const sessionId = ref("");
 
+const productId = ref("");
+
 defineProps({
   showDiv: {
     type: Boolean,
@@ -143,6 +145,21 @@ const deleteCartItem = async (cartItem) => {
     console.error("error emptying the cart");
   }
 };
+
+const getProduct = async (cartItem) => {
+  const data = await getProductId(
+    base_url,
+    brand_id,
+    sessionId.value,
+    cartItem.variantId,
+    cartItem.variantName
+  );
+  if (data) {
+    productId.value = data;
+  }
+  router.push(`/product/${productId.value}`);
+  cartModelVisible.closeCartModel();
+};
 </script>
 
 <template>
@@ -169,22 +186,28 @@ const deleteCartItem = async (cartItem) => {
         </p>
         <div
           v-for="(cartItem, index) in cartItems.cart.items"
-          :key="cartItem.id"
+          :key="cartItem.variantId"
           class="flex-grow-0 flex w-full px-4 py-2 border-b border-gray-200 hover:bg-gray-100"
         >
           <div class="flex items-center w-3/4">
             <img
               :src="cartItems.cart.productImages[index] || '/favicon.ico'"
               alt="alt"
-              class="rounded-xl w-12 h-12"
+              class="rounded-xl w-20 h-16"
+              @click="getProduct(cartItem)"
             />
             <div class="ml-3 w-full">
-              <p class="font-bold text-black text-base w-full">
-                {{ cartItem.name }}
-              </p>
-              <p class="font-semibold text-gray-500 text-sm flex flex-wrap">
-                {{ cartItem.variantName }}
-              </p>
+              <div
+                class="cursor-pointer"
+                @click="getProduct(cartItem)"
+              >
+                <p class="font-bold text-black text-base w-full">
+                  {{ cartItem.name }}
+                </p>
+                <p class="font-semibold text-gray-500 text-sm flex flex-wrap">
+                  {{ cartItem.variantName }}
+                </p>
+              </div>
               <div class="border flex gap-3 w-fit mt-2">
                 <p
                   class="border-r px-2 font-bold cursor-pointer"

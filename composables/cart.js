@@ -133,3 +133,26 @@ export const emptyCart = async (base_url, brand_id, sessionId, cartItem) => {
   }
   return "successfully deleted the cart item";
 };
+
+export const getProductId = async (
+  base_url,
+  brand_id,
+  sessionId,
+  variantId,
+  variantName
+) => {
+  try {
+    const productsData = await fetchProducts(base_url, brand_id, sessionId);
+    let id = "";
+    const product = productsData.forEach((p) => {
+      p.variants.find((variant) => {
+        if (variant.id === variantId && variant.name === variantName) {
+          id = p.id;
+        }
+      });
+    });
+    return id;
+  } catch (error) {
+    console.error("error finding the product id");
+  }
+};
