@@ -15,7 +15,7 @@ onMounted(() => {
       productCarouselRef.value.select(0);
     }
     productCarouselRef.value.next();
-  }, 7000);
+  }, 700000);
 });
 
 if (typeof window !== "undefined") {
@@ -142,7 +142,7 @@ console.log("product in each category", products.value);
         <div
           v-for="paginatedProduct in paginatedProducts"
           :key="paginatedProduct.id"
-          class="product-container rounded mb-10 mx-1 w-full sm:w-auto"
+          class="border-2 rounded mb-10 mx-1 w-full sm:w-auto"
         >
           <BlogProduct :product="paginatedProduct" />
         </div>

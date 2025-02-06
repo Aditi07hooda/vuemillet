@@ -79,17 +79,12 @@ let slug =
 </script>
 
 <template>
-  <!-- <div v-if="isHomePage">
-        <NuxtLink :to="slug ? `/category/${slug}` : '/'" class="text-pink-600 font-semibold">
-            <span class="mb-5">{{ capitalize(product?.category?.name || '') }}</span>
-        </NuxtLink>
-    </div> -->
   <NuxtLink :to="`/product/${product.id}`">
     <div class="product-image-container">
       <img
         :src="product.oneImg || product.images[0] || '/favicon.ico'"
         alt="Product Image"
-        class="product-image"
+        class="product-image mt-8 md:pt-3"
       />
     </div>
     <div class="product-name">{{ capitalize(product.name) }}</div>
@@ -112,7 +107,7 @@ let slug =
         </option>
       </select>
     </div>
-    <div v-else>
+    <div v-else class="w-full">
       <div class="mb-2">Select {{ capitalize(product?.variantTypes[0]) }}</div>
       <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
         <option
@@ -180,7 +175,7 @@ let slug =
 /* Image container with fixed height */
 .product-image-container {
   width: 100%;
-  height: 150px; /* Fixed height */
+  height: 180px; /* Fixed height */
   position: relative;
   overflow: hidden;
   border-radius: 8px;
@@ -190,7 +185,7 @@ let slug =
 }
 
 .product-image {
-  width: auto;
+  width: 100%;
   height: 100%;
   max-width: 100%;
   object-fit: contain;
@@ -236,6 +231,15 @@ let slug =
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+/* Price container */
+.price-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 50px;
+}
+
 /* Add to Cart button always at the bottom */
 button {
   margin-top: auto;
@@ -248,7 +252,7 @@ button {
     max-width: unset;
     font-size: 14px;
   }
-  .product-name{
+  .product-name {
     width: 300px;
   }
 }
@@ -258,7 +262,7 @@ button {
     width: 100%;
     font-size: 12px;
   }
-  .product-name{
+  .product-name {
     width: 250px;
   }
 }
