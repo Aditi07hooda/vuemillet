@@ -15,7 +15,7 @@ onMounted(() => {
       productCarouselRef.value.select(0);
     }
     productCarouselRef.value.next();
-  }, 700000);
+  }, 7000);
 });
 
 if (typeof window !== "undefined") {

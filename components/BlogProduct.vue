@@ -99,7 +99,7 @@ let slug =
   </div>
   <div v-if="!isHomePage" class="product-card flex flex-col items-center">
     <!-- Variant Selection -->
-    <div v-if="containsOnlySize(product.variantTypes)">
+    <div v-if="containsOnlySize(product.variantTypes)" class="w-full">
       <div class="mb-2">Select Size</div>
       <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
         <option v-for="option in product.variants" :value="option">
@@ -163,7 +163,7 @@ let slug =
 /* Ensure all product cards are aligned */
 .product-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 100%;
   min-height: 200px;
   padding: 16px;
   background: white;
