@@ -6,6 +6,8 @@ const route = useRoute();
 const sortOrder = ref("asc");
 const sessionId = ref(null);
 
+const productCarouselRef = ref();
+
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
 }
@@ -64,7 +66,9 @@ console.log("product in each category", products.value);
   <div v-if="categoriesLoading">Loading...</div>
   <div v-else-if="categoriesError">Error: {{ error.message }}</div>
   <div v-else>
-    <div class="flex flex-wrap md:px-14 px-2 gap-4 font-bold mt-4 justify-center">
+    <div
+      class="flex flex-wrap md:px-14 px-2 gap-4 font-bold mt-4 justify-center"
+    >
       <NuxtLink
         :to="`/category/${category.slug}`"
         v-for="category in categories"
@@ -122,7 +126,9 @@ console.log("product in each category", products.value);
       </div>
     </div>
     <div v-if="products?.length !== 0">
-      <div class="grid grid-flow-row md:grid-cols-4 grid-cols-2 items-center justify-center w-full md:px-14 px-3">
+      <div
+        class="md:grid grid-flow-row md:grid-cols-4 grid-cols-1 items-center justify-center w-full md:px-14 px-3 hidden"
+      >
         <div
           v-for="paginatedProduct in paginatedProducts"
           :key="paginatedProduct.id"
@@ -131,7 +137,25 @@ console.log("product in each category", products.value);
           <BlogProduct :product="paginatedProduct" />
         </div>
       </div>
-      <div class="flex justify-center">
+      <div class="w-fit h-full block md:hidden">
+        <UCarousel
+          v-slot="{ item }"
+          :items="paginatedProducts"
+          :ui="{
+            container: 'gap-4 scroll-smooth',
+            item: 'flex flex-col items-center',
+            nav: 'hidden',
+            indicators: {
+              wrapper: 'relative bottom-0 mt-4',
+            },
+          }"
+          indicators
+          ref="productCarouselRef"
+        >
+          <BlogProduct :product="item" />
+        </UCarousel>
+      </div>
+      <div class="md:flex justify-center hidden">
         <UPagination
           v-model="page"
           :page-count="pageCount"
