@@ -8,6 +8,7 @@
       <div v-if="blogsError">Blogs Error: {{ blogsError.message }}</div>
     </div>
     <div v-else>
+      <!-- <HeaderCarousel /> -->
       <h2 class="text-center mt-5">Prioritizing Holistic Health</h2>
       <h3 class="text-center mb-10">
         Overwhelmed by quick fixes and diet culture, we bring you nutritious,
