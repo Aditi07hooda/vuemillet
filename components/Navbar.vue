@@ -294,7 +294,7 @@ onMounted(async () => {
           @click="cartModelVisible.openCartModel"
           >Cart ({{ cartLength }})</span
         >
-        <USlideover v-model="cartModelVisible.isCartModelOpen" prevent-close>
+        <USlideover v-model="cartModelVisible.isCartModelOpen">
           <Cart />
         </USlideover>
       </div>
