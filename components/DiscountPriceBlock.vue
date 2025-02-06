@@ -7,7 +7,7 @@ defineProps({
 
 <template>
   <template v-if="hasDiscount(price, offerPrice)">
-    <div class="flex gap-5">
+    <div class="flex gap-5 justify-center items-center">
       <div class="text-rose-600">
         {{ calculateDiscount(price, offerPrice) }} % off
       </div>
