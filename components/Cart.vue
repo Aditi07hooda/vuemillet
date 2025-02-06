@@ -224,7 +224,7 @@ const getProduct = async (cartItem) => {
           </div>
           <div class="w-1/4 justify-between flex flex-col">
             <div
-              class="items-start flex w-full justify-end"
+              class="items-start flex w-full justify-end cursor-pointer"
               @click="deleteCartItem(cartItem)"
             >
               <X class="text-gray-400 w-4 h-4" />
