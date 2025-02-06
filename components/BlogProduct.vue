@@ -243,25 +243,23 @@ button {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .product-card {
-    flex: 1 1 calc(50% - 10px); /* Two items per row */
-  }
-
   .dropdown {
     width: 100%;
     max-width: unset;
     font-size: 14px;
   }
+  .product-name{
+    width: 300px;
+  }
 }
 
 @media (max-width: 480px) {
-  .product-card {
-    flex: 1 1 100%; /* One item per row */
-  }
-
   .dropdown {
     width: 100%;
     font-size: 12px;
+  }
+  .product-name{
+    width: 250px;
   }
 }
 </style>

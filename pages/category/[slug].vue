@@ -8,6 +8,16 @@ const sessionId = ref(null);
 
 const productCarouselRef = ref();
 
+onMounted(() => {
+  setInterval(() => {
+    if (!productCarouselRef.value) return;
+    if (productCarouselRef.value.page === productCarouselRef.value.pages) {
+      productCarouselRef.value.select(0);
+    }
+    productCarouselRef.value.next();
+  }, 7000);
+});
+
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
 }
@@ -137,13 +147,13 @@ console.log("product in each category", products.value);
           <BlogProduct :product="paginatedProduct" />
         </div>
       </div>
-      <div class="w-fit h-full block md:hidden">
+      <div class="h-full block md:hidden">
         <UCarousel
           v-slot="{ item }"
           :items="paginatedProducts"
           :ui="{
-            container: 'gap-4 scroll-smooth',
-            item: 'flex flex-col items-center',
+            container: 'gap-4 scroll-smooth px-3',
+            item: 'flex flex-col items-center border-2 rounded-lg',
             nav: 'hidden',
             indicators: {
               wrapper: 'relative bottom-0 mt-4',
