@@ -113,20 +113,20 @@ const containsOnlyNull = (array) => {
             You might like to buy
             {{ products.length > 1 ? "these products" : "this product" }} :
           </h2>
-          <div class="product-list flex flex-wrap justify-evenly p-14">
-            <div class="text-center p-5">
+          <div class="flex flex-wrap justify-evenly md:p-14 bg-purple-100 rounded-lg">
+            <div class="text-center md:p-5 px-3 py-2">
               You can buy the following products from us and we deliver it to
               your home. We use only organic ingredients and all the products
               are made only after you place the order.
             </div>
             <div
               v-if="products.length !== 0"
-              class="flex justify-evenly w-full flex-wrap"
+              class="grid grid-flow-row grid-cols-1 md:grid-cols-5 gap-4 w-full px-3 py-2"
             >
               <div
                 v-for="product in products.filter((p) => p !== null)"
                 :key="product.slug"
-                class="product-container rounded mb-10 mx-2 w-full sm:w-auto"
+                class="flex justify-center align-center flex-col rounded md:mb-10 md:mx-2 w-full sm:w-auto bg-white"
               >
                 <BlogProduct :product="product" />
               </div>
