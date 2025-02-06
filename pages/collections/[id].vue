@@ -150,7 +150,7 @@ const paginatedProducts = computed(() => {
       <div
         v-for="product in paginatedProducts"
         :key="product.id"
-        class="product-container rounded mb-10 mx-1 w-full sm:w-auto"
+        class="mx-3 border-2 rounded-lg mb-10 shadow-md shadow-[rgba(0,0,0,0.1)] md:px-6 w-full sm:w-auto"
       >
         <BlogProduct :product="product" />
       </div>
