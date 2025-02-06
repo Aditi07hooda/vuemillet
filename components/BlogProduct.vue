@@ -102,7 +102,8 @@ let slug =
       <span>{{ capitalize(product?.category?.name || "") }}</span>
     </NuxtLink>
   </div>
-  <div v-if="!isHomePage">
+  <div v-if="!isHomePage" class="product-card flex flex-col items-center">
+    <!-- Variant Selection -->
     <div v-if="containsOnlySize(product.variantTypes)">
       <div class="mb-2">Select Size</div>
       <select class="mb-2 dropdown" v-model="selectedSize" @change="logOption">
@@ -135,7 +136,8 @@ let slug =
         </option>
       </select>
     </div>
-    <div class="font-bold mb-2">
+
+    <div class="font-bold mb-2 price-container">
       <template v-if="containsOnlySize(product.variantTypes)">
         <DiscountPriceBlock
           :price="selectedSize.price"
@@ -149,7 +151,9 @@ let slug =
         />
       </template>
     </div>
-    <div>
+
+    <!-- Add to Cart Button -->
+    <div class="mt-auto w-full">
       <button
         @click="addingToCart"
         class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2 rounded-3xl"
@@ -161,31 +165,53 @@ let slug =
 </template>
 
 <style scoped>
+/* Ensure all product cards are aligned */
+.product-card {
+  width: 100%;
+  max-width: 320px;
+  min-height: 200px;
+  padding: 16px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Image container with fixed height */
 .product-image-container {
   width: 100%;
-  padding-top: 100%;
+  height: 150px; /* Fixed height */
   position: relative;
   overflow: hidden;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  width: auto;
   height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  object-fit: contain;
 }
 
+/* Product Name (Ensures consistent height) */
 .product-name {
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  min-height: 40px; /* Fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Variant Selection Dropdown */
 .dropdown {
   width: 100%;
-  max-width: 200px;
+  max-width: 400px;
   padding: 10px 12px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -199,9 +225,10 @@ let slug =
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 10px center;
-  background-size: 16px;
+  background-size: 10px;
 }
 
+/* Ensure dropdowns are aligned */
 .dropdown:hover,
 .dropdown:focus {
   border-color: #007bff;
@@ -209,29 +236,27 @@ let slug =
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.dropdown option {
-  padding: 10px;
-  font-size: 16px;
+/* Add to Cart button always at the bottom */
+button {
+  margin-top: auto;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .product-container {
-    flex: 1 1 calc(50% - 10px);
-    /* Two items per row */
+  .product-card {
+    flex: 1 1 calc(50% - 10px); /* Two items per row */
   }
 
   .dropdown {
     width: 100%;
     max-width: unset;
-    font-size: 20px;
-    background-size: 14px;
+    font-size: 14px;
   }
 }
 
 @media (max-width: 480px) {
-  .product-container {
-    flex: 1 1 100%;
-    /* One item per row */
+  .product-card {
+    flex: 1 1 100%; /* One item per row */
   }
 
   .dropdown {
