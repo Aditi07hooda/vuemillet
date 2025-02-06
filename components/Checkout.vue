@@ -257,9 +257,9 @@ const startPayment = async () => {
           <div
             v-for="(cartItem, index) in checkout.cartItems"
             :key="cartItem.id"
-            class="flex-grow-0 flex px-4 py-2 border-gray-200 hover:bg-gray-100 justify-between"
+            class="flex-grow-0 flex px-4 py-2 border-gray-200 hover:bg-gray-100"
           >
-            <div class="relative flex items-start w-full">
+            <div class="relative flex items-start w-3/4">
               <div class="relative">
                 <img
                   :src="checkout.productImage[index] || '/favicon.ico'"
@@ -282,14 +282,14 @@ const startPayment = async () => {
               </div>
             </div>
             <p
-              class="items-start flex font-semibold text-sm w-full justify-end text-green-950"
+              class="items-start flex font-semibold text-sm w-1/4 justify-end text-green-950"
             >
               Rs. {{ cartItem.price * cartItem.qty }}
             </p>
           </div>
         </div>
         <div class="h-fit">
-          <div class="px-5 py-3">
+          <div class="px-3 py-3">
             <div
               class="flex items-center border border-gray-300 rounded-md overflow-hidden"
             >
