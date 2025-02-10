@@ -8,7 +8,6 @@
       <div v-if="blogsError">Blogs Error: {{ blogsError.message }}</div>
     </div>
     <div v-else>
-      <!-- <HeaderCarousel /> -->
       <h2 class="text-center mt-5">Prioritizing Holistic Health</h2>
       <h3 class="text-center mb-10">
         Overwhelmed by quick fixes and diet culture, we bring you nutritious,
@@ -86,7 +85,6 @@
                 },
               }"
               indicators
-              ref="productCarouselRef"
             >
               <ShopEssentialProduct :product="item" :categories="categories" />
             </UCarousel>
@@ -110,7 +108,7 @@
             v-slot="{ item }"
             :items="blogs"
             :ui="{
-              container: 'gap-4 scroll-smooth',
+              container: 'gap-16 scroll-smooth',
               item: 'flex flex-col items-center',
               nav: 'hidden',
             }"
@@ -134,7 +132,6 @@ const sessionId = ref(null);
 
 const blogCarouselRef = ref();
 const collectionCarouselRef = ref();
-const productCarouselRef = ref();
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -203,15 +200,6 @@ onMounted(() => {
   }, 7000);
 });
 
-onMounted(() => {
-  setInterval(() => {
-    if (!productCarouselRef.value) return;
-    if (productCarouselRef.value.page === productCarouselRef.value.pages) {
-      productCarouselRef.value.select(0);
-    }
-    productCarouselRef.value.next();
-  }, 7000);
-});
 </script>
 
 <style>

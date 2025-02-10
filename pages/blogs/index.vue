@@ -40,7 +40,7 @@ const sortBlogsByDate = computed(() => {
                 <div>Your weekly dose of wellness wisdom every Thursday!
                 </div>
             </div>
-            <div class="flex flex-wrap flex-1 justify-evenly p-8">
+            <div class="grid grid-flow-row grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-8 space-y-12">
                 <div v-for="blog in sortBlogsByDate" :key="blog.slug" class="blog-item">
                     <Blog :blog="blog" />
                 </div>
@@ -52,9 +52,7 @@ const sortBlogsByDate = computed(() => {
 <style scoped>
 
 .blog-item {
-    max-height: 350px;
     width: 300px;
-    height: 350px;
     color: #67645b;
 }
 

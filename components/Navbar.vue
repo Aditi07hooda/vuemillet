@@ -140,8 +140,18 @@ onMounted(async () => {
           class="uppercase font-semibold hidden bg-inherit text-black items-center md:flex text-md hover:bg-inherit"
         />
         <template #panel="{ close }">
+          <div class="flex justify-end md:px-1 mx-3 mt-3">
+              <UButton
+                color="gray"
+                variant="ghost"
+                class="-my-1"
+                @click="isOpen = false"
+              >
+                <X class="text-gray-400 w-4 h-4 md:w-8 md:h-8" />
+              </UButton>
+            </div>
           <div
-            class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 mt-8 gap-24"
+            class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 gap-24"
           >
             <div>
               <h3 class="uppercase text-lg font-semibold py-3">
