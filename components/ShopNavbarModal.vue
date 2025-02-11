@@ -24,11 +24,19 @@ defineProps({
             v-for="category in collection"
             class="flex gap-3 text-sm font-medium items-center"
           >
-            <LucideChevronRight class="w-4 h-4" />
+            <LucideChevronRight
+              class="w-4 h-4"
+              :class="{
+                'text-pink-600 w-6 h-6': category.name === collection[0].name,
+              }"
+            />
             <NuxtLink
               :to="`/collections/${category.id}`"
               @click="close"
               class="w-full hover:text-pink-600 hover:scale-105 transition duration-500"
+              :class="{
+                'text-pink-600 text-lg': category.name === collection[0].name,
+              }"
             >
               {{ capitalize(category.name) }}
             </NuxtLink>
@@ -38,7 +46,7 @@ defineProps({
     </div>
     <div class="mt-10 col-span-4 row-span-4">
       <div class="flex gap-4 flex-wrap flex-col">
-        <div class="flex flex-row">
+        <div class="flex flex-row gap-12">
           <div
             v-for="p in products[0].products.slice(0, 5)"
             :key="p.id"
