@@ -8,6 +8,10 @@ defineProps({
     type: Object,
     required: true,
   },
+  close: {
+    type: Function,
+    required: true,
+  },
 });
 </script>
 <template>
