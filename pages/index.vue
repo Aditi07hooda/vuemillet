@@ -43,7 +43,7 @@
         v-slot="{ item }"
         :items="filteredCollections"
         :ui="{
-          item: 'basis-full md:basis-1/2 lg:basis-1/3 flex flex-col gap-4',
+          item: 'basis-full md:basis-1/3 lg:basis-1/4 flex flex-col gap-4',
           container: 'scroll-smooth',
         }"
         indicators
@@ -51,13 +51,13 @@
         ref="collectionCarouselRef"
       >
         <div class="w-full space-y-4 px-2" v-if="item.frontPage !== false">
-          <NuxtLink :to="`/collections/${item.id}`">
+          <NuxtLink :to="`/collections/${item.id}`" class="flex flex-col align-center items-center" style="width: 100%;">
             <img
               :src="item.imageUrl || '/favicon.ico'"
-              class="w-full rounded-3xl shadow-md"
+              class="w-80 items-center rounded-3xl shadow-md"
               draggable="false"
             />
-            <div class="flex justify-center">
+            <div class="flex justify-center w-full">
               <p
                 class="text-sm mb-10 mt-2 text-center border-black border-2 rounded-3xl p-2 w-1/2 hover:bg-pink-600 transition duration-500"
               >
