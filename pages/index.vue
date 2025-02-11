@@ -48,7 +48,6 @@
         }"
         indicators
         class="rounded-lg overflow-hidden"
-        ref="collectionCarouselRef"
       >
         <div class="w-full space-y-4 px-2" v-if="item.frontPage !== false">
           <NuxtLink :to="`/collections/${item.id}`" class="flex flex-col align-center items-center" style="width: 100%;">
@@ -131,7 +130,6 @@ const brandID = config.public.brandID;
 const sessionId = ref(null);
 
 const blogCarouselRef = ref();
-const collectionCarouselRef = ref();
 
 if (typeof window !== "undefined") {
   sessionId.value = localStorage.getItem("sessionId");
@@ -186,18 +184,6 @@ onMounted(() => {
     }
     blogCarouselRef.value.next();
   }, 5000);
-});
-
-onMounted(() => {
-  setInterval(() => {
-    if (!collectionCarouselRef.value) return;
-    if (
-      collectionCarouselRef.value.page === collectionCarouselRef.value.pages
-    ) {
-      collectionCarouselRef.value.select(0);
-    }
-    collectionCarouselRef.value.next();
-  }, 7000);
 });
 
 </script>
