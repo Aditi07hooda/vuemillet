@@ -227,7 +227,7 @@ const addingToCart = async (id, name) => {
                 <div
                   class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                 >
-                  <NuxtLink :to="`/product/${p.slug}`" @click="closeModal">
+                  <NuxtLink :to="`/product/${p.slug || p.id}`" @click="closeModal">
                     <div
                       class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                     >
@@ -338,7 +338,7 @@ const addingToCart = async (id, name) => {
                   <div
                     class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                   >
-                    <NuxtLink :to="`/product/${p.slug}`" @click="closeModal">
+                    <NuxtLink :to="`/product/${p.slug || p.id}`" @click="closeModal">
                       <div
                         class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                       >

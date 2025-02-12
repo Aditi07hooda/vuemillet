@@ -11,9 +11,20 @@ export const findProductId = async (baseURL, brandID, sessionID, slug) => {
   if (!products.length) {
     throw new Error("No products found");
   }
-  const product = products.find((product) => product.slug === slug);
+  const product = products.find((product) => product.slug === slug || product.id === slug);
   if (!product) {
     throw new Error("Product not found");
   }
   return product ? product.id : null;
+};
+
+export const findCollectionId = async (baseURL, brandId, sessionId, slug) => {
+  const res = await fetch(`${baseURL}/store/${brandId}/categories`, {
+    headers: {
+      session: sessionId,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories");
+  }
 };

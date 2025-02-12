@@ -74,7 +74,7 @@ const addingToCart = async (id, name) => {
               <div
                 class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
               >
-                <NuxtLink :to="`/product/${p.slug}`" @click="close">
+                <NuxtLink :to="`/product/${p.slug || p.id}`" @click="close">
                   <div
                     class="relative mt-2 w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center"
                   >
