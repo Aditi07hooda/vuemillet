@@ -71,7 +71,7 @@ const addingToCart = async (id, name) => {
             :key="p.id"
             class="w-fit mx-3"
           >
-            <div class="flex w-56 h-64 contain-strict">
+            <div class="flex w-56 h-60 contain-strict">
               <div
                 class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
               >

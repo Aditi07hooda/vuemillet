@@ -200,50 +200,60 @@ onMounted(async () => {
       </div>
       <div v-if="!searchResults" class="md:w-3/4 w-full px-5 md:px-0">
         <div class="flex gap-4 flex-wrap flex-col">
-          <div v-for="collection in products" :key="collection.id" class="">
-            <NuxtLink
-              :to="`/collections/${collection.collectionDetail.id}`"
-              @click="closeModal"
-              class="hover:text-pink-600 hover:scale-105 transition duration-500"
+          <div class="flex flex-row gap-12">
+            <div
+              v-for="p in collections[0].products.slice(0, 7)"
+              :key="p.id"
+              class="w-fit mx-3"
             >
-              <h4 class="text-lg font-semibold py-3">
-                {{ collection.collectionDetail.name }}
-              </h4>
-            </NuxtLink>
-            <div class="flex flex-row">
-              <div
-                v-for="p in collection.products.slice(0, 5)"
-                :key="p.id"
-                class="w-fit mx-3"
-              >
-                <NuxtLink
-                  :to="`/product/${p.id}`"
-                  @click="closeModal"
-                  class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
+              <div class="flex w-56 h-60 contain-strict">
+                <div
+                  class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                 >
-                  <img
-                    :src="p.oneImg || p.images[0] || '/favicon.ico'"
-                    :alt="p.name"
-                    class="w-[150px] h-[150px] object-cover rounded-lg"
-                  />
-                  <div class="w-[150px] mt-2 font-normal text-sm">
-                    {{ p.name }}
+                  <NuxtLink :to="`/product/${p.id}`" @click="close">
+                    <div
+                      class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center"
+                    >
+                      <img
+                        :src="p.oneImg || p.images[0] || '/favicon.ico'"
+                        alt="Product Image"
+                        class="w-auto h-full max-w-full max-h-full object-contain"
+                      />
+                    </div>
+                    <div
+                      class="mt-2 text-base font-medium h-[40px] flex items-center justify-center"
+                    >
+                      {{ capitalize(p.name) }}
+                    </div>
+                    <div
+                      class="my-2 text-base font-normal text-gray-500 h-[30px] flex items-center justify-center"
+                    >
+                      {{
+                        p.variantMatrix?.Size?.[0] ||
+                        p.variantMatrix?.size?.[0] ||
+                        p.variantMatrix?.SIZE?.[0]
+                      }}
+                    </div>
+                  </NuxtLink>
+                  <div class="pb-2">
+                    <button
+                      class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-fit px-4 py-1 text-base rounded-3xl"
+                    >
+                      Add to cart
+                    </button>
                   </div>
-                </NuxtLink>
+                </div>
               </div>
             </div>
-            <div
-              class="flex flex-col gap-3 mt-4"
-              v-if="collection.products.length > 5"
+          </div>
+          <div class="fixed bottom-6 right-0 md:px-14 px-5 md:m-5">
+            <NuxtLink
+              :to="`/collections/${collections[0].id}`"
+              @click="close"
+              class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
             >
-              <NuxtLink
-                :to="`/collections/${collection.collectionDetail.id}`"
-                @click="closeModal"
-                class="text-sm text-gray-600 hover:text-pink-600 hover:scale-105 transition duration-500"
-              >
-                View more
-              </NuxtLink>
-            </div>
+              View More
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -262,21 +272,65 @@ onMounted(async () => {
           <template v-else> Recommended products </template>
         </h3>
         <div class="flex flex-wrap gap-4">
-          <div v-for="product in searchResults.results" :key="product.id">
-            <NuxtLink
-              :to="`/product/${product.id}`"
-              @click="closeModal"
+          <div v-for="p in searchResults.results" :key="p.id">
+            <div
               class="flex flex-col items-center hover:text-pink-600 hover:scale-105 transition duration-500"
             >
-              <img
-                :src="product.oneImg || product.images[0] || '/favicon.ico'"
-                :alt="product.name"
-                class="w-[150px] h-[150px] object-cover rounded-lg"
-              />
-              <div class="w-[150px] mt-2 font-semibold">
-                {{ capitalize(product.name) }}
+              <div class="flex w-56 h-80 contain-strict">
+                <div
+                  class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
+                >
+                  <NuxtLink :to="`/product/${p.id}`" @click="close">
+                    <div
+                      class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
+                    >
+                      <img
+                        :src="p.oneImg || p.images[0] || '/favicon.ico'"
+                        alt="Product Image"
+                        class="w-auto h-full max-w-full max-h-full object-contain"
+                      />
+                    </div>
+                    <div
+                      class="mt-2 text-base font-medium h-[44px] flex items-center justify-center"
+                    >
+                      {{ capitalize(p.name) }}
+                    </div>
+                    <div
+                      class="my-2 text-base font-normal text-gray-500 h-[30px] flex items-center justify-center"
+                    >
+                      {{
+                        p.variants[0].name ||
+                        p.variantMatrix?.Size?.[0] ||
+                        p.variantMatrix?.size?.[0] ||
+                        p.variantMatrix?.SIZE?.[0]
+                      }}
+                    </div>
+                    <div
+                      class="my-2 text-base font-normal text-gray-500 h-[35px] flex flex-col items-center justify-center"
+                    >
+                      <div v-if="hasDiscount(p.variants[0].price, p.variants[0].offerPrice)">
+                        <div class="flex gap-5 justify-center items-center">
+                          <div class="text-rose-600 text-base">
+                            {{ calculateDiscount(p.variants[0].price, p.variants[0].offerPrice) }} % off
+                          </div>
+                          <span class="line-through me-1 text-gray-600 text-xs"
+                            >₹ {{ p.variants[0].price }}</span
+                          >
+                        </div>
+                      </div>
+                      <p class="text-green-600 text-xl font-bold">₹ {{ p.variants[0].offerPrice }}</p>
+                    </div>
+                  </NuxtLink>
+                  <div class="pb-2">
+                    <button
+                      class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-fit px-4 py-1 text-base rounded-3xl"
+                    >
+                      Add to cart
+                    </button>
+                  </div>
+                </div>
               </div>
-            </NuxtLink>
+            </div>
           </div>
         </div>
       </div>
