@@ -131,6 +131,14 @@ onMounted(async () => {
   await fetchCollectionProducts(props.collections[0].id);
   await collectionAndProducts();
 });
+
+const addingToCart = async (id, name) => {
+  console.log("shop navbar selected size : ", id, name);
+  const sessionId = localStorage.getItem("sessionId");
+  const data = await addToCart(baseURL, brandID, sessionId, id, name);
+  console.log("Added to cart", data);
+  cartModelVisible.openCartModel();
+};
 </script>
 
 <template>
@@ -206,13 +214,13 @@ onMounted(async () => {
               :key="p.id"
               class="w-fit mx-3"
             >
-              <div class="flex w-56 h-60 contain-strict">
+              <div class="flex w-56 h-80 contain-strict">
                 <div
-                  class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
+                  class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)] "
                 >
                   <NuxtLink :to="`/product/${p.id}`" @click="close">
                     <div
-                      class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center"
+                      class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                     >
                       <img
                         :src="p.oneImg || p.images[0] || '/favicon.ico'"
@@ -221,22 +229,62 @@ onMounted(async () => {
                       />
                     </div>
                     <div
-                      class="mt-2 text-base font-medium h-[40px] flex items-center justify-center"
+                      class="mt-2 text-base font-medium h-[44px] flex items-center justify-center"
                     >
                       {{ capitalize(p.name) }}
                     </div>
                     <div
-                      class="my-2 text-base font-normal text-gray-500 h-[30px] flex items-center justify-center"
+                      class="my-2 text-base font-normal text-gray-500 h-[35px] flex items-center justify-center"
                     >
                       {{
+                        p.variants[0].name ||
                         p.variantMatrix?.Size?.[0] ||
                         p.variantMatrix?.size?.[0] ||
                         p.variantMatrix?.SIZE?.[0]
                       }}
                     </div>
+                    <div
+                      class="my-2 text-base font-normal text-gray-500 h-[35px] flex flex-col items-center justify-center"
+                    >
+                      <div
+                        v-if="
+                          hasDiscount(
+                            p.variants[0].price,
+                            p.variants[0].offerPrice
+                          )
+                        "
+                      >
+                        <div class="flex gap-5 justify-center items-center">
+                          <div class="text-rose-600 text-base">
+                            {{
+                              calculateDiscount(
+                                p.variants[0].price,
+                                p.variants[0].offerPrice
+                              )
+                            }}
+                            % off
+                          </div>
+                          <span class="line-through me-1 text-gray-600 text-xs"
+                            >₹ {{ p.variants[0].price }}</span
+                          >
+                        </div>
+                      </div>
+                      <p class="text-green-600 text-xl font-bold">
+                        ₹ {{ p.variants[0].offerPrice }}
+                      </p>
+                    </div>
                   </NuxtLink>
-                  <div class="pb-2">
+                  <div class="pb-2 mt-2">
                     <button
+                      @click="
+                        addingToCart(
+                          p.variants[0].id,
+                          p.variants[0].name ||
+                            p.variantMatrix?.Size?.[0] ||
+                            p.variantMatrix?.size?.[0] ||
+                            p.variantMatrix?.SIZE?.[0]
+                        )
+                      "
                       class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-fit px-4 py-1 text-base rounded-3xl"
                     >
                       Add to cart
@@ -308,21 +356,45 @@ onMounted(async () => {
                     <div
                       class="my-2 text-base font-normal text-gray-500 h-[35px] flex flex-col items-center justify-center"
                     >
-                      <div v-if="hasDiscount(p.variants[0].price, p.variants[0].offerPrice)">
+                      <div
+                        v-if="
+                          hasDiscount(
+                            p.variants[0].price,
+                            p.variants[0].offerPrice
+                          )
+                        "
+                      >
                         <div class="flex gap-5 justify-center items-center">
                           <div class="text-rose-600 text-base">
-                            {{ calculateDiscount(p.variants[0].price, p.variants[0].offerPrice) }} % off
+                            {{
+                              calculateDiscount(
+                                p.variants[0].price,
+                                p.variants[0].offerPrice
+                              )
+                            }}
+                            % off
                           </div>
                           <span class="line-through me-1 text-gray-600 text-xs"
                             >₹ {{ p.variants[0].price }}</span
                           >
                         </div>
                       </div>
-                      <p class="text-green-600 text-xl font-bold">₹ {{ p.variants[0].offerPrice }}</p>
+                      <p class="text-green-600 text-xl font-bold">
+                        ₹ {{ p.variants[0].offerPrice }}
+                      </p>
                     </div>
                   </NuxtLink>
                   <div class="pb-2">
                     <button
+                      @click="
+                        addingToCart(
+                          p.variants[0].id,
+                          p.variants[0].name ||
+                            p.variantMatrix?.Size?.[0] ||
+                            p.variantMatrix?.size?.[0] ||
+                            p.variantMatrix?.SIZE?.[0]
+                        )
+                      "
                       class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-fit px-4 py-1 text-base rounded-3xl"
                     >
                       Add to cart
