@@ -1,4 +1,8 @@
 <template>
+  <Head>
+    <Title>{{ Title }}</Title>
+    <Meta name="description" :content="title" />
+  </Head>
   <div>
     <div v-if="isHomePage" class="home-container">
       <!-- <div class="full-height-header">
@@ -26,6 +30,8 @@ import { useRoute } from "vue-router";
 import HeaderCarousel from "./components/HeaderCarousel.vue";
 import Navbar from "./components/Navbar.vue";
 import BrandTags from "./components/BrandTags.vue";
+
+const Title = ref('The Millet Store');
 
 export default {
   components: {
