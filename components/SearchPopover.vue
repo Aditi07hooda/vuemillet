@@ -181,7 +181,10 @@ const addingToCart = async (id, name) => {
               :key="category.id"
               class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
             >
-              <NuxtLink :to="`/collections/${category.id}`" @click="closeModal">
+              <NuxtLink :to="`/collections/${category.id}`" @click="closeModal" :class="{
+                'text-pink-600 scale-105 transition duration-500':
+                  category.name === collections[0].name,
+              }">
                 {{ capitalize(category.name) }}
               </NuxtLink>
             </li>
@@ -217,7 +220,7 @@ const addingToCart = async (id, name) => {
               :key="p.id"
               class="w-fit md:mx-3 mx-1"
             >
-              <div class="flex md:w-56 w-36 md:h-80 md:contain-strict">
+              <div class="flex md:w-56 w-40 md:h-80 md:contain-strict">
                 <div
                   class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                 >
@@ -232,7 +235,7 @@ const addingToCart = async (id, name) => {
                       />
                     </div>
                     <div
-                      class="mt-2 text-base font-medium md:h-[44px] flex items-center justify-center"
+                      class="mt-2 px-2 text-base font-medium md:h-[44px] flex items-center justify-center"
                     >
                       {{ capitalize(p.name) }}
                     </div>
@@ -328,7 +331,7 @@ const addingToCart = async (id, name) => {
               <div
                 class="flex flex-col items-center md:hover:text-pink-600 md:hover:scale-105 transition duration-500"
               >
-                <div class="flex md:w-56 w-36 md:h-80 md:contain-strict">
+                <div class="flex md:w-56 w-40 md:h-80 md:contain-strict">
                   <div
                     class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                   >
@@ -343,7 +346,7 @@ const addingToCart = async (id, name) => {
                         />
                       </div>
                       <div
-                        class="mt-2 text-base font-medium md:h-[44px] flex items-center justify-center"
+                        class="mt-2 px-2 text-base font-medium md:h-[44px] flex items-center justify-center"
                       >
                         {{ capitalize(p.name) }}
                       </div>

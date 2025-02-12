@@ -29,7 +29,6 @@ const addingToCart = async (id, name) => {
   console.log("Added to cart", data);
   cartModelVisible.openCartModel();
 };
-
 </script>
 <template>
   <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 gap-24">
@@ -63,7 +62,7 @@ const addingToCart = async (id, name) => {
         </ul>
       </div>
     </div>
-    <div class="mt-5 col-span-4 row-span-4">
+    <div class="mt-5 col-span-4 row-span-3">
       <div class="flex gap-4 flex-wrap flex-col">
         <div class="flex flex-row gap-12">
           <div
@@ -71,13 +70,13 @@ const addingToCart = async (id, name) => {
             :key="p.id"
             class="w-fit mx-3"
           >
-            <div class="flex w-56 h-60 contain-strict">
+            <div class="flex w-52 h-80 contain-strict">
               <div
                 class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
               >
                 <NuxtLink :to="`/product/${p.id}`" @click="close">
                   <div
-                    class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center"
+                    class="relative mt-2 w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center"
                   >
                     <img
                       :src="p.oneImg || p.images[0] || '/favicon.ico'"
@@ -86,18 +85,48 @@ const addingToCart = async (id, name) => {
                     />
                   </div>
                   <div
-                    class="mt-2 text-base font-medium h-[40px] flex items-center justify-center"
+                    class="mt-2 px-2 text-base font-medium h-[44px] flex items-center justify-center"
                   >
                     {{ capitalize(p.name) }}
                   </div>
                   <div
-                    class="my-2 text-base font-normal text-gray-500 h-[30px] flex items-center justify-center"
+                    class="my-2 text-base font-normal text-gray-500 h-[35px] flex items-center justify-center"
                   >
                     {{
                       p.variantMatrix?.Size?.[0] ||
                       p.variantMatrix?.size?.[0] ||
                       p.variantMatrix?.SIZE?.[0]
                     }}
+                  </div>
+                  <div
+                    class="my-2 text-base font-normal text-gray-500 h-[35px] flex flex-col items-center justify-center"
+                  >
+                    <div
+                      v-if="
+                        hasDiscount(
+                          p.variants[0].price,
+                          p.variants[0].offerPrice
+                        )
+                      "
+                    >
+                      <div class="flex gap-5 justify-center items-center">
+                        <div class="text-rose-600 text-base">
+                          {{
+                            calculateDiscount(
+                              p.variants[0].price,
+                              p.variants[0].offerPrice
+                            )
+                          }}
+                          % off
+                        </div>
+                        <span class="line-through me-1 text-gray-600 text-xs"
+                          >₹ {{ p.variants[0].price }}</span
+                        >
+                      </div>
+                    </div>
+                    <p class="text-green-600 text-xl font-bold">
+                      ₹ {{ p.variants[0].offerPrice }}
+                    </p>
                   </div>
                 </NuxtLink>
                 <div class="pb-2">
