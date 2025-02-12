@@ -46,7 +46,7 @@ defineProps({
         </ul>
       </div>
     </div>
-    <div class="mt-10 col-span-4 row-span-4">
+    <div class="mt-5 col-span-4 row-span-4">
       <div class="flex gap-4 flex-wrap flex-col">
         <div class="flex flex-row gap-12">
           <div
@@ -54,19 +54,8 @@ defineProps({
             :key="p.id"
             class="w-fit mx-3"
           >
-            <NuxtLink
-              :to="`/product/${p.id}`"
-              @click="close"
-              class="flex flex-col hover:text-pink-600 hover:scale-105 transition duration-500"
-            >
-              <img
-                :src="p.oneImg || p.images[0] || '/favicon.ico'"
-                :alt="p.name"
-                class="w-[150px] h-[150px] object-cover rounded-lg"
-              />
-              <div class="w-[150px] mt-2 font-normal text-sm">
-                {{ p.name }}
-              </div>
+            <NuxtLink :to="`/product/${p.id}`" @click="close" class="flex w-56 h-72">
+              <ShopEssentialProduct :product="p" :categories="collection" />
             </NuxtLink>
           </div>
         </div>
@@ -77,7 +66,7 @@ defineProps({
           @click="close"
           class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
         >
-        View More
+          View More
         </NuxtLink>
       </div>
     </div>
