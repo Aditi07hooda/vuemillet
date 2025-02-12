@@ -148,7 +148,7 @@ const addingToCart = async (id, name) => {
     </h1>
     <div class="md:px-14 px-5 md:m-5 mt-2 flex w-full">
       <form
-        class="relative w-full"
+        class="relative w-full md:mr-10"
         @submit.prevent="fetchResultsForQuerySentence"
       >
         <UInput
@@ -156,11 +156,14 @@ const addingToCart = async (id, name) => {
           :ui="{
             strategy: 'override',
             color: 'bg-gray-600',
+            size: 'xl'
           }"
           variant="outline"
           color="green"
-          class="w-full md:pr-12"
+          class="w-full"
           placeholder="Search products by name and click enter..."
+          icon="i-heroicons-magnifying-glass-20-solid"
+          :trailing="true"
         />
       </form>
     </div>
