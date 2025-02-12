@@ -147,7 +147,7 @@ export const getProductId = async (
     const product = productsData.forEach((p) => {
       p.variants.find((variant) => {
         if (variant.id === variantId && variant.name === variantName) {
-          id = p.id;
+          id = p.slug;
         }
       });
     });

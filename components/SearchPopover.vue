@@ -1,4 +1,7 @@
 <script setup>
+import { useCartModelVisibilty } from "~/store/cart";
+
+const cartModelVisible = useCartModelVisibilty();
 const props = defineProps({
   categories: {
     type: Object,
@@ -224,7 +227,7 @@ const addingToCart = async (id, name) => {
                 <div
                   class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                 >
-                  <NuxtLink :to="`/product/${p.id}`" @click="close">
+                  <NuxtLink :to="`/product/${p.slug}`" @click="closeModal">
                     <div
                       class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                     >
@@ -303,7 +306,7 @@ const addingToCart = async (id, name) => {
           <div class="fixed bottom-6 right-0 md:px-14 px-5 md:m-5">
             <NuxtLink
               :to="`/collections/${collections[0].id}`"
-              @click="close"
+              @click="closeModal"
               class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
             >
               View More
@@ -335,7 +338,7 @@ const addingToCart = async (id, name) => {
                   <div
                     class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                   >
-                    <NuxtLink :to="`/product/${p.id}`" @click="close">
+                    <NuxtLink :to="`/product/${p.slug}`" @click="closeModal">
                       <div
                         class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                       >

@@ -102,7 +102,7 @@ let slug =
         class="flex-1 text-center overflow-hidden p-4 mx-1 mt-8 mb-2 w-full sm:w-auto flex flex-col"
       >
         <!-- Product Image (Fixed height) -->
-        <NuxtLink :to="`/product/${product.id}`">
+        <NuxtLink :to="`/product/${product.slug}`">
           <div
             class="relative w-full h-[200px] overflow-hidden rounded-lg flex justify-center items-center"
           >
@@ -115,7 +115,7 @@ let slug =
         </NuxtLink>
 
         <!-- Product Name (Fixed height) -->
-        <NuxtLink :to="`/product/${product.id}`">
+        <NuxtLink :to="`/product/${product.slug}`">
           <div
             class="mt-2 text-lg font-medium h-[40px] flex items-center justify-center"
           >

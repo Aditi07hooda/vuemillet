@@ -79,7 +79,7 @@ let slug =
 </script>
 
 <template>
-  <NuxtLink :to="`/product/${product.id}`">
+  <NuxtLink :to="`/product/${product.slug}`">
     <div class="product-image-container">
       <img
         :src="product.oneImg || product.images[0] || '/favicon.ico'"
