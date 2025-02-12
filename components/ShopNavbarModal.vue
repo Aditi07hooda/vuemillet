@@ -22,12 +22,13 @@ defineProps({
         <ul class="flex flex-col space-y-4">
           <li
             v-for="category in collection"
-            class="flex gap-3 text-sm font-medium items-center"
+            class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
           >
             <LucideChevronRight
-              class="w-4 h-4"
+              class="w-4 h-4 hover:text-pink-600 hover:scale-105 transition duration-500"
               :class="{
-                'text-pink-600 w-6 h-6': category.name === collection[0].name,
+                'text-pink-600 scale-105 transition duration-500':
+                  category.name === collection[0].name,
               }"
             />
             <NuxtLink
@@ -35,7 +36,8 @@ defineProps({
               @click="close"
               class="w-full hover:text-pink-600 hover:scale-105 transition duration-500"
               :class="{
-                'text-pink-600 text-lg': category.name === collection[0].name,
+                'text-pink-600 scale-105 transition duration-500':
+                  category.name === collection[0].name,
               }"
             >
               {{ capitalize(category.name) }}
@@ -67,19 +69,16 @@ defineProps({
               </div>
             </NuxtLink>
           </div>
-          <div
-            class="flex flex-col gap-3 mt-4"
-            v-if="products[0].products.length > 5"
-          >
-            <NuxtLink
-              :to="`/collections/${collection.collectionDetail.id}`"
-              @click="close"
-              class="text-sm text-gray-600 hover:text-pink-600 hover:scale-105 transition duration-500"
-            >
-              View more
-            </NuxtLink>
-          </div>
         </div>
+      </div>
+      <div class="fixed bottom-6 right-8">
+        <NuxtLink
+          :to="`/collections`"
+          @click="close"
+          class="bg-pink-400 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
+        >
+        View More
+        </NuxtLink>
       </div>
     </div>
   </div>

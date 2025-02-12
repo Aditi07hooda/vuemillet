@@ -15,10 +15,6 @@ const cartLength = ref(0);
 
 const shopClose = ref(false);
 
-const handleShopClose = () => {
-  shopClose.value = true;
-};
-
 const menuItems = [
   {
     label: "All Categories",
