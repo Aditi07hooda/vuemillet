@@ -163,7 +163,7 @@ const getProduct = async (cartItem) => {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full h-full">
     <div
       class="flex flex-row justify-between py-3 px-4 items-center align-middle border-b"
       v-if="showDiv"
@@ -194,10 +194,7 @@ const getProduct = async (cartItem) => {
               @click="getProduct(cartItem)"
             />
             <div class="ml-3 w-full">
-              <div
-                class="cursor-pointer"
-                @click="getProduct(cartItem)"
-              >
+              <div class="cursor-pointer" @click="getProduct(cartItem)">
                 <p class="font-bold text-black text-base w-full">
                   {{ cartItem.name }}
                 </p>
@@ -222,15 +219,9 @@ const getProduct = async (cartItem) => {
               </div>
             </div>
           </div>
-          <div class="w-1/4 justify-between flex flex-col">
-            <div
-              class="items-start flex w-full justify-end cursor-pointer"
-              @click="deleteCartItem(cartItem)"
-            >
-              <X class="text-gray-400 w-4 h-4" />
-            </div>
+          <div class="w-1/4 justify-end flex flex-col">
             <p
-              class="items-end flex font-semibold text-sm w-full justify-end text-green-950"
+              class="items-end flex font-bold text-base w-full justify-end text-green-600"
             >
               Rs. {{ cartItem.price * cartItem.qty }}
             </p>
@@ -245,7 +236,7 @@ const getProduct = async (cartItem) => {
           <p class="flex items-center text-white text-sm py-2 px-4">
             Add worth Rs.
             {{ cartItems.cart.freeShipValue - cartItems.cart.orderValue }}
-            items to avoid shipping charges
+            items to have free shipping
           </p>
         </div>
         <div class="w-full">
@@ -266,13 +257,13 @@ const getProduct = async (cartItem) => {
             <p>Rs. {{ cartItems.cart.totalOrderValue || 0 }}</p>
           </div>
           <div class="mx-5 my-3 flex gap-3">
-            <UButton
-              color="red"
-              block
+            <button
               @click="navigateToCheckout"
+              class="bg-pink-600 text-white font-bold hover:bg-green-400 transition duration-500 w-full py-2 rounded cursor-pointer"
               :disabled="cartItems.cart.items.length === 0"
-              >Checkout</UButton
             >
+              Checkout
+            </button>
           </div>
         </div>
       </div>
