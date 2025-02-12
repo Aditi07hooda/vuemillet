@@ -50,7 +50,7 @@
         class="rounded-lg overflow-hidden"
       >
         <div class="w-full space-y-4 px-2" v-if="item.frontPage !== false">
-          <NuxtLink :to="`/collections/${item.id}`" class="flex flex-col align-center items-center" style="width: 100%;">
+          <NuxtLink :to="`/collections/${item.slug || item.id}`" class="flex flex-col align-center items-center" style="width: 100%;">
             <img
               :src="item.imageUrl || '/favicon.ico'"
               class="w-80 items-center rounded-3xl shadow-md"

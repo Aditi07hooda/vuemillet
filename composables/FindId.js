@@ -19,7 +19,7 @@ export const findProductId = async (baseURL, brandID, sessionID, slug) => {
 };
 
 export const findCollectionId = async (baseURL, brandId, sessionId, slug) => {
-  const res = await fetch(`${baseURL}/store/${brandId}/categories`, {
+  const res = await fetch(`${baseURL}/store/${brandId}/collections?`, {
     headers: {
       session: sessionId,
     },
@@ -27,4 +27,13 @@ export const findCollectionId = async (baseURL, brandId, sessionId, slug) => {
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
   }
+  const categories = await res.json();
+  if (!categories.length) {
+    throw new Error("No categories found");
+  }
+  const category = categories.find((category) => category.slug === slug || category.id === slug);
+  if (!category) {
+    throw new Error("Category not found");
+  }
+  return category ? category.id : null
 };

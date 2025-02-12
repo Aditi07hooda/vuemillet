@@ -287,7 +287,7 @@ onMounted(async () => {
             >
               <NuxtLink
                 v-for="category in collection"
-                :to="`/collections/${category.id}`"
+                :to="`/collections/${category.slug || category.id}`"
                 :key="category.id"
                 @click="handleClose"
                 class="hover:text-pink-600 hover:scale-105 transition duration-500"

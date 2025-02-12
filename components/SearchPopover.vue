@@ -184,7 +184,7 @@ const addingToCart = async (id, name) => {
               :key="category.id"
               class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
             >
-              <NuxtLink :to="`/collections/${category.id}`" @click="closeModal" :class="{
+              <NuxtLink :to="`/collections/${category.slug || category.id}`" @click="closeModal" :class="{
                 'text-pink-600 scale-105 transition duration-500':
                   category.name === collections[0].name,
               }">
@@ -202,7 +202,7 @@ const addingToCart = async (id, name) => {
               indicators
             >
               <NuxtLink
-                :to="`/collections/${item.id}`"
+                :to="`/collections/${item.slug || item.id}`"
                 @click="closeModal"
                 class="justify-center"
               >
@@ -305,7 +305,7 @@ const addingToCart = async (id, name) => {
           </div>
           <div class="fixed bottom-6 right-0 md:px-14 px-5 md:m-5">
             <NuxtLink
-              :to="`/collections/${collections[0].id}`"
+              :to="`/collections/${collections[0].slug || collections[0].id}`"
               @click="closeModal"
               class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
             >

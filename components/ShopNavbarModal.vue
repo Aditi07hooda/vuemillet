@@ -48,7 +48,7 @@ const addingToCart = async (id, name) => {
               }"
             />
             <NuxtLink
-              :to="`/collections/${category.id}`"
+              :to="`/collections/${category.slug || category.id}`"
               @click="close"
               class="w-full hover:text-pink-600 hover:scale-105 transition duration-500"
               :class="{
@@ -151,7 +151,7 @@ const addingToCart = async (id, name) => {
       </div>
       <div class="fixed bottom-6 right-8">
         <NuxtLink
-          :to="`/collections/${collection[0].id}`"
+          :to="`/collections/${collection[0].slug || collection[0].id}`"
           @click="close"
           class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
         >

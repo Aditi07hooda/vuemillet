@@ -24,12 +24,14 @@ const {
   },
 });
 
+const collectionId = await findCollectionId(baseURL, brandID, sessionId.value, route.params.id);
+
 const {
   data: collectionProducts,
   error: collectionProductsError,
   loading: collectionProductsLoading,
 } = await useFetch(
-  `${baseURL}/store/${brandID}/collections/${route.params.id}/products`,
+  `${baseURL}/store/${brandID}/collections/${collectionId}/products`,
   {
     headers: {
       session: sessionId.value,
@@ -96,7 +98,7 @@ const paginatedProducts = computed(() => {
     <div class="flex flex-wrap px-14 gap-4 font-bold mt-4 justify-center">
       <NuxtLink
         v-for="c in filteredCollections"
-        :to="`/collections/${c.id}`"
+        :to="`/collections/${c.slug || c.id}`"
         :key="c"
         class="nuxtlink"
         :class="c.id === route.params.id ? 'active' : 'transparent-underline '"
