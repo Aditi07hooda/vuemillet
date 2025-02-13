@@ -31,3 +31,22 @@ export const fetchBrandInfo = async (baseURL, brandID) => {
     return null;
   }
 };
+
+export const fetchKeyWords = async (baseURL, brandID, sessionId) => {
+  try {
+    const response = await fetch(
+      `${baseURL}/store/${brandID}/config?key=SITE_KEYWORDS`,
+      {
+        method: "POST",
+        headers: {
+          session: sessionId,
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Unable to fetch keywords", error);
+    return null;
+  }
+};
