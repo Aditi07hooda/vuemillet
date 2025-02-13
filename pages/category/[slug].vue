@@ -73,6 +73,9 @@ console.log("product in each category", products.value);
 </script>
 
 <template>
+  <Head>
+    <Title>{{ products.name }}</Title>
+  </Head>
   <div v-if="categoriesLoading">Loading...</div>
   <div v-else-if="categoriesError">Error: {{ error.message }}</div>
   <div v-else>

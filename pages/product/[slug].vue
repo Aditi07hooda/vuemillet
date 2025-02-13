@@ -148,6 +148,9 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <Head>
+    <Title>{{ product.name || product.webName }}</Title>
+  </Head>
   <ClientOnly>
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error.message }}</div>

@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>The Story of Millet Store</Title>
+  </Head>
   <div class="mx-auto md:p-14 overflow-x-hidden p-4">
     <h1 class="text-center mb-4">The Story of Millet Store</h1>
     <p class="md:px-8 py-4">

@@ -65,71 +65,74 @@ const containsOnlyNull = (array) => {
 </script>
 
 <template>
-  <div>
-    <div v-if="blogLoading">Loading...</div>
-    <div v-else-if="blogError">Error: {{ blogError.message }}</div>
-    <div v-else-if="blogData">
-      <p class="text-lg md:text-3xl text-center mt-5 md:mb-5 mb-2 uppercase">
-        {{ blogData.title }}
-      </p>
-      <div v-if="blogData.image" class="hero-container">
-        <img
-          :src="blogData.image"
-          :alt="blogData.slug"
-          class="hero-image rounded-lg"
-        />
+  <Head>
+    <Title>{{ blogData.title }}</Title>
+  </Head>
+  <div v-if="blogLoading">Loading...</div>
+  <div v-else-if="blogError">Error: {{ blogError.message }}</div>
+  <div v-else-if="blogData">
+    <p class="text-lg md:text-3xl text-center mt-5 md:mb-5 mb-2 uppercase">
+      {{ blogData.title }}
+    </p>
+    <div v-if="blogData.image" class="hero-container">
+      <img
+        :src="blogData.image"
+        :alt="blogData.slug"
+        class="hero-image rounded-lg"
+      />
+    </div>
+    <div class="md:m-14 md:p-14 md:pt-0 md:mt-5 md:mb-0 m-4">
+      <div class="flex details items-center justify-between py-2">
+        <div class="flex items-center">
+          <NuxtLink to="/">
+            <LucideHome />
+          </NuxtLink>
+          <div
+            class="ms-2 font-bold rounded-full border border-green-700 hover:bg-green-700 hover:text-white transition duration-500 md:p-2 px-8"
+          >
+            <NuxtLink to="/blogs"> All </NuxtLink>
+          </div>
+        </div>
+        <div class="flex ms-2">
+          <span> Share the article </span>
+          <span class="ms-2 flex items-center">
+            <LucideFacebook />
+          </span>
+          <span class="ms-2 flex items-center">
+            <LucideInstagram />
+          </span>
+        </div>
       </div>
-      <div class="md:m-14 md:p-14 md:pt-0 md:mt-5 md:mb-0 m-4">
-        <div class="flex details items-center justify-between py-2">
-          <div class="flex items-center">
-            <NuxtLink to="/">
-              <LucideHome />
-            </NuxtLink>
-            <div
-              class="ms-2 font-bold rounded-full border border-green-700 hover:bg-green-700 hover:text-white transition duration-500 md:p-2 px-8"
-            >
-              <NuxtLink to="/blogs"> All </NuxtLink>
-            </div>
+      <div class="mb-7 mt-0 italic">
+        By The Millet Store - {{ formatDate(blogData.created) }}
+      </div>
+      <div v-html="blogData.content"></div>
+      <div class="rounded-lg border-black p-7 text-center bg-green-100 mt-5">
+        By The Millet Store - {{ formatDate(blogData.created) }}
+      </div>
+      <div v-if="products.length !== 0 && !containsOnlyNull(products)">
+        <h2 class="mt-10 mb-5">
+          You might like to buy
+          {{ products.length > 1 ? "these products" : "this product" }} :
+        </h2>
+        <div
+          class="flex flex-wrap justify-evenly md:p-14 bg-purple-100 rounded-lg"
+        >
+          <div class="text-center md:p-5 px-3 py-2">
+            You can buy the following products from us and we deliver it to your
+            home. We use only organic ingredients and all the products are made
+            only after you place the order.
           </div>
-          <div class="flex ms-2">
-            <span> Share the article </span>
-            <span class="ms-2 flex items-center">
-              <LucideFacebook />
-            </span>
-            <span class="ms-2 flex items-center">
-              <LucideInstagram />
-            </span>
-          </div>
-        </div>
-        <div class="mb-7 mt-0 italic">
-          By The Millet Store - {{ formatDate(blogData.created) }}
-        </div>
-        <div v-html="blogData.content"></div>
-        <div class="rounded-lg border-black p-7 text-center bg-green-100 mt-5">
-          By The Millet Store - {{ formatDate(blogData.created) }}
-        </div>
-        <div v-if="products.length !== 0 && !containsOnlyNull(products)">
-          <h2 class="mt-10 mb-5">
-            You might like to buy
-            {{ products.length > 1 ? "these products" : "this product" }} :
-          </h2>
-          <div class="flex flex-wrap justify-evenly md:p-14 bg-purple-100 rounded-lg">
-            <div class="text-center md:p-5 px-3 py-2">
-              You can buy the following products from us and we deliver it to
-              your home. We use only organic ingredients and all the products
-              are made only after you place the order.
-            </div>
+          <div
+            v-if="products.length !== 0"
+            class="grid grid-flow-row grid-cols-1 md:grid-cols-5 gap-4 w-full px-3 py-2"
+          >
             <div
-              v-if="products.length !== 0"
-              class="grid grid-flow-row grid-cols-1 md:grid-cols-5 gap-4 w-full px-3 py-2"
+              v-for="product in products.filter((p) => p !== null)"
+              :key="product.slug"
+              class="flex justify-center align-center flex-col rounded md:mb-10 md:mx-2 w-full sm:w-auto bg-white"
             >
-              <div
-                v-for="product in products.filter((p) => p !== null)"
-                :key="product.slug"
-                class="flex justify-center align-center flex-col rounded md:mb-10 md:mx-2 w-full sm:w-auto bg-white"
-              >
-                <BlogProduct :product="product" />
-              </div>
+              <BlogProduct :product="product" />
             </div>
           </div>
         </div>

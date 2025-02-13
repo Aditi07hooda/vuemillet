@@ -92,6 +92,9 @@ const paginatedProducts = computed(() => {
 </script>
 
 <template>
+  <Head>
+    <Title>{{ collection.name }}</Title>
+  </Head>
   <div v-if="collectionProductsLoading">Loading...</div>
   <div v-else-if="collectionProductsError">Error: {{ error.message }}</div>
   <div v-else>

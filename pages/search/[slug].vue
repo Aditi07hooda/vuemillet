@@ -34,6 +34,9 @@ const {
 </script>
 
 <template>
+  <Head>
+    <Title>Search</Title>
+  </Head>
   <div v-if="categoriesLoading">Loading...</div>
   <div v-else-if="categoriesError">Error: {{ categoriesError.message }}</div>
   <div v-else>
