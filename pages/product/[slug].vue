@@ -159,6 +159,47 @@ const fetchingCartItems = async () => {
   }
 };
 
+const increaseOrDecreaseQuantity = async (incrementTask) => {
+  try {
+    if (!selectedSize.value) {
+      console.error("Selected variant not found");
+      return;
+    }
+
+    let data = null;
+    if (incrementTask) {
+      data = await addToCart(
+        baseURL,
+        brandID,
+        sessionId.value,
+        selectedSize.value.id,
+        selectedSize.value.name
+      );
+      cartModelVisible.openCartModel();
+    } else {
+      data = await removeFromCart(
+        baseURL,
+        brandID,
+        sessionId.value,
+        selectedSize.value.id,
+        selectedSize.value.name
+      );
+      cartModelVisible.openCartModel();
+    }
+    if (data) {
+      await fetchingCartItems();
+    } else {
+      console.error("Cart data is missing or malformed:", data);
+    }
+  } catch (error) {
+    console.error("Error increasing quantity in Cart.vue:", error);
+  }
+};
+
+watch(selectedSize, async () => {
+  await fetchingCartItems();
+});
+
 onMounted(async () => {
   await fetchingCartItems();
 });
@@ -367,12 +408,35 @@ onMounted(async () => {
               />
             </template>
           </div>
-          <button
-            @click="addingToCart"
-            class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+          <div v-if="isItemInCart === 0" class="flex items-center mt-16">
+            <button
+              @click="increaseOrDecreaseQuantity(true)"
+              class="bg-pink-500 w-full text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-2 rounded shadow-md"
+            >
+              Add to cart
+            </button>
+          </div>
+
+          <div
+            v-else
+            class="flex items-center gap-2 border border-pink-600 mt-16 rounded-lg bg-white shadow-md w-full"
           >
-            {{ isItemInCart !== 0 ? isItemInCart : "Add to Cart" }}
-          </button>
+            <button
+              @click="increaseOrDecreaseQuantity(false)"
+              class="px-3 py-2 font-extrabold rounded text-lg text-gray-700 border-r border-pink-600 hover:text-white hover:bg-pink-600 transition w-1/2"
+            >
+              −
+            </button>
+            <p class="px-4 py-2 text-lg font-semibold text-gray-800 w-full flex justify-center align-center cursor-default">
+              {{ isItemInCart }}
+            </p>
+            <button
+              @click="increaseOrDecreaseQuantity(true)"
+              class="px-3 py-2 font-extrabold rounded text-lg text-gray-700 border-l border-pink-600 hover:text-white hover:bg-pink-600 transition w-1/2"
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
       <div class="mt-10 max-w-6xl mx-auto w-full">
