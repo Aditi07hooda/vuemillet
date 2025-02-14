@@ -95,8 +95,12 @@ const handleNavigateToProduct = (slug) => {
   router.push(`/product/${slug}`);
 };
 
+const handleNavigateContact = (item) => {
+  router.push(``);
+};
+
 const addingToCart = async (item) => {
-  console.log(item)
+  console.log(item);
   await addToCart(
     baseUrl,
     brandId,
@@ -287,7 +291,7 @@ const addingToCart = async (item) => {
                       <button
                         class="border-pink-600 border w-fit text-black font-semibold hover:bg-pink-300 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
                         @click="addingToCart(item)"
-                        >
+                      >
                         Buy it again
                       </button>
                       <button
@@ -304,11 +308,17 @@ const addingToCart = async (item) => {
                   </div>
                 </div>
                 <div class="flex flex-col gap-3">
-                  <button
-                    class="bg-pink-500 w-full text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
+                  <NuxtLink
+                    to="https://wa.me/916362033034?text=Hello, I Want to Know More about this order item"
+                    external
+                    target="_blank"
                   >
-                    Get Product Support
-                  </button>
+                    <button
+                      class="bg-pink-500 w-full text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
+                    >
+                      Get Product Support
+                    </button>
+                  </NuxtLink>
                 </div>
               </div>
               <hr
