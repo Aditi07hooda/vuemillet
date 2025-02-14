@@ -399,16 +399,18 @@ onMounted(async () => {
               <DiscountPriceBlock
                 :price="selectedSize.price"
                 :offerPrice="selectedSize.offerPrice"
+                :style="`font-size: 1.8rem; line-height: 3rem;`"
               />
             </template>
             <template v-else>
               <DiscountPriceBlock
                 :price="selectedOption?.price"
                 :offerPrice="selectedOption?.offerPrice"
+                :style="`font-size: 1.8rem; line-height: 3rem;`"
               />
             </template>
           </div>
-          <div v-if="isItemInCart === 0" class="flex items-center mt-16">
+          <div v-if="isItemInCart === 0" class="flex items-center mt-6">
             <button
               @click="increaseOrDecreaseQuantity(true)"
               class="bg-pink-500 w-full text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-2 rounded shadow-md"
@@ -419,7 +421,7 @@ onMounted(async () => {
 
           <div
             v-else
-            class="flex items-center gap-2 border border-pink-600 mt-16 rounded-lg bg-white shadow-md w-full"
+            class="flex items-center gap-2 border border-pink-600 mt-6 rounded-lg bg-white shadow-md w-full"
           >
             <button
               @click="increaseOrDecreaseQuantity(false)"

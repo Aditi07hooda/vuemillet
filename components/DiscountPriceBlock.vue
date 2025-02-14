@@ -2,6 +2,7 @@
 defineProps({
   price: { type: Number, required: true },
   offerPrice: { type: Number, required: true },
+  style: { type: String },
 });
 </script>
 
@@ -14,5 +15,5 @@ defineProps({
       <span class="line-through me-1 text-gray-600">₹ {{ price }}</span>
     </div>
   </template>
-  <span class="text-green-600">₹ {{ offerPrice }}</span>
+  <span :style="style" class="text-green-600 text-xl font-bold">₹ {{ offerPrice }}</span>
 </template>
