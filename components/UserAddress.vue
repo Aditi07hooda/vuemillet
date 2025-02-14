@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
+import { FilePenLine } from "lucide-vue-next";
 
 const addressForm = reactive({
   id: null,
@@ -16,7 +17,7 @@ const addressForm = reactive({
 
 const userData = ref({ profile: {}, address: [] });
 const personData = reactive({
-    person: {},
+  person: {},
 });
 const existingAddress = ref([]);
 const isLoading = ref(false);
@@ -114,7 +115,7 @@ const updateAddress = async (addressId) => {
         body: JSON.stringify(addressForm),
       }
     );
-// 79621ee9-ed0a-4fed-b5dd-cdb54cab71ec
+    // 79621ee9-ed0a-4fed-b5dd-cdb54cab71ec
     if (!response.ok) {
       throw new Error("Failed to update address");
     }
@@ -135,10 +136,10 @@ const updateAddress = async (addressId) => {
 
 const resetForm = () => {
   Object.keys(addressForm).forEach((key) => (addressForm[key] = ""));
-    addressForm.person = personData.person.name;
-    addressForm.email = personData.person.email;
-    addressForm.mobile = personData.person.mobile;
-    console.log("person data:", personData);
+  addressForm.person = personData.person.name;
+  addressForm.email = personData.person.email;
+  addressForm.mobile = personData.person.mobile;
+  console.log("person data:", personData);
 };
 
 onMounted(async () => {
@@ -181,7 +182,8 @@ const handleEditClick = (addressId) => {
           v-else
           v-for="(address, index) in existingAddress"
           :key="index"
-          class="border p-4 rounded-lg bg-gray-50 shadow-md"
+          class="border p-4 rounded-lg bg-gray-50 shadow-md cursor-pointer"
+          :class="{ 'border-green-500': addressForm.id === address.id }"
           @click="handleEditClick(address.id)"
         >
           <p class="text-gray-700 font-bold capitalize">{{ address.person }}</p>
@@ -197,6 +199,11 @@ const handleEditClick = (addressId) => {
           <p class="text-gray-600">
             {{ address.city }}, {{ address.state }}, {{ address.pinCode }}
           </p>
+          <FilePenLine
+            size="20"
+            class="flex self-end justify-self-end text-gray-500 hover:text-green-600"
+            @click="handleEditClick(address.id)"
+          />
         </div>
       </div>
     </div>
@@ -220,20 +227,20 @@ const handleEditClick = (addressId) => {
           />
         </div>
         <div class="flex justify-between gap-5">
-            <button
-              :disabled="isSaveBtnDisabled"
-              type="submit"
-              class="py-2 px-4 w-full bg-green-500 text-white rounded-md hover:bg-indigo-600"
-            >
-            {{ addressForm.id ? "Update" : "Save" }}
-            </button>
-            <button
-              @click="resetForm"
-              type="button"
-              class="py-2 px-4 w-full text-gray-600 rounded-md hover:text-gray-800 bg-blue-100"
-            >
-              Reset
-            </button>
+          <button
+            :disabled="isSaveBtnDisabled"
+            type="submit"
+            class="py-2 px-4 w-full bg-green-500 text-white rounded-md hover:bg-indigo-600"
+          >
+            {{ addressForm.id ? "Update Address" : "Save Address" }}
+          </button>
+          <button
+            @click="resetForm"
+            type="button"
+            class="py-2 px-4 w-full text-gray-600 rounded-md hover:text-gray-800 bg-blue-100"
+          >
+            Clear
+          </button>
         </div>
       </form>
     </div>
