@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, onMounted } from "vue";
+import { useCartModelVisibilty } from "~/store/cart";
 
 const orders = reactive({
   orderList: [],
@@ -8,6 +9,8 @@ const orders = reactive({
 });
 
 const getSessionId = () => localStorage.getItem("sessionId");
+
+const cartModelVisible = useCartModelVisibilty();
 
 const config = useRuntimeConfig();
 const baseUrl = config.public.baseURL;
@@ -90,6 +93,18 @@ const router = useRouter();
 
 const handleNavigateToProduct = (slug) => {
   router.push(`/product/${slug}`);
+};
+
+const addingToCart = async (item) => {
+  console.log(item)
+  await addToCart(
+    baseUrl,
+    brandId,
+    getSessionId(),
+    item.variant.id,
+    item.variant.name
+  );
+  cartModelVisible.openCartModel();
 };
 </script>
 
@@ -271,7 +286,8 @@ const handleNavigateToProduct = (slug) => {
                     >
                       <button
                         class="border-pink-600 border w-fit text-black font-semibold hover:bg-pink-300 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
-                      >
+                        @click="addingToCart(item)"
+                        >
                         Buy it again
                       </button>
                       <button
