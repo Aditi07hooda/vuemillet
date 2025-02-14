@@ -85,6 +85,12 @@ const getProductImage = async (items) => {
 onMounted(() => {
   getOrders();
 });
+
+const router = useRouter();
+
+const handleNavigateToProduct = (slug) => {
+  router.push(`/product/${slug}`);
+};
 </script>
 
 <template>
@@ -207,19 +213,52 @@ onMounted(() => {
                   <img
                     :src="orders.productImage[i] || './favicon.ico'"
                     class="w-16 h-20 object-cover rounded-md cursor-pointer"
+                    @click="
+                      handleNavigateToProduct(
+                        item.product.slug || item.product.id
+                      )
+                    "
                   />
-                  <div class="cursor-pointer w-full">
-                    <p class="text-base">
+                  <div class="w-full">
+                    <p
+                      class="text-base cursor-pointer"
+                      @click="
+                        handleNavigateToProduct(
+                          item.product.slug || item.product.id
+                        )
+                      "
+                    >
                       <span class="font-semibold">{{ item.product.name }}</span>
                     </p>
-                    <p class="text-sm">
+                    <p
+                      class="text-sm cursor-pointer"
+                      @click="
+                        handleNavigateToProduct(
+                          item.product.slug || item.product.id
+                        )
+                      "
+                    >
                       Quantity: <span class="font-medium">{{ item.qty }}</span>
                     </p>
-                    <p class="text-sm">
+                    <p
+                      class="text-sm cursor-pointer"
+                      @click="
+                        handleNavigateToProduct(
+                          item.product.slug || item.product.id
+                        )
+                      "
+                    >
                       Price:
                       <span class="font-medium">Rs. {{ item.itemValue }}</span>
                     </p>
-                    <p class="text-sm">
+                    <p
+                      class="text-sm cursor-pointer"
+                      @click="
+                        handleNavigateToProduct(
+                          item.product.slug || item.product.id
+                        )
+                      "
+                    >
                       Size:
                       <span class="font-medium">{{
                         item.variant.matrix.size ||
@@ -227,7 +266,9 @@ onMounted(() => {
                         item.variant.matrix.SIZE
                       }}</span>
                     </p>
-                    <div class="flex flex-col md:flex-row md:gap-5 md:mt-3 my-2 gap-3 w-full">
+                    <div
+                      class="flex flex-col md:flex-row md:gap-5 md:mt-3 my-2 gap-3 w-full"
+                    >
                       <button
                         class="border-pink-600 border w-fit text-black font-semibold hover:bg-pink-300 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
                       >
@@ -235,6 +276,11 @@ onMounted(() => {
                       </button>
                       <button
                         class="border-pink-600 border w-fit text-black font-semibold hover:bg-pink-300 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
+                        @click="
+                          handleNavigateToProduct(
+                            item.product.slug || item.product.id
+                          )
+                        "
                       >
                         View your item
                       </button>
