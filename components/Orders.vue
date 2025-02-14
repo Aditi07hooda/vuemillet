@@ -4,6 +4,7 @@ import { reactive, onMounted } from "vue";
 const orders = reactive({
   orderList: [],
   orderDetails: [],
+  productImage: [],
 });
 
 const getSessionId = () => localStorage.getItem("sessionId");
@@ -24,7 +25,7 @@ const getOrders = async () => {
 
     const data = await response.json();
     orders.orderList = data || [];
-    orders.orderDetails = await getOrderDetailsForAll(data) || [];
+    orders.orderDetails = (await getOrderDetailsForAll(data)) || [];
   } catch (error) {
     console.error("Error fetching orders:", error);
   }
@@ -40,8 +41,9 @@ const getOrderDetails = async (orderId) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    return await response.json();
+    const data = await response.json();
+    await getProductImage(data.lineItems);
+    return data;
   } catch (error) {
     console.error(`Error fetching details for order ID ${orderId}:`, error);
     return null;
@@ -56,6 +58,27 @@ const getOrderDetailsForAll = async (orders) => {
   } catch (error) {
     console.error("Error fetching all order details:", error);
     return [];
+  }
+};
+
+const getProductImage = async (items) => {
+  try {
+    for (let item of items) {
+      const res = await fetch(
+        `${baseUrl}/store/${brandId}/products/${item.product.id}`,
+        { headers: { session: getSessionId() } }
+      );
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const data = await res.json();
+      // console.log("each product image in orders ", data.oneImg, data.images[0])
+      const img = data.oneImg || data.images[0] || "./favicon.ico";
+      orders.productImage.push(img);
+      console.log("product images in orders", orders.productImage);
+    }
+  } catch (error) {
+    console.error("Error getting product image in orders: ", error);
   }
 };
 
@@ -82,8 +105,13 @@ onMounted(() => {
           </p>
           <p
             :class="{
-              'text-green-600': order.status === 'Delivered',
-              'text-red-600': order.status !== 'Delivered',
+              'text-green-600': order.status === 'DELIVERED',
+              'text-red-600': order.status === 'CANCELLED',
+              'text-orange-500': order.status === 'OPEN',
+              'text-yellow-500': order.status === 'SHIPPED',
+              'text-pink-500': order.status === 'SCHEDULE',
+              'text-violet-500': order.status === 'SHIPROCKET',
+              'text-red-500': order.status === 'DRAFT',
             }"
             class="text-sm font-semibold"
           >
@@ -98,31 +126,44 @@ onMounted(() => {
             <div
               v-for="(item, i) in orders.orderDetails[index]?.lineItems ?? []"
               :key="i"
-              class="mt-2 ml-4"
+              class="mt-2 md:ml-4"
             >
-              <p class="text-sm">
-                Product: <span class="font-medium">{{ item.product.name }}</span>
-              </p>
-              <p class="text-sm">
-                Quantity: <span class="font-medium">{{ item.qty }}</span>
-              </p>
-              <p class="text-sm">
-                Price: <span class="font-medium">Rs. {{ item.itemValue }}</span>
-              </p>
-              <p class="text-sm">
-                Size:
-                <span class="font-medium">{{
-                  item.variant.matrix.size ||
-                  item.variant.matrix.Size ||
-                  item.variant.matrix.SIZE
-                }}</span>
-              </p>
+            <div class="flex gap-3">
+              <img
+                :src="orders.productImage[i] || './favicon.ico'"
+                class="w-16 h-20 object-cover rounded-md"
+              />
+              <div class="cursor-default">
+                <p class="text-sm">
+                  Product:
+                  <span class="font-medium">{{ item.product.name }}</span>
+                </p>
+                <p class="text-sm">
+                  Quantity: <span class="font-medium">{{ item.qty }}</span>
+                </p>
+                <p class="text-sm">
+                  Price: <span class="font-medium">Rs. {{ item.itemValue }}</span>
+                </p>
+                <p class="text-sm">
+                  Size:
+                  <span class="font-medium">{{
+                    item.variant.matrix.size ||
+                    item.variant.matrix.Size ||
+                    item.variant.matrix.SIZE
+                  }}</span>
+                </p>
+              </div>
+            </div>
               <hr class="my-2" />
             </div>
-            <p v-if="orders.orderDetails[index]" class="text-sm font-semibold mt-3">
+            <p
+              v-if="orders.orderDetails[index]"
+              class="text-sm font-semibold mt-3"
+            >
               Total Amount:
               <span class="text-red-600">
-                Rs. {{
+                Rs.
+                {{
                   orders.orderDetails[index].netValue -
                   orders.orderDetails[index].discount
                 }}
@@ -132,7 +173,10 @@ onMounted(() => {
 
           <div>
             <p class="text-base font-semibold mt-3">Shipping Details:</p>
-            <p v-if="orders.orderDetails[index]" class="text-sm font-semibold mt-2">
+            <p
+              v-if="orders.orderDetails[index]"
+              class="text-sm font-semibold mt-2"
+            >
               Payment Method:
               <span class="font-semibold text-gray-500">{{
                 orders.orderDetails[index].modeOfPayment === "LATER"
@@ -146,7 +190,10 @@ onMounted(() => {
                 <br /><span class="font-bold">{{
                   orders.orderDetails[index]?.customerAddress?.person || "N/A"
                 }}</span>
-                <br />{{ orders.orderDetails[index]?.customerAddress?.fullAddress || "N/A" }}
+                <br />{{
+                  orders.orderDetails[index]?.customerAddress?.fullAddress ||
+                  "N/A"
+                }}
               </span>
             </p>
           </div>
