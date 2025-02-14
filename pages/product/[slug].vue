@@ -145,6 +145,23 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
+
+const isItemInCart = ref();
+
+const fetchingCartItems = async () => {
+  const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
+  if (data && data.cart) {
+    const x = data.cart.items.find(
+      (item) => item.variantId === selectedSize.value?.id
+    );
+    console.log("Fetched cart items:", x);
+    isItemInCart.value = x?.qty || 0;
+  }
+};
+
+onMounted(async () => {
+  await fetchingCartItems();
+});
 </script>
 
 <template>
@@ -354,7 +371,7 @@ onUnmounted(() => {
             @click="addingToCart"
             class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
           >
-            Add to Cart
+            {{ isItemInCart !== 0 ? isItemInCart : "Add to Cart" }}
           </button>
         </div>
       </div>
