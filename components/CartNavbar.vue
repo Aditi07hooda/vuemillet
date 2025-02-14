@@ -29,11 +29,18 @@ if (!sessionId.value) {
   sessionId.value = await createSessionId(baseURL, brandID);
 }
 
+const productId = await findProductId(
+  baseURL,
+  brandID,
+  sessionId.value,
+  route.params.slug
+);
+
 const {
   data: product,
   error,
   loading,
-} = await useFetch(`${baseURL}/store/${brandID}/products/${route.params.slug}`);
+} = await useFetch(`${baseURL}/store/${brandID}/products/${productId}`);
 
 const mainImg = ref(
   product.value?.oneImg || product.value?.images[0] || "/favicon.ico"
