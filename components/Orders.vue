@@ -120,74 +120,17 @@ onMounted(() => {
           <p class="text-sm text-gray-500">{{ order.date }}</p>
         </div>
 
-        <div class="lg:flex lg:justify-between">
-          <div>
-            <p class="text-base font-semibold text-gray-800 mt-2">Items:</p>
-            <div
-              v-for="(item, i) in orders.orderDetails[index]?.lineItems ?? []"
-              :key="i"
-              class="mt-2 md:ml-4"
-            >
-            <div class="flex gap-3">
-              <img
-                :src="orders.productImage[i] || './favicon.ico'"
-                class="w-16 h-20 object-cover rounded-md"
-              />
-              <div class="cursor-default">
-                <p class="text-sm">
-                  Product:
-                  <span class="font-medium">{{ item.product.name }}</span>
-                </p>
-                <p class="text-sm">
-                  Quantity: <span class="font-medium">{{ item.qty }}</span>
-                </p>
-                <p class="text-sm">
-                  Price: <span class="font-medium">Rs. {{ item.itemValue }}</span>
-                </p>
-                <p class="text-sm">
-                  Size:
-                  <span class="font-medium">{{
-                    item.variant.matrix.size ||
-                    item.variant.matrix.Size ||
-                    item.variant.matrix.SIZE
-                  }}</span>
-                </p>
-              </div>
-            </div>
-              <hr class="my-2" />
-            </div>
+        <div class="w-full mt-5 gap-3 flex flex-col">
+          <div
+            class="w-full md:flex md:justify-between border-2 rounded-lg p-2"
+          >
             <p
               v-if="orders.orderDetails[index]"
-              class="text-sm font-semibold mt-3"
+              class="text-base font-semibold md:w-[35%]"
             >
-              Total Amount:
-              <span class="text-red-600">
-                Rs.
-                {{
-                  orders.orderDetails[index].netValue -
-                  orders.orderDetails[index].discount
-                }}
-              </span>
-            </p>
-          </div>
-
-          <div>
-            <p class="text-base font-semibold mt-3">Shipping Details:</p>
-            <p
-              v-if="orders.orderDetails[index]"
-              class="text-sm font-semibold mt-2"
-            >
-              Payment Method:
-              <span class="font-semibold text-gray-500">{{
-                orders.orderDetails[index].modeOfPayment === "LATER"
-                  ? "Cash"
-                  : orders.orderDetails[index].modeOfPayment
-              }}</span>
-            </p>
-            <p v-if="orders.orderDetails[index]" class="text-sm font-semibold">
               Shipping Address:
-              <span class="font-normal text-gray-500">
-                <br /><span class="font-bold">{{
+              <span class="font-normal text-black">
+                <br /><span class="font-medium">{{
                   orders.orderDetails[index]?.customerAddress?.person || "N/A"
                 }}</span>
                 <br />{{
@@ -196,6 +139,121 @@ onMounted(() => {
                 }}
               </span>
             </p>
+            <p
+              v-if="orders.orderDetails[index]"
+              class="text-base font-semibold flex flex-col"
+            >
+              Payment Method:
+              <span class="font-medium text-black">{{
+                orders.orderDetails[index].modeOfPayment === "LATER"
+                  ? "Cash"
+                  : orders.orderDetails[index].modeOfPayment
+              }}</span>
+            </p>
+            <div
+              v-if="orders.orderDetails[index]"
+              class="text-base font-semibold md:w-[30%]"
+            >
+              Order Summary:
+              <p class="font-normal text-black flex justify-between">
+                Item Subtotal :
+                <span class="font-medium justify-end"
+                  >Rs.
+                  {{
+                    orders.orderDetails[index].grossValue +
+                    orders.orderDetails[index].discount -
+                    orders.orderDetails[index].shipping
+                  }}</span
+                >
+              </p>
+              <p class="font-normal text-black flex justify-between">
+                Shipping :
+                <span class="font-medium justify-end"
+                  >Rs. {{ orders.orderDetails[index].shipping }}</span
+                >
+              </p>
+              <p class="font-normal text-black flex justify-between">
+                Total :
+                <span class="font-medium justify-end"
+                  >Rs.
+                  {{
+                    orders.orderDetails[index].grossValue +
+                    orders.orderDetails[index].discount
+                  }}</span
+                >
+              </p>
+              <p class="font-normal text-black flex justify-between">
+                Discount :
+                <span class="font-medium flex-end"
+                  >- Rs. {{ orders.orderDetails[index].discount }}</span
+                >
+              </p>
+              <p class="font-bold text-black flex justify-between">
+                Grand Total :
+                <span class="font-bold flex-end"
+                  >Rs. {{ orders.orderDetails[index].grossValue }}</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="w-full border-2 rounded-lg p-2">
+            <div
+              v-for="(item, i) in orders.orderDetails[index]?.lineItems ?? []"
+              :key="i"
+              class="mt-2"
+            >
+              <div class="flex justify-between md:flex-row flex-col">
+                <div class="w-full md:w-3/4 flex gap-3">
+                  <img
+                    :src="orders.productImage[i] || './favicon.ico'"
+                    class="w-16 h-20 object-cover rounded-md cursor-pointer"
+                  />
+                  <div class="cursor-pointer w-full">
+                    <p class="text-base">
+                      <span class="font-semibold">{{ item.product.name }}</span>
+                    </p>
+                    <p class="text-sm">
+                      Quantity: <span class="font-medium">{{ item.qty }}</span>
+                    </p>
+                    <p class="text-sm">
+                      Price:
+                      <span class="font-medium">Rs. {{ item.itemValue }}</span>
+                    </p>
+                    <p class="text-sm">
+                      Size:
+                      <span class="font-medium">{{
+                        item.variant.matrix.size ||
+                        item.variant.matrix.Size ||
+                        item.variant.matrix.SIZE
+                      }}</span>
+                    </p>
+                    <div class="flex flex-col md:flex-row md:gap-5 md:mt-3 my-2 gap-3 w-full">
+                      <button
+                        class="border-pink-600 border w-fit text-black font-semibold hover:bg-pink-300 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
+                      >
+                        Buy it again
+                      </button>
+                      <button
+                        class="border-pink-600 border w-fit text-black font-semibold hover:bg-pink-300 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
+                      >
+                        View your item
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-3">
+                  <button
+                    class="bg-pink-500 w-full text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
+                  >
+                    Get Product Support
+                  </button>
+                </div>
+              </div>
+              <hr
+                class="my-2"
+                v-if="i !== orders.orderDetails[index]?.lineItems.length - 1"
+              />
+            </div>
           </div>
         </div>
       </div>
