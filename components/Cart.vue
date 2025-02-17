@@ -172,8 +172,13 @@ const setLatestAddedProduct = () => {
           (!latest.addedOn || current.addedOn > latest.addedOn)
           ? current
           : latest;
-      }
+      },
+      {}
     );
+
+    setTimeout(() => {
+      latestProductAdded.value = null;
+    }, 3000);
   } else {
     latestProductAdded.value = null; // Handle empty cart case
   }
@@ -213,8 +218,8 @@ watchEffect(() => {
           :key="cartItem.variantId"
           class="flex-grow-0 flex w-full px-4 py-2 border-b border-gray-200 hover:bg-gray-100"
           :class="{
-            'border-2 border-green-800':
-              latestProductAdded.variantId === cartItem.variantId,
+            'bg-pink-200 hover:bg-pink-200':
+              latestProductAdded?.variantId === cartItem.variantId,
           }"
         >
           <div class="flex items-center w-3/4">
