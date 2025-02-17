@@ -9,7 +9,6 @@ const isHomePage = useRoute().path === "/";
 
 const successAddedToCart = ref(false);
 const showNotification = ref(false);
-const toast = useToast();
 
 const props = defineProps({
   product: { type: Object, required: true },
@@ -164,10 +163,21 @@ let slug =
                 ? 'Added to cart successfully!'
                 : 'Failed to add to cart.'
             "
-            :duration="5000"
+            :duration="3000"
+            class="notification-position"
           />
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.notification-position {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+  max-width: 300px;
+}
+</style>
