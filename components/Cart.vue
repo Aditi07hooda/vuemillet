@@ -13,6 +13,8 @@ const sessionId = ref("");
 
 const productId = ref("");
 
+const latestProductAdded = ref();
+
 defineProps({
   showDiv: {
     type: Boolean,
@@ -40,6 +42,7 @@ const cartItems = reactive({
     shippingCharges: 0,
     walletAmt: 0,
     productImages: null,
+    addedOn: null,
   },
 });
 
@@ -127,6 +130,7 @@ const fetchCart = async () => {
       shippingCharges: data.shippingCharges || 0,
       walletAmt: data.walletAmt || 0,
       productImages: productImage || null,
+      addedOn: data.addedOn || null,
     };
   } else {
     console.error("Cart data is missing or malformed:", data);
@@ -159,6 +163,28 @@ const getProduct = async (cartItem) => {
   router.push(`/product/${productId.value}`);
   cartModelVisible.closeCartModel();
 };
+
+const setLatestAddedProduct = () => {
+  if (cartItems.cart.items.length > 0) {
+    latestProductAdded.value = cartItems.cart.items.reduce(
+      (latest, current) => {
+        return current.addedOn &&
+          (!latest.addedOn || current.addedOn > latest.addedOn)
+          ? current
+          : latest;
+      }
+    );
+  } else {
+    latestProductAdded.value = null; // Handle empty cart case
+  }
+};
+
+watchEffect(() => {
+  if (cartItems.cart) {
+    setLatestAddedProduct();
+  }
+  console.log("latest added product is - ", latestProductAdded.value);
+});
 </script>
 
 <template>
@@ -176,7 +202,9 @@ const getProduct = async (cartItem) => {
       </div>
     </div>
     <div class="flex flex-col justify-between w-full">
-      <div class="flex flex-col overflow-y-scroll max-h-[350px] h-[330px] md:max-h-[450px] md:h-[400px]">
+      <div
+        class="flex flex-col overflow-y-scroll max-h-[350px] h-[330px] md:max-h-[450px] md:h-[400px]"
+      >
         <p v-if="cartItems.cart.items.length === 0" class="pl-3">
           Your cart is empty.
         </p>
