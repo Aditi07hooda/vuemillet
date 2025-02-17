@@ -177,7 +177,10 @@ const setLatestAddedProduct = () => {
     );
 
     setTimeout(() => {
-      latestProductAdded.value = null;
+      latestProductAdded.value = {
+        ...latestProductAdded.value,
+        variantId: null,
+      };
     }, 3000);
   } else {
     latestProductAdded.value = null; // Handle empty cart case
