@@ -8,6 +8,8 @@ const brandID = config.public.brandID;
 const isHomePage = useRoute().path === "/";
 
 const successAddedToCart = ref(false);
+const showNotification = ref(false);
+const toast = useToast();
 
 const props = defineProps({
   product: { type: Object, required: true },
@@ -75,8 +77,17 @@ const addingToCart = async () => {
     console.log("Added to cart", data);
     cartModelVisible.openCartModel();
     successAddedToCart.value = true;
+
+    showNotification.value = true; // Show the notification after adding to cart
+    setTimeout(() => {
+      showNotification.value = false;
+    }, 5000);
   } catch (error) {
     successAddedToCart.value = false;
+    showNotification.value = true; // Show error notification
+    setTimeout(() => {
+      showNotification.value = false;
+    }, 5000);
   }
 };
 
@@ -146,11 +157,14 @@ let slug =
             Add to cart
           </button>
           <UNotification
-            color="primary"
-            title="Added to cart"
-            :timeout="6000"
-            v-if="successAddedToCart"
-            :ui="{ wrapper: 'absolute top-0 left-0' }"
+            v-if="showNotification"
+            :type="successAddedToCart ? 'success' : 'error'"
+            :title="
+              successAddedToCart
+                ? 'Added to cart successfully!'
+                : 'Failed to add to cart.'
+            "
+            :duration="5000"
           />
         </div>
       </div>
