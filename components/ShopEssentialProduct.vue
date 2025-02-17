@@ -7,6 +7,8 @@ const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
 const isHomePage = useRoute().path === "/";
 
+const successAddedToCart = ref(false);
+
 const props = defineProps({
   product: { type: Object, required: true },
   categories: { type: Array, required: false },
@@ -62,15 +64,20 @@ const logOption = () => {
 
 const addingToCart = async () => {
   const sessionId = localStorage.getItem("sessionId");
-  const data = await addToCart(
-    baseURL,
-    brandID,
-    sessionId,
-    selectedSize.value.id,
-    selectedSize.value.name
-  );
-  console.log("Added to cart", data);
-  cartModelVisible.openCartModel();
+  try {
+    const data = await addToCart(
+      baseURL,
+      brandID,
+      sessionId,
+      selectedSize.value.id,
+      selectedSize.value.name
+    );
+    console.log("Added to cart", data);
+    cartModelVisible.openCartModel();
+    successAddedToCart.value = true;
+  } catch (error) {
+    successAddedToCart.value = false;
+  }
 };
 
 let slug =
@@ -138,6 +145,13 @@ let slug =
           >
             Add to cart
           </button>
+          <UNotification
+            color="primary"
+            title="Added to cart"
+            :timeout="6000"
+            v-if="successAddedToCart"
+            :ui="{ wrapper: 'absolute top-0 left-0' }"
+          />
         </div>
       </div>
     </div>
