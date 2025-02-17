@@ -176,7 +176,7 @@ const getProduct = async (cartItem) => {
       </div>
     </div>
     <div class="flex flex-col justify-between w-full">
-      <div class="flex flex-col overflow-y-scroll max-h-[350px] h-[330px]">
+      <div class="flex flex-col overflow-y-scroll max-h-[350px] h-[330px] md:max-h-[450px] md:h-[400px]">
         <p v-if="cartItems.cart.items.length === 0" class="pl-3">
           Your cart is empty.
         </p>
