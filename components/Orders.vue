@@ -221,6 +221,19 @@ const addingToCart = async (item) => {
               </p>
             </div>
           </div>
+          <div class="flex flex-col gap-3">
+            <NuxtLink
+              to="https://wa.me/916362033034?text=Hello, I Want to Know More about this order "
+              external
+              target="_blank"
+            >
+              <button
+                class="bg-pink-500 w-full text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
+              >
+                Get Order Support
+              </button>
+            </NuxtLink>
+          </div>
           <div class="w-full border-2 rounded-lg p-2">
             <div
               v-for="(item, i) in orders.orderDetails[index]?.lineItems ?? []"
@@ -306,19 +319,6 @@ const addingToCart = async (item) => {
                       </button>
                     </div>
                   </div>
-                </div>
-                <div class="flex flex-col gap-3">
-                  <NuxtLink
-                    to="https://wa.me/916362033034?text=Hello, I Want to Know More about this order item"
-                    external
-                    target="_blank"
-                  >
-                    <button
-                      class="bg-pink-500 w-full text-white font-semibold hover:bg-pink-600 transition duration-300 px-5 py-1 text-[12px] rounded-full shadow-md"
-                    >
-                      Get Product Support
-                    </button>
-                  </NuxtLink>
                 </div>
               </div>
               <hr
