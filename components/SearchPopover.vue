@@ -159,7 +159,7 @@ const addingToCart = async (id, name) => {
           :ui="{
             strategy: 'override',
             color: 'bg-gray-600',
-            size: 'xl'
+            size: 'xl',
           }"
           variant="outline"
           color="green"
@@ -184,10 +184,14 @@ const addingToCart = async (id, name) => {
               :key="category.id"
               class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
             >
-              <NuxtLink :to="`/collections/${category.slug || category.id}`" @click="closeModal" :class="{
-                'text-pink-600 scale-105 transition duration-500':
-                  category.name === collections[0].name,
-              }">
+              <NuxtLink
+                :to="`/collections/${category.slug || category.id}`"
+                @click="closeModal"
+                :class="{
+                  'text-pink-600 scale-105 transition duration-500':
+                    category.name === collections[0].name,
+                }"
+              >
                 {{ capitalize(category.name) }}
               </NuxtLink>
             </li>
@@ -205,6 +209,10 @@ const addingToCart = async (id, name) => {
                 :to="`/collections/${item.slug || item.id}`"
                 @click="closeModal"
                 class="justify-center"
+                :class="{
+                  'text-pink-600 scale-105 transition duration-500':
+                    item.name === collections[0].name,
+                }"
               >
                 <span
                   class="relative text-sm font-medium items-center justify-center hover:text-pink-600 hover:scale-105 transition duration-500"
@@ -217,7 +225,9 @@ const addingToCart = async (id, name) => {
       </div>
       <div v-if="!searchResults" class="md:w-3/4 w-full px-5 md:px-0">
         <div class="flex gap-4 flex-wrap flex-col">
-          <div class="md:gap-12 gap-4 grid grid-flow-row grid-cols-2 items-center justify-center md:grid-cols-4">
+          <div
+            class="md:gap-12 gap-4 grid grid-flow-row grid-cols-2 items-center justify-center md:grid-cols-4"
+          >
             <div
               v-for="p in collections[0].products.slice(0, 7)"
               :key="p.id"
@@ -227,7 +237,10 @@ const addingToCart = async (id, name) => {
                 <div
                   class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                 >
-                  <NuxtLink :to="`/product/${p.slug || p.id}`" @click="closeModal">
+                  <NuxtLink
+                    :to="`/product/${p.slug || p.id}`"
+                    @click="closeModal"
+                  >
                     <div
                       class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                     >
@@ -329,8 +342,14 @@ const addingToCart = async (id, name) => {
           <template v-else> Recommended products </template>
         </h3>
         <div class="flex flex-wrap gap-4">
-          <div class="md:gap-12 gap-4 grid grid-flow-row grid-cols-2 items-center justify-center md:grid-cols-4">
-            <div v-for="p in searchResults.results" :key="p.id" class="w-fit md:mx-3 mx-1">
+          <div
+            class="md:gap-12 gap-4 grid grid-flow-row grid-cols-2 items-center justify-center md:grid-cols-4"
+          >
+            <div
+              v-for="p in searchResults.results"
+              :key="p.id"
+              class="w-fit md:mx-3 mx-1"
+            >
               <div
                 class="flex flex-col items-center md:hover:text-pink-600 md:hover:scale-105 transition duration-500"
               >
@@ -338,7 +357,10 @@ const addingToCart = async (id, name) => {
                   <div
                     class="flex-1 text-center overflow-hidden w-full sm:w-auto flex flex-col border-2 rounded-lg shadow-sm shadow-[rgba(0,0,0,0.1)]"
                   >
-                    <NuxtLink :to="`/product/${p.slug || p.id}`" @click="closeModal">
+                    <NuxtLink
+                      :to="`/product/${p.slug || p.id}`"
+                      @click="closeModal"
+                    >
                       <div
                         class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                       >
@@ -384,7 +406,8 @@ const addingToCart = async (id, name) => {
                               }}
                               % off
                             </div>
-                            <span class="line-through me-1 text-gray-600 text-xs"
+                            <span
+                              class="line-through me-1 text-gray-600 text-xs"
                               >₹ {{ p.variants[0].price }}</span
                             >
                           </div>

@@ -221,7 +221,7 @@ watchEffect(() => {
           :key="cartItem.variantId"
           class="flex-grow-0 flex w-full px-4 py-2 border-b border-gray-200 hover:bg-gray-100"
           :class="{
-            'bg-pink-200 hover:bg-pink-200':
+            'bg-green-100 hover:bg-green-200':
               latestProductAdded?.variantId === cartItem.variantId,
           }"
         >
