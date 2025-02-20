@@ -16,7 +16,6 @@ if (!sessionId.value) {
   sessionId.value = await createSessionId(baseURL, brandID);
 }
 
-const selectedCollection = ref();
 const getSelectedCollectionProducts = ref();
 
 const props = defineProps({
@@ -29,6 +28,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const selectedCollection = ref(props.collection[0]);
 
 const addingToCart = async (id, name) => {
   console.log("shop navbar selected size : ", id, name);
@@ -48,6 +49,18 @@ const updateSelectedCollection = async (cat) => {
     selectedCollection?.value.id
   );
 };
+
+watchEffect(async () => {
+  if (selectedCollection.value) {
+    getSelectedCollectionProducts.value = await fetchProductsForCollection(
+      baseURL,
+      brandID,
+      sessionId.value,
+      selectedCollection?.value.id
+    );
+  }
+});
+
 </script>
 <template>
   <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 gap-24">
@@ -84,7 +97,7 @@ const updateSelectedCollection = async (cat) => {
       <div class="flex gap-4 flex-wrap flex-col">
         <div class="flex flex-row gap-12">
           <div
-            v-for="p in getSelectedCollectionProducts?.slice(0,3)"
+            v-for="p in getSelectedCollectionProducts?.slice(0, 3)"
             :key="p.id"
             class="w-fit mx-3"
           >
@@ -169,7 +182,9 @@ const updateSelectedCollection = async (cat) => {
       </div>
       <div class="fixed bottom-6 right-8">
         <NuxtLink
-          :to="`/collections/${selectedCollection?.slug ||selectedCollection?.id}`"
+          :to="`/collections/${
+            selectedCollection?.slug || selectedCollection?.id
+          }`"
           @click="close"
           class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
         >
