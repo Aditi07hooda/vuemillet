@@ -7,6 +7,8 @@ const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
 
+const selectedCollection = ref();
+
 const props = defineProps({
   collection: {
     type: Object,
@@ -29,6 +31,11 @@ const addingToCart = async (id, name) => {
   console.log("Added to cart", data);
   cartModelVisible.openCartModel();
 };
+
+const updateSelectedCollection = (cat) => {
+  selectedCollection.value = cat;
+  console.log("the selected collection is - ", selectedCollection.value);
+};
 </script>
 <template>
   <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 gap-24">
@@ -38,22 +45,21 @@ const addingToCart = async (id, name) => {
         <ul class="flex flex-col space-y-4">
           <li
             v-for="category in collection"
-            class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
+            class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500 cursor-pointer"
           >
             <LucideChevronRight
               class="w-4 h-4 hover:text-pink-600 hover:scale-105 transition duration-500"
               :class="{
                 'text-pink-600 scale-105 transition duration-500':
-                  category.name === collection[0].name,
+                  category.name === selectedCollection.name,
               }"
             />
             <NuxtLink
-              :to="`/collections/${category.slug || category.id}`"
-              @click="close"
+              @click="updateSelectedCollection(category)"
               class="w-full hover:text-pink-600 hover:scale-105 transition duration-500"
               :class="{
                 'text-pink-600 scale-105 transition duration-500':
-                  category.name === collection[0].name,
+                  category.name === selectedCollection.name,
               }"
             >
               {{ capitalize(category.name) }}
