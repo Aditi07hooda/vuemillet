@@ -87,7 +87,7 @@ let slug =
         class="product-image mt-8 md:pt-3"
       />
     </div>
-    <div class="product-name">{{ capitalize(product.name) }}</div>
+    <div class="mt-3 text-lg font-bold max-w-64 items-center flex justify-center text-center justify-self-center">{{ capitalize(product.name) }}</div>
   </NuxtLink>
   <div v-if="isHomePage" class="my-4">
     <NuxtLink
