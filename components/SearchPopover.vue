@@ -148,13 +148,13 @@ const getSelectedCollectionProducts = ref();
 
 const updateSelectedCollection = async (cat) => {
   selectedCollection.value = cat;
-  console.log("the selected collection is - ", selectedCollection.value);
   getSelectedCollectionProducts.value = await fetchProductsForCollection(
     baseURL,
     brandID,
     sessionId.value,
     selectedCollection?.value.id
   );
+  console.log("the selected collection is - ", selectedCollection.value, getSelectedCollectionProducts.value);
 };
 
 watchEffect(async () => {
@@ -225,17 +225,15 @@ watchEffect(async () => {
               v-slot="{ item }"
               :items="collections"
               :ui="{
-                item: 'basis-1/5 items-center justify-center text-xsm mx-1 border bg-gray-200 hover:text-white hover:bg-pink-600 transition duration-500 rounded-lg px-2 py-2',
+                item: 'basis-1/5 items-center justify-center text-xsm mx-1 border bg-gray-200 transition duration-500 rounded-lg px-2 py-2',
               }"
-              indicators
             >
               <NuxtLink
-                :to="`/collections/${item.slug || item.id}`"
-                @click="closeModal"
+                @click="updateSelectedCollection(item)"
                 class="justify-center"
                 :class="{
                   'text-pink-600 scale-105 transition duration-500':
-                    item.name === collections[0].name,
+                    item.name === selectedCollection?.name,
                 }"
               >
                 <span
@@ -253,7 +251,7 @@ watchEffect(async () => {
             class="md:gap-12 gap-4 grid grid-flow-row grid-cols-2 items-center justify-center md:grid-cols-4"
           >
             <div
-              v-for="p in collections[0].products.slice(0, 7)"
+              v-for="p in getSelectedCollectionProducts?.slice(0, 4)"
               :key="p.id"
               class="w-fit md:mx-3 mx-1"
             >
@@ -342,7 +340,7 @@ watchEffect(async () => {
           </div>
           <div class="fixed bottom-6 right-0 md:px-14 px-5 md:m-5">
             <NuxtLink
-              :to="`/collections/${collections[0].slug || collections[0].id}`"
+              :to="`/collections/${selectedCollection?.slug || selectedCollection?.id}`"
               @click="closeModal"
               class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
             >
