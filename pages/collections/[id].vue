@@ -24,7 +24,12 @@ const {
   },
 });
 
-const collectionId = await findCollectionId(baseURL, brandID, sessionId.value, route.params.id);
+const collectionId = await findCollectionId(
+  baseURL,
+  brandID,
+  sessionId.value,
+  route.params.id
+);
 
 const {
   data: collectionProducts,
@@ -55,40 +60,6 @@ watchEffect(() => {
       collections.value.find((x) => x.id === route.params.id) || {};
   }
 });
-
-const sortedProducts = computed(() => {
-  if (sortOrder.value === "desc") {
-    return collectionProducts?.value?.sort((a, b) =>
-      b.name.localeCompare(a.name)
-    );
-  } else if (sortOrder.value === "asc") {
-    return collectionProducts?.value?.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-  } else if (sortOrder.value === "low") {
-    return collectionProducts?.value?.sort(
-      (a, b) => a.variants[0].offerPrice - b.variants[0].offerPrice
-    );
-  } else if (sortOrder.value === "high") {
-    return collectionProducts?.value?.sort(
-      (a, b) => b.variants[0].offerPrice - a.variants[0].offerPrice
-    );
-  } else return [];
-});
-
-console.log(
-  "collections inside each sorted collection page - ",
-  sortedProducts.value
-);
-
-const page = ref(1);
-const pageCount = 8;
-const paginatedProducts = computed(() => {
-  return sortedProducts?.value?.slice(
-    (page.value - 1) * pageCount,
-    page.value * pageCount
-  );
-});
 </script>
 
 <template>
@@ -117,7 +88,7 @@ const paginatedProducts = computed(() => {
     </div>
     <div class="px-14 description" v-html="collection?.description"></div>
     <h2 class="text-center my-4">Our Products</h2>
-    <div class="flex justify-center w-full flex-wrap">
+    <!-- <div class="flex justify-center w-full flex-wrap">
       <div
         v-for="product in paginatedProducts"
         :key="product.id"
@@ -125,13 +96,23 @@ const paginatedProducts = computed(() => {
       >
         <BlogProduct :product="product" />
       </div>
-    </div>
-    <div class="flex justify-center">
-      <UPagination
-        v-model="page"
-        :page-count="pageCount"
-        :total="sortedProducts?.length || 0"
-      />
+    </div> -->
+    <div class="flex justify-center w-full flex-wrap px-14 mt-3">
+      <UCarousel
+        v-slot="{ item }"
+        :items="collectionProducts"
+        :ui="{
+          container: 'gap-4 scroll-smooth',
+          item: 'flex flex-col items-center mx-3 border-2 rounded-lg mb-10 shadow-md shadow-[rgba(0,0,0,0.1)] md:px-6 w-full sm:w-auto min-w-44',
+          nav: 'hidden',
+          indicators: {
+            wrapper: 'relative bottom-0 mt-4',
+          },
+        }"
+        indicators
+      >
+        <BlogProduct :product="item" />
+      </UCarousel>
     </div>
   </div>
 </template>
