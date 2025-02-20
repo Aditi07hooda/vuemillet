@@ -97,13 +97,13 @@ watchEffect(() => {
         <BlogProduct :product="product" />
       </div>
     </div> -->
-    <div class="flex justify-center w-full flex-wrap px-14 mt-3">
+    <div class="h-full px-14">
       <UCarousel
         v-slot="{ item }"
         :items="collectionProducts"
         :ui="{
-          container: 'gap-4 scroll-smooth',
-          item: 'flex flex-col items-center mx-3 border-2 rounded-lg mb-10 shadow-md shadow-[rgba(0,0,0,0.1)] md:px-6 w-full sm:w-auto min-w-44',
+          container: 'gap-10 scroll-smooth',
+          item: 'flex flex-col items-center border-2 rounded-lg shadow-md shadow-[rgba(0,0,0,0.1)] md:px-6 w-full sm:w-auto mx-3',
           nav: 'hidden',
           indicators: {
             wrapper: 'relative bottom-0 mt-4',
