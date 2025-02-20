@@ -60,30 +60,30 @@ watchEffect(async () => {
     );
   }
 });
-
 </script>
 <template>
-  <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-36 mx-20 gap-24">
+  <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-20 mx-20 gap-24">
     <div>
-      <h3 class="uppercase text-lg font-semibold py-3">By Categories</h3>
-      <div class="flex flex-col md:flex-row">
-        <ul class="flex flex-col space-y-4">
+      <h3 class="uppercase text-xl font-semibold py-3 font-poppins">By Categories</h3>
+      <div class="flex flex-col md:flex-row mt-3">
+        <ul class="flex flex-col space-y-6">
           <li
             v-for="category in collection"
-            class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500 cursor-pointer"
+            :key="category.name"
+            class="flex gap-3 text-base font-semibold items-center hover:text-pink-600 hover:scale-105 transition duration-300 cursor-pointer"
           >
             <LucideChevronRight
-              class="w-4 h-4 hover:text-pink-600 hover:scale-105 transition duration-500"
+              class="w-5 h-5 text-gray-500 transition duration-300 font-poppins"
               :class="{
-                'text-pink-600 scale-105 transition duration-500':
+                'text-pink-600 scale-110':
                   category.name === selectedCollection?.name,
               }"
             />
             <NuxtLink
               @click="updateSelectedCollection(category)"
-              class="w-full hover:text-pink-600 hover:scale-105 transition duration-500"
+              class="w-full font-poppins font-normal text-gray-700 hover:text-pink-600 hover:scale-105 transition duration-300"
               :class="{
-                'text-pink-600 scale-105 transition duration-500':
+                'text-pink-600 scale-105 font-bold':
                   category.name === selectedCollection?.name,
               }"
             >
@@ -95,9 +95,9 @@ watchEffect(async () => {
     </div>
     <div class="mt-5 col-span-4 row-span-3">
       <div class="flex gap-4 flex-wrap flex-col">
-        <div class="flex flex-row gap-12">
+        <div class="flex flex-row gap-8">
           <div
-            v-for="p in getSelectedCollectionProducts?.slice(0, 3)"
+            v-for="p in getSelectedCollectionProducts?.slice(0, 4)"
             :key="p.id"
             class="w-fit mx-3"
           >
@@ -194,3 +194,11 @@ watchEffect(async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+}
+</style>
