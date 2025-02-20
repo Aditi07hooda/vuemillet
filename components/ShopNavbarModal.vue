@@ -84,7 +84,7 @@ const updateSelectedCollection = async (cat) => {
       <div class="flex gap-4 flex-wrap flex-col">
         <div class="flex flex-row gap-12">
           <div
-            v-for="p in getSelectedCollectionProducts?.slice(0,4)"
+            v-for="p in getSelectedCollectionProducts?.slice(0,3)"
             :key="p.id"
             class="w-fit mx-3"
           >
