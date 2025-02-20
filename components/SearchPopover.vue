@@ -142,6 +142,31 @@ const addingToCart = async (id, name) => {
   console.log("Added to cart", data);
   cartModelVisible.openCartModel();
 };
+
+const selectedCollection = ref(props.collections[0]);
+const getSelectedCollectionProducts = ref();
+
+const updateSelectedCollection = async (cat) => {
+  selectedCollection.value = cat;
+  console.log("the selected collection is - ", selectedCollection.value);
+  getSelectedCollectionProducts.value = await fetchProductsForCollection(
+    baseURL,
+    brandID,
+    sessionId.value,
+    selectedCollection?.value.id
+  );
+};
+
+watchEffect(async () => {
+  if (selectedCollection.value) {
+    getSelectedCollectionProducts.value = await fetchProductsForCollection(
+      baseURL,
+      brandID,
+      sessionId.value,
+      selectedCollection?.value.id
+    );
+  }
+});
 </script>
 
 <template>
@@ -182,14 +207,13 @@ const addingToCart = async (id, name) => {
             <li
               v-for="category in collections"
               :key="category.id"
-              class="flex gap-3 text-sm font-medium items-center hover:text-pink-600 hover:scale-105 transition duration-500"
+              class="flex gap-3 text-sm font-medium cursor-pointer items-center hover:text-pink-600 hover:scale-105 transition duration-500"
             >
               <NuxtLink
-                :to="`/collections/${category.slug || category.id}`"
-                @click="closeModal"
+                @click="updateSelectedCollection(category)"
                 :class="{
                   'text-pink-600 scale-105 transition duration-500':
-                    category.name === collections[0].name,
+                    category.name === selectedCollection?.name,
                 }"
               >
                 {{ capitalize(category.name) }}
