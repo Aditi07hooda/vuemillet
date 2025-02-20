@@ -105,41 +105,22 @@ console.log("product in each category", products.value);
     <div class="md:px-14 px-3 description" v-html="products?.description"></div>
     <h2 class="text-center my-4">Our Products</h2>
     <div v-if="products?.length !== 0">
-      <div
-        class="md:grid grid-flow-row md:grid-cols-4 grid-cols-1 items-center justify-center w-full md:px-14 px-3 hidden"
-      >
-        <div
-          v-for="paginatedProduct in paginatedProducts"
-          :key="paginatedProduct.id"
-          class="border-2 rounded mb-10 mx-1 w-full sm:w-auto"
-        >
-          <BlogProduct :product="paginatedProduct" />
-        </div>
-      </div>
-      <div class="h-full block md:hidden">
+      <div class="h-full block px-14">
         <UCarousel
           v-slot="{ item }"
-          :items="paginatedProducts"
+          :items="sortedProducts"
           :ui="{
-            container: 'gap-4 scroll-smooth px-3',
-            item: 'flex flex-col items-center border-2 rounded-lg',
+            container: 'gap-10 scroll-smooth',
+            item: 'flex flex-col items-center border-2 rounded-lg shadow-md shadow-[rgba(0,0,0,0.1)] md:px-6 w-full sm:w-auto mx-3',
             nav: 'hidden',
             indicators: {
               wrapper: 'relative bottom-0 mt-4',
             },
           }"
           indicators
-          ref="productCarouselRef"
         >
           <BlogProduct :product="item" />
         </UCarousel>
-      </div>
-      <div class="md:flex justify-center hidden">
-        <UPagination
-          v-model="page"
-          :page-count="pageCount"
-          :total="sortedProducts?.length || 0"
-        />
       </div>
     </div>
   </div>
