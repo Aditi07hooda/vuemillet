@@ -154,7 +154,6 @@ onMounted(async () => {
           </div>
           <ShopNavbarModal
             :collection="collection"
-            :products="products"
             :close="close"
           />
         </template>

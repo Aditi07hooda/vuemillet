@@ -6,15 +6,21 @@ const cartModelVisible = useCartModelVisibilty();
 const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
+const sessionId = ref(null);
+
+if (typeof window !== "undefined") {
+  sessionId.value = localStorage.getItem("sessionId");
+}
+
+if (!sessionId.value) {
+  sessionId.value = await createSessionId(baseURL, brandID);
+}
 
 const selectedCollection = ref();
+const getSelectedCollectionProducts = ref();
 
 const props = defineProps({
   collection: {
-    type: Object,
-    required: true,
-  },
-  products: {
     type: Object,
     required: true,
   },
@@ -32,9 +38,15 @@ const addingToCart = async (id, name) => {
   cartModelVisible.openCartModel();
 };
 
-const updateSelectedCollection = (cat) => {
+const updateSelectedCollection = async (cat) => {
   selectedCollection.value = cat;
   console.log("the selected collection is - ", selectedCollection.value);
+  getSelectedCollectionProducts.value = await fetchProductsForCollection(
+    baseURL,
+    brandID,
+    sessionId.value,
+    selectedCollection?.value.id
+  );
 };
 </script>
 <template>
@@ -51,7 +63,7 @@ const updateSelectedCollection = (cat) => {
               class="w-4 h-4 hover:text-pink-600 hover:scale-105 transition duration-500"
               :class="{
                 'text-pink-600 scale-105 transition duration-500':
-                  category.name === selectedCollection.name,
+                  category.name === selectedCollection?.name,
               }"
             />
             <NuxtLink
@@ -59,7 +71,7 @@ const updateSelectedCollection = (cat) => {
               class="w-full hover:text-pink-600 hover:scale-105 transition duration-500"
               :class="{
                 'text-pink-600 scale-105 transition duration-500':
-                  category.name === selectedCollection.name,
+                  category.name === selectedCollection?.name,
               }"
             >
               {{ capitalize(category.name) }}
@@ -72,7 +84,7 @@ const updateSelectedCollection = (cat) => {
       <div class="flex gap-4 flex-wrap flex-col">
         <div class="flex flex-row gap-12">
           <div
-            v-for="p in products[0].products.slice(0, 7)"
+            v-for="p in getSelectedCollectionProducts?.slice(0,4)"
             :key="p.id"
             class="w-fit mx-3"
           >
@@ -157,7 +169,7 @@ const updateSelectedCollection = (cat) => {
       </div>
       <div class="fixed bottom-6 right-8">
         <NuxtLink
-          :to="`/collections/${collection[0].slug || collection[0].id}`"
+          :to="`/collections/${selectedCollection?.slug ||selectedCollection?.id}`"
           @click="close"
           class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
         >
