@@ -62,9 +62,11 @@ watchEffect(async () => {
 });
 </script>
 <template>
-  <div class="grid grid-flow-row grid-cols-5 m-5 w-full mb-20 mx-20 gap-24">
+  <div class="grid grid-flow-row grid-cols-5 my-5 w-full mb-20 mx-20 gap-20">
     <div>
-      <h3 class="uppercase text-xl font-semibold py-3 font-poppins">By Categories</h3>
+      <h3 class="uppercase text-xl font-semibold py-3 font-poppins">
+        By Categories
+      </h3>
       <div class="flex flex-col md:flex-row mt-3">
         <ul class="flex flex-col space-y-6">
           <li
@@ -97,7 +99,7 @@ watchEffect(async () => {
       <div class="flex gap-4 flex-wrap flex-col">
         <div class="flex flex-row gap-8">
           <div
-            v-for="p in getSelectedCollectionProducts?.slice(0, 4)"
+            v-for="p in getSelectedCollectionProducts?.slice(0, 3)"
             :key="p.id"
             class="w-fit mx-3"
           >
@@ -186,7 +188,7 @@ watchEffect(async () => {
             selectedCollection?.slug || selectedCollection?.id
           }`"
           @click="close"
-          class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5"
+          class="bg-pink-600 text-white hover:bg-green-400 transition duration-500 w-full py-2.5 rounded-xl px-5 font-poppins"
         >
           View More
         </NuxtLink>
