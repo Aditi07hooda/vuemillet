@@ -23,8 +23,14 @@ const formatDate = (dateString) => {
 
 <template>
   <NuxtLink :to="`/blogs/${blog.slug}`">
-    <div class="flex justify-center">
-      <img :src="blog.image || '/favicon.ico'" alt="alt" class="rounded-3xl" />
+    <div
+      class="flex justify-center w-[300px] h-[200px] overflow-hidden rounded-3xl"
+    >
+      <img
+        :src="blog.image || '/favicon.ico'"
+        alt="alt"
+        class="w-full h-full object-cover"
+      />
     </div>
     <div class="px-4 mt-2">
       <h3 class="truncate">
@@ -62,11 +68,6 @@ h3 {
 .details {
   font-size: 12px;
   font-weight: 400;
-}
-
-img {
-  width: 300px;
-  height: 200px;
 }
 
 .border-color {
