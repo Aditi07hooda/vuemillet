@@ -24,13 +24,9 @@ const formatDate = (dateString) => {
 <template>
   <NuxtLink :to="`/blogs/${blog.slug}`">
     <div
-      class="flex justify-center w-[300px] h-[200px] overflow-hidden rounded-3xl"
+      class="flex justify-center w-[300px] h-[200px] overflow-hidden rounded-3xl bg-cover bg-no-repeat bg-center"
+      :style="{ backgroundImage: `url(${blog.image || '/favicon.ico'})` }"
     >
-      <img
-        :src="blog.image || '/favicon.ico'"
-        alt="alt"
-        class="w-full h-full object-cover"
-      />
     </div>
     <div class="px-4 mt-2">
       <h3 class="truncate">
