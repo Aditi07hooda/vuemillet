@@ -80,14 +80,22 @@ let slug =
 
 <template>
   <NuxtLink :to="`/product/${product.slug || product.id}`">
-    <div class="product-image-container">
-      <img
-        :src="product.oneImg || product.images[0] || '/favicon.ico'"
-        alt="Product Image"
-        class="product-image mt-8 md:pt-3"
-      />
+    <div
+      class="product-image-container h-44 mt-6 relative overflow-hidden rounded-2xl flex items-center justify-center"
+    >
+      <div class="h-full rounded-2xl overflow-hidden">
+        <img
+          :src="product.oneImg || product.images[0] || '/favicon.ico'"
+          alt="Product Image"
+          class="h-full object-contain"
+        />
+      </div>
     </div>
-    <div class="mt-3 text-lg font-bold max-w-64 items-center flex justify-center text-center justify-self-center">{{ capitalize(product.name) }}</div>
+    <div
+      class="mt-3 text-lg font-bold max-w-64 items-center flex justify-center text-center justify-self-center"
+    >
+      {{ capitalize(product.name) }}
+    </div>
   </NuxtLink>
   <div v-if="isHomePage" class="my-4">
     <NuxtLink
@@ -177,8 +185,8 @@ let slug =
   width: 100%;
   height: 180px; /* Fixed height */
   position: relative;
-  overflow: hidden;
-  border-radius: 8px;
+  overflow: hidden; /* Keep this to clip the image */
+  border-radius: 2rem; /* Apply border-radius here */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -187,8 +195,8 @@ let slug =
 .product-image {
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  object-fit: contain;
+  object-fit: contain; /* Keep object-fit as contain */
+  /* Remove any explicit border-radius on the image */
 }
 
 /* Product Name (Ensures consistent height) */
