@@ -92,7 +92,7 @@ let slug =
       </div>
     </div>
     <div
-      class="mt-3 text-lg font-bold max-w-64 items-center flex justify-center text-center justify-self-center"
+      class="mt-3 text-lg font-bold max-w-64 items-center flex justify-center text-center justify-self-center h-16"
     >
       {{ capitalize(product.name) }}
     </div>
@@ -100,12 +100,12 @@ let slug =
   <div v-if="isHomePage" class="my-4">
     <NuxtLink
       :to="slug ? `/category/${slug}` : '/'"
-      class="text-pink-600 font-semibold"
+      class="text-pink-600 font-semibold h-16"
     >
       <span>{{ capitalize(product?.category?.name || "") }}</span>
     </NuxtLink>
   </div>
-  <div v-if="!isHomePage" class="product-card flex flex-col items-center">
+  <div v-if="!isHomePage" class="product-card flex flex-col items-center h-56">
     <!-- Variant Selection -->
     <div v-if="containsOnlySize(product.variantTypes)" class="w-full">
       <div class="mb-2">Select Size</div>
