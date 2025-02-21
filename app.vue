@@ -109,4 +109,7 @@ export default {
   position: relative;
   z-index: 0;
 }
+* {
+  font-family: "Poppins", sans-serif !important;
+}
 </style>
