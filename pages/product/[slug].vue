@@ -199,8 +199,13 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
 
 const setVariantOptionMatrix = () => {
   if (product.value.variantOptionMatrix !== null) {
-    console.log("color of selected variant",product.value.variantOptionMatrix.size[selectedSize.value.name].color, selectedSize.value.name)
-    variantColor.value = product.value.variantOptionMatrix.size[selectedSize.value.name].color;
+    console.log(
+      "color of selected variant",
+      product.value.variantOptionMatrix.size[selectedSize.value.name].color,
+      selectedSize.value.name
+    );
+    variantColor.value =
+      product.value.variantOptionMatrix.size[selectedSize.value.name].color;
   } else {
     variantColor.value = "white";
   }
@@ -232,7 +237,8 @@ onMounted(async () => {
         />
       </div>
       <div
-        class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4"
+        :style="{ backgroundColor: variantColor }"
+        class="flex flex-col md:flex-row items-center rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4"
       >
         <div class="w-full md:w-1/2 flex flex-col md:flex-row">
           <div class="w-full">
