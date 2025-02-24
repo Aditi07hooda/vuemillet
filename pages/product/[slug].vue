@@ -148,6 +148,7 @@ onUnmounted(() => {
 
 const isItemInCart = ref();
 const variantColor = ref();
+const variantImage = ref([]);
 
 const fetchingCartItems = async () => {
   const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
@@ -199,13 +200,18 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
 
 const setVariantOptionMatrix = () => {
   if (product.value.variantOptionMatrix !== null) {
-    console.log(
-      "color of selected variant",
-      product.value.variantOptionMatrix.size[selectedSize.value.name].color,
-      selectedSize.value.name
-    );
     variantColor.value =
       product.value.variantOptionMatrix.size[selectedSize.value.name].color;
+    variantImage.value =
+      product.value.variantOptionMatrix.size[selectedSize.value.name].images;
+
+    console.log(
+      "color of selected variant",
+      variantColor.value,
+      "images of selected variant",
+      variantImage.value,
+      selectedSize.value.name
+    );
   } else {
     variantColor.value = "white";
   }
@@ -254,6 +260,24 @@ onMounted(async () => {
           >
             <div
               v-for="image in product.images"
+              :key="image"
+              class="mr-2 md:mb-2 cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow rounded-lg"
+            >
+              <img
+                :src="image"
+                :alt="image"
+                width="100"
+                class="rounded-lg md:mr-0 mb-0"
+                @click="changeMainImage(image)"
+              />
+            </div>
+          </div>
+          <div
+            v-if="variantImage.length > 0"
+            class="flex flex-row mt-4 md:flex-col md:mt-0 md:ml-4 md:justify-end"
+          >
+            <div
+              v-for="image in variantImage"
               :key="image"
               class="mr-2 md:mb-2 cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow rounded-lg"
             >
