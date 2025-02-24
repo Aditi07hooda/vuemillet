@@ -134,7 +134,7 @@ let slug =
         <!-- Product Name (Fixed height) -->
         <NuxtLink :to="`/product/${product.slug || product.id}`">
           <div
-            class="mt-2 text-lg font-medium h-14 flex items-center justify-center"
+            class="mt-2 text-lg font-medium h-24 flex items-center justify-center"
           >
             {{ capitalize(product.name) }}
           </div>
