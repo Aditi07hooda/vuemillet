@@ -215,7 +215,7 @@ onMounted(async () => {
     <div v-else>
       <div
         v-if="showNavbar"
-        class="md:ease-in-out md:duration-300 hidden md:block"
+        class="md:ease-in-out md:duration-300"
       >
         <CartNavbar
           :productImage="product.images[0]"
