@@ -147,6 +147,7 @@ onUnmounted(() => {
 });
 
 const isItemInCart = ref();
+const variantColor = ref();
 
 const fetchingCartItems = async () => {
   const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
@@ -196,12 +197,23 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
   }
 };
 
+const setVariantOptionMatrix = () => {
+  if (product.value.variantOptionMatrix !== null) {
+    console.log("color of selected variant",product.value.variantOptionMatrix.size[selectedSize.value.name].color, selectedSize.value.name)
+    variantColor.value = product.value.variantOptionMatrix.size[selectedSize.value.name].color;
+  } else {
+    variantColor.value = "white";
+  }
+};
+
 watch(selectedSize, async () => {
   await fetchingCartItems();
+  setVariantOptionMatrix();
 });
 
 onMounted(async () => {
   await fetchingCartItems();
+  setVariantOptionMatrix();
 });
 </script>
 
@@ -213,10 +225,7 @@ onMounted(async () => {
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error.message }}</div>
     <div v-else>
-      <div
-        v-if="showNavbar"
-        class="md:ease-in-out md:duration-300"
-      >
+      <div v-if="showNavbar" class="md:ease-in-out md:duration-300">
         <CartNavbar
           :productImage="product.images[0]"
           :addToCart="addingToCart"
@@ -429,7 +438,9 @@ onMounted(async () => {
             >
               −
             </button>
-            <p class="px-4 py-2 text-lg font-semibold text-gray-800 w-full flex justify-center align-center cursor-default">
+            <p
+              class="px-4 py-2 text-lg font-semibold text-gray-800 w-full flex justify-center align-center cursor-default"
+            >
               {{ isItemInCart }}
             </p>
             <button
