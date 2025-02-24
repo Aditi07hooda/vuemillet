@@ -234,7 +234,7 @@ watchEffect(() => {
             />
             <div class="ml-3 w-full">
               <div class="cursor-pointer" @click="getProduct(cartItem)">
-                <p class="font-bold text-black text-base w-full">
+                <p class="md:font-bold font-[600] text-black text-base w-full">
                   {{ cartItem.name }}
                 </p>
                 <p class="font-semibold text-gray-500 text-sm flex flex-wrap">
