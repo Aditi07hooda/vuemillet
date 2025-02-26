@@ -200,8 +200,13 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
 
 const setVariantOptionMatrix = () => {
   if (product.value.variantOptionMatrix !== null) {
-    variantColor.value =
-      product.value.variantOptionMatrix.size[selectedSize.value.name].color;
+    // variantColor.value =
+    //   product.value.variantOptionMatrix.size[selectedSize.value.name].color;
+    variantColor.value = Object.fromEntries(
+      Object.entries(product.value.variantOptionMatrix.size).map(
+        ([size, data]) => [size, data.color]
+      )
+    );
     // variantImage.value =
     //   product.value.variantOptionMatrix.size[selectedSize.value.name].images;
     variantImage.value = Object.fromEntries(
@@ -214,11 +219,9 @@ const setVariantOptionMatrix = () => {
       "color of selected variant",
       variantColor.value,
       "images of selected variant",
-      variantImage.value[selectedSize.value.name],
+      variantImage.value,
       selectedSize.value.name
     );
-  } else {
-    variantColor.value = "white";
   }
 };
 
@@ -248,7 +251,6 @@ onMounted(async () => {
         />
       </div>
       <div
-        :style="{ backgroundColor: variantColor }"
         class="flex flex-col md:flex-row items-center rounded-lg shadow-md p-6 gap-6 max-w-6xl mx-auto my-4"
       >
         <div class="w-full md:w-1/2 flex flex-col md:flex-row">
@@ -335,23 +337,30 @@ onMounted(async () => {
                   class="px-4 mb-2 p-2 options cursor-pointer border-2 border-black flex gap-3 rounded items-center"
                   :class="selectedSize === option ? 'selected' : ''"
                 >
-                  <img :src="variantImage[option.name][0]" class="rounded h-7 w-fit" />{{
-                    option.name
-                  }}
+                  <img
+                    :src="variantImage[option.name][0]"
+                    class="rounded h-7 w-fit"
+                  />{{ option.name }}
                 </div>
               </div>
               <div
                 class="flex flex-wrap"
-                v-else-if="product.variantMatrixSelect.size === 'Pills'"
+                v-else-if="product.variantMatrixSelect.size === 'PILLS'"
               >
                 <div
                   v-for="option in product.variants"
                   :key="option"
                   @click="logOptionSize(option)"
-                  class="rounded-full px-2 mx-2 mb-2 p-2 options cursor-pointer"
+                  class="rounded-full px-2 mx-2 mb-2 p-2 options cursor-pointer flex items-center gap-2"
                   :class="selectedSize === option ? 'selected' : ''"
                 >
-                  {{ option.name }}
+                  <p
+                    class="rounded-full w-5 h-5 inline-block"
+                    :style="{
+                      backgroundColor: variantColor[option.name] || 'gray',
+                    }"
+                  ></p>
+                  <span>{{ option.name }}</span>
                 </div>
               </div>
               <div
