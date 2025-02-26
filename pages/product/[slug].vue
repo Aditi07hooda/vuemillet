@@ -311,17 +311,17 @@ onMounted(async () => {
                 Size
               </div>
               <div
-                class="flex flex-wrap w-full ml-3"
+                class="flex flex-wrap w-full ml-3 gap-3"
                 v-if="product.variantMatrixSelect.size === 'TABS'"
               >
                 <div
                   v-for="option in product.variants"
                   :key="option"
                   @click="logOptionSize(option)"
-                  class="px-7 mb-2 p-2 options cursor-pointer border-2 border-black"
+                  class="px-4 mb-2 p-2 options cursor-pointer border-2 border-black flex gap-3 rounded items-center"
                   :class="selectedSize === option ? 'selected' : ''"
                 >
-                  {{ option.name }}
+                  <img :src="variantImage[0]" class="rounded h-7 w-fit"/>{{ option.name }}
                 </div>
               </div>
               <div
