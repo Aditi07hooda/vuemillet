@@ -200,19 +200,23 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
 
 const setVariantOptionMatrix = () => {
   if (product.value.variantOptionMatrix !== null) {
-    // variantColor.value =
-    //   product.value.variantOptionMatrix.size[selectedSize.value.name].color;
-    variantColor.value = Object.fromEntries(
-      Object.entries(product.value.variantOptionMatrix.size).map(
-        ([size, data]) => [size, data.color]
-      )
-    );
-    // variantImage.value =
-    //   product.value.variantOptionMatrix.size[selectedSize.value.name].images;
-    variantImage.value = Object.fromEntries(
-      Object.entries(product.value.variantOptionMatrix.size).map(
-        ([size, data]) => [size, data.images]
-      )
+    console.log("variant option matrix - ", product.value.variantOptionMatrix);
+
+    variantColor.value = {};
+    variantImage.value = {};
+
+    Object.entries(product.value.variantOptionMatrix).forEach(
+      ([variantType, variants]) => {
+        Object.entries(variants).forEach(([variant, data]) => {
+          console.log("variant displayed - ", variant, data.color, data.images);
+
+          if (!variantColor.value) variantColor.value = {};
+          if (!variantImage.value) variantImage.value = {};
+
+          variantColor.value[variant] = data.color;
+          variantImage.value[variant] = data.images;
+        });
+      }
     );
 
     console.log(
@@ -220,7 +224,7 @@ const setVariantOptionMatrix = () => {
       variantColor.value,
       "images of selected variant",
       variantImage.value,
-      selectedSize.value.name
+      selectedSize.value?.name
     );
   }
 };
@@ -393,7 +397,7 @@ onMounted(async () => {
                   v-for="option in product.variants"
                   :key="option"
                   @click="logOptionSize(option)"
-                  class="rounded-full px-2 mx-2 mb-2 p-2 options cursor-pointer"
+                  class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 cursor-pointer"
                   :class="selectedSize === option ? 'selected' : ''"
                 >
                   {{ option.name }}
