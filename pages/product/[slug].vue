@@ -202,14 +202,19 @@ const setVariantOptionMatrix = () => {
   if (product.value.variantOptionMatrix !== null) {
     variantColor.value =
       product.value.variantOptionMatrix.size[selectedSize.value.name].color;
-    variantImage.value =
-      product.value.variantOptionMatrix.size[selectedSize.value.name].images;
+    // variantImage.value =
+    //   product.value.variantOptionMatrix.size[selectedSize.value.name].images;
+    variantImage.value = Object.fromEntries(
+      Object.entries(product.value.variantOptionMatrix.size).map(
+        ([size, data]) => [size, data.images]
+      )
+    );
 
     console.log(
       "color of selected variant",
       variantColor.value,
       "images of selected variant",
-      variantImage.value,
+      variantImage.value[selectedSize.value.name],
       selectedSize.value.name
     );
   } else {
@@ -259,20 +264,29 @@ onMounted(async () => {
             class="flex flex-row mt-4 md:flex-col md:mt-0 md:ml-4 md:justify-end"
           >
             <div
-              v-for="(image, index) in [
-                ...(product?.images || []),
-                ...(variantImage || []),
-              ]"
-              :key="index"
-              class="mr-2 md:mb-2 cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow rounded-lg"
+              v-if="
+                product.images.length > 0 ||
+                (variantImage[selectedSize] &&
+                  variantImage[selectedSize].length > 0)
+              "
+              class="flex flex-row mt-4 md:flex-col md:mt-0 md:ml-4 md:justify-end"
             >
-              <img
-                :src="image"
-                :alt="image"
-                width="100"
-                class="w-[100px] h-[100px] object-cover rounded-lg"
-                @click="changeMainImage(image)"
-              />
+              <div
+                v-for="(image, index) in [
+                  ...(product?.images || []),
+                  ...(variantImage[selectedSize.name] || []),
+                ]"
+                :key="index"
+                class="mr-2 md:mb-2 cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow rounded-lg"
+              >
+                <img
+                  :src="image"
+                  :alt="image"
+                  width="100"
+                  class="w-[100px] h-[100px] object-cover rounded-lg"
+                  @click="changeMainImage(image)"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -321,7 +335,9 @@ onMounted(async () => {
                   class="px-4 mb-2 p-2 options cursor-pointer border-2 border-black flex gap-3 rounded items-center"
                   :class="selectedSize === option ? 'selected' : ''"
                 >
-                  <img :src="variantImage[0]" class="rounded h-7 w-fit"/>{{ option.name }}
+                  <img :src="variantImage[option.name][0]" class="rounded h-7 w-fit" />{{
+                    option.name
+                  }}
                 </div>
               </div>
               <div
