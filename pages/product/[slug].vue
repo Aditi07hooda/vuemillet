@@ -98,20 +98,6 @@ const selectedOption = computed(() => {
   );
 });
 
-const filteredProductVariant = computed(() => {
-  return product.value.variants.map((variant) => [variant]);
-});
-
-const logOptionSize = (option) => {
-  selectedSize.value = option;
-  console.log("Selected size:", selectedSize.value);
-};
-
-const logOptionVariant = (option) => {
-  selectedVariant.value = option;
-  console.log("Selected variant:", selectedVariant.value);
-};
-
 // This is needed because sometimes the printDescription only contains tags but not text content inside
 const hasContent = computed(() => {
   const tempDiv = document.createElement("div");
@@ -147,6 +133,23 @@ onUnmounted(() => {
 const isItemInCart = ref();
 const variantColor = ref();
 const variantImage = ref([]);
+const matchingVariant = ref();
+
+const findVariant = () => {
+  const hasMultipleVariantTypes = product.value.variantTypes.length > 1;
+
+  if (hasMultipleVariantTypes) {
+    matchingVariant.value = product.value.variants.find(
+      (variant) =>
+        variant.matrix.size === selectedSize._value &&
+        variant.matrix.Millet === selectedVariant._value
+    );
+  } else {
+    matchingVariant.value = product.value.variants.find(
+      (variant) => variant.matrix.size === selectedSize.value.name
+    );
+  }
+};
 
 const fetchingCartItems = async () => {
   const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
@@ -161,24 +164,8 @@ const fetchingCartItems = async () => {
 
 const increaseOrDecreaseQuantity = async (incrementTask) => {
   try {
-    let matchingVariant = null;
-
-    const hasMultipleVariantTypes = product.value.variantTypes.length > 1;
-
-    if (hasMultipleVariantTypes) {
-      matchingVariant = product.value.variants.find(
-        (variant) =>
-          variant.matrix.size === selectedSize._value &&
-          variant.matrix.Millet === selectedVariant._value
-      );
-    } else {
-      matchingVariant = product.value.variants.find(
-        (variant) => variant.matrix.size === selectedSize.value.name
-      );
-    }
-
     if (!matchingVariant) {
-      console.log("value of variant -", selectedSize.value.name)
+      console.log("value of variant -", selectedSize.value.name);
       console.error("Matching variant not found");
       return;
     }
@@ -189,8 +176,8 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
         baseURL,
         brandID,
         sessionId.value,
-        matchingVariant.id,
-        matchingVariant.name
+        matchingVariant.value.id,
+        matchingVariant.value.name
       );
       cartModelVisible.openCartModel();
     } else {
@@ -198,8 +185,8 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
         baseURL,
         brandID,
         sessionId.value,
-        matchingVariant.id,
-        matchingVariant.name
+        matchingVariant.value.id,
+        matchingVariant.value.name
       );
       cartModelVisible.openCartModel();
     }
@@ -234,11 +221,17 @@ const setVariantOptionMatrix = () => {
 
 watch(selectedSize, async () => {
   await fetchingCartItems();
+  findVariant();
   setVariantOptionMatrix();
+});
+
+watch(selectedVariant, () => {
+  findVariant();
 });
 
 onMounted(async () => {
   await fetchingCartItems();
+  findVariant();
   setVariantOptionMatrix();
 });
 </script>
