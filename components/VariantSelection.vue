@@ -9,7 +9,7 @@
         :key="option?.name"
         @click="logOptionSize(option)"
         class="px-4 mb-2 p-2 options cursor-pointer border-2 border-black flex gap-3 rounded items-center"
-        :class="selectedSize === option ? 'selected' : ''"
+        :class="selectedSize === option ? 'border border-black bg-white' : ''"
       >
         <img :src="variantImage[option.name]?.[0]" class="rounded h-7 w-fit" />
         {{ option.name }}
@@ -24,8 +24,8 @@
         v-for="option in product.variants"
         :key="option?.name"
         @click="logOptionSize(option)"
-        class="rounded-full px-2 mx-2 mb-2 p-2 options cursor-pointer flex items-center gap-2"
-        :class="selectedSize === option ? 'selected' : ''"
+        class="rounded-full px-2 mx-2 mb-2 p-2 options border-2 cursor-pointer flex items-center gap-2"
+        :class="selectedSize === option ? 'border border-black bg-white' : ''"
       >
         <p
           class="rounded-full w-5 h-5 inline-block"
@@ -104,11 +104,4 @@ const emit = defineEmits(["update:selectedSize"]);
 const logOptionSize = (option) => {
   emit("update:selectedSize", option);
 };
-
-// onMounted(() => {
-//   console.log("Product Data:", props.product);
-//   console.log("Variant Image Data:", props.variantImage);
-//   console.log("Variant Color Data:", props.variantColor);
-//   console.log("Selected Size:", props.selectedSize);
-// });
 </script>
