@@ -330,7 +330,7 @@ onMounted(async () => {
               >
                 Size
               </div>
-              <VariantSelection
+              <VariantSizeSelection
                 :product="product"
                 :variantImage="variantImage"
                 :variantColor="variantColor"
@@ -348,7 +348,7 @@ onMounted(async () => {
                 {{ capitalize(product?.variantTypes[0]) }}
               </div>
               <div class="flex flex-wrap w-10/12">
-                <VariantSelection
+                <VariantSizeSelection
                   :product="product"
                   :variantImage="variantImage"
                   :variantColor="variantColor"
