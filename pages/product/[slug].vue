@@ -141,12 +141,18 @@ const findVariant = () => {
   if (hasMultipleVariantTypes) {
     matchingVariant.value = product.value.variants.find(
       (variant) =>
-        variant.matrix.size === selectedSize._value &&
-        variant.matrix.Millet === selectedVariant._value
+        (variant.matrix.size === selectedSize._value ||
+          variant.matrix.Size === selectedSize._value ||
+          variant.matrix.SIZE === selectedSize._value) &&
+        variant.matrix[product.value.variantTypes[1]] === selectedVariant._value
     );
   } else {
+    console.log(selectedSize.value.name);
     matchingVariant.value = product.value.variants.find(
-      (variant) => variant.matrix.size === selectedSize.value.name
+      (variant) =>
+        variant.matrix.size === selectedSize.value.name ||
+        variant.matrix.Size === selectedSize.value.name ||
+        variant.matrix.SIZE === selectedSize.value.name
     );
   }
 };
@@ -155,7 +161,7 @@ const fetchingCartItems = async () => {
   const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
   if (data && data.cart) {
     const x = data.cart.items.find(
-      (item) => item.variantId === selectedSize.value?.id
+      (item) => item.variantId === matchingVariant.value?.id
     );
     console.log("Fetched cart items:", x);
     isItemInCart.value = x?.qty || 0;
@@ -169,6 +175,7 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
       console.error("Matching variant not found");
       return;
     }
+    console.log(matchingVariant.value);
 
     let data = null;
     if (incrementTask) {
@@ -225,7 +232,8 @@ watch(selectedSize, async () => {
   setVariantOptionMatrix();
 });
 
-watch(selectedVariant, () => {
+watch(selectedVariant, async () => {
+  await fetchingCartItems();
   findVariant();
 });
 
