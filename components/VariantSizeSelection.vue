@@ -170,7 +170,7 @@ const props = defineProps({
     default: () => ({}),
   },
   selectedSize: {
-    type: Object,
+    type: String,
     default: () => null,
   },
   isContainSize: {

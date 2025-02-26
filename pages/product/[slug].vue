@@ -365,17 +365,13 @@ onMounted(async () => {
                 {{ capitalize(product.variantTypes[1]) }}
               </div>
               <div class="flex flex-wrap w-10/12">
-                <div
-                  v-for="option in product.variantMatrix[
-                    product.variantTypes[1]
-                  ]"
-                  :key="option"
-                  @click="logOptionVariant(option)"
-                  class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer"
-                  :class="selectedVariant === option ? 'selected' : ''"
-                >
-                  {{ capitalize(option) }}
-                </div>
+                <VariantTypeSelection
+                  :product="product"
+                  :selectedVariant="selectedVariant"
+                  :variantImage="variantImage"
+                  :variantColor="variantColor"
+                  @update:selectedVariant="selectedVariant = $event"
+                />
               </div>
             </div>
           </div>
