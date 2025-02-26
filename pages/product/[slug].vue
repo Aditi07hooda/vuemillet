@@ -336,6 +336,7 @@ onMounted(async () => {
                 :variantColor="variantColor"
                 :selectedSize="selectedSize"
                 @update:selectedSize="selectedSize = $event"
+                :is-contain-size="true"
               />
             </div>
           </div>
@@ -347,17 +348,14 @@ onMounted(async () => {
                 {{ capitalize(product?.variantTypes[0]) }}
               </div>
               <div class="flex flex-wrap w-10/12">
-                <div
-                  v-for="option in product.variantMatrix[
-                    product.variantTypes[0]
-                  ]"
-                  :key="option"
-                  @click="logOptionSize(option)"
-                  class="rounded-full p-2 mx-2 mb-2 options transition duration-500 cursor-pointer"
-                  :class="selectedSize === option ? 'selected' : ''"
-                >
-                  {{ option }}
-                </div>
+                <VariantSelection
+                  :product="product"
+                  :variantImage="variantImage"
+                  :variantColor="variantColor"
+                  :selectedSize="selectedSize"
+                  @update:selectedSize="selectedSize = $event"
+                  :is-contain-size="false"
+                />
               </div>
             </div>
             <div class="flex">
