@@ -142,7 +142,7 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
         </div>
       </div>
       
-      <div class="flex items-center gap-6 md:w-[35%] justify-end mt-2 md:mt-0">
+      <div class="flex flex-wrap items-center gap-6 md:w-[35%] justify-end mt-2 md:mt-0">
         <div class="flex items-center gap-4">
           <div v-for="variantType in product?.variantTypes" :key="variantType" class="flex flex-row items-center md:flex-col">
             <label :for="variantType" class="text-sm font-medium text-gray-700">{{ capitalize(variantType) }}:</label>
@@ -157,7 +157,7 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
           </div>
         </div>
         
-        <div v-if="selectedItemInCart === 0" class="flex items-center">
+        <div v-if="selectedItemInCart === 0" class="flex items-center w-full md:w-fit">
           <button
             @click="increaseOrDecreaseQuantity(true)"
             class="bg-pink-500 text-white text-base md:text-lg md:font-semibold font-normal w-full hover:bg-pink-600 transition duration-300 md:px-5 md:py-2 px-2 py-1 rounded-full shadow-md"
