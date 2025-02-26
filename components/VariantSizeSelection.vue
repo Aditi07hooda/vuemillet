@@ -8,8 +8,12 @@
         v-for="option in product.variants"
         :key="option?.name"
         @click="logOptionSize(option)"
-        class="px-4 mb-2 p-2 options cursor-pointer border-2 border-black flex gap-3 rounded items-center"
-        :class="selectedSize === option ? 'border border-black bg-white' : ''"
+        class="px-4 mb-2 p-2 cursor-pointer border flex gap-3 rounded items-center"
+        :class="
+          props.selectedSize.name === option.name
+            ? 'border-2 border-black bg-white'
+            : ''
+        "
       >
         <img :src="variantImage[option.name]?.[0]" class="rounded h-7 w-fit" />
         {{ option.name }}
@@ -24,8 +28,12 @@
         v-for="option in product.variants"
         :key="option?.name"
         @click="logOptionSize(option)"
-        class="rounded-full px-2 mx-2 mb-2 p-2 options border-2 cursor-pointer flex items-center gap-2"
-        :class="selectedSize === option ? 'border border-black bg-white' : ''"
+        class="rounded-full px-2 mx-2 mb-2 p-2 border cursor-pointer flex items-center gap-2"
+        :class="
+          props.selectedSize.name === option.name
+            ? 'border-2 border-black bg-white'
+            : ''
+        "
       >
         <p
           class="rounded-full w-5 h-5 inline-block"
@@ -51,7 +59,7 @@
       >
         <UButton
           color="white"
-          :label="selectedSize ? selectedSize.name : 'Options'"
+          :label="props.selectedSize ? props.selectedSize.name : 'options'"
           trailing-icon="i-heroicons-chevron-down-20-solid"
         />
 
@@ -68,8 +76,12 @@
         v-for="option in product.variants"
         :key="option?.name"
         @click="logOptionSize(option)"
-        class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 cursor-pointer"
-        :class="selectedSize === option ? 'border border-black bg-white' : ''"
+        class="rounded-full px-2 mx-2 mb-2 p-2 border transition duration-500 cursor-pointer"
+        :class="
+          props.selectedSize.name === option.name
+            ? 'border-2 border-black bg-white'
+            : ''
+        "
       >
         {{ option.name }}
       </div>
@@ -84,8 +96,12 @@
         v-for="option in product.variantMatrix[product.variantTypes[0]]"
         :key="option"
         @click="logOptionSize(option)"
-        class="px-4 mb-2 p-2 options cursor-pointer border-2 border-black flex gap-3 rounded items-center"
-        :class="selectedSize === option ? 'border border-black bg-white' : ''"
+        class="px-4 mb-2 p-2 cursor-pointer border flex gap-3 rounded items-center"
+        :class="
+          props.selectedSize.name === option
+            ? 'border-2 border-black bg-white'
+            : ''
+        "
       >
         <img :src="variantImage[option]?.[0]" class="rounded h-7 w-fit" />
         {{ option }}
@@ -100,8 +116,12 @@
         v-for="option in product.variantMatrix[product.variantTypes[0]]"
         :key="option"
         @click="logOptionSize(option)"
-        class="rounded-full px-2 mx-2 mb-2 p-2 options border-2 cursor-pointer flex items-center gap-2"
-        :class="selectedSize === option ? 'border border-black bg-white' : ''"
+        class="rounded-full px-2 mx-2 mb-2 p-2 border cursor-pointer flex items-center gap-2"
+        :class="
+          props.selectedSize.name === option
+            ? 'border-2 border-black bg-white'
+            : ''
+        "
       >
         <p
           class="rounded-full w-5 h-5 inline-block"
@@ -127,7 +147,7 @@
       >
         <UButton
           color="white"
-          :label="selectedSize ? selectedSize.name : 'Options'"
+          :label="props.selectedSize ? props.selectedSize.name : 'Options'"
           trailing-icon="i-heroicons-chevron-down-20-solid"
         />
 
@@ -144,8 +164,12 @@
         v-for="option in product.variantMatrix[product.variantTypes[0]]"
         :key="option"
         @click="logOptionSize(option)"
-        class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 cursor-pointer"
-        :class="selectedSize === option ? 'border border-black bg-white' : ''"
+        class="rounded-full px-2 mx-2 mb-2 p-2 border transition duration-500 cursor-pointer"
+        :class="
+          props.selectedSize.name === option
+            ? 'border-2 border-black bg-white'
+            : ''
+        "
       >
         {{ option }}
       </div>
@@ -154,7 +178,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, onMounted } from "vue";
+import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   product: {
@@ -181,7 +205,18 @@ const props = defineProps({
 
 const emit = defineEmits(["update:selectedSize"]);
 
+const filteredProductVariant = computed(() => {
+  return product.value.variants;
+});
+
 const logOptionSize = (option) => {
   emit("update:selectedSize", option);
 };
 </script>
+
+<style scoped>
+.options {
+  background-color: #f5f5f5;
+  border: 1px solid #f5f5f5;
+}
+</style>

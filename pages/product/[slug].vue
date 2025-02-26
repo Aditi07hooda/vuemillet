@@ -140,13 +140,13 @@ const findVariant = () => {
 
   if (hasMultipleVariantTypes) {
     matchingVariant.value = product.value.variants.find((variant) => {
-      const selectedSizeName = selectedSize.value.name;
+      const selectedSizeName = selectedSize.value;
       const variantSize =
         variant.matrix.size || variant.matrix.Size || variant.matrix.SIZE;
 
       return (
         variantSize === selectedSizeName &&
-        variant.matrix[product.value.variantTypes[1]] === selectedVariant.value
+        variant.matrix[product.value.variantTypes[1]] === selectedVariant._value
       );
     });
   } else {
@@ -178,7 +178,7 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
       console.error("Matching variant not found");
       return;
     }
-    console.log(matchingVariant.value);
+    console.log(matchingVariant.value, selectedSize.value, selectedVariant._value);
 
     let data = null;
     if (incrementTask) {

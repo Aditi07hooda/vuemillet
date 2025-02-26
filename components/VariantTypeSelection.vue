@@ -9,8 +9,10 @@
         v-for="option in product.variantMatrix[product.variantTypes[1]]"
         :key="option"
         @click="logOptionVariant(option)"
-        class="px-4 mb-2 p-2 options cursor-pointer border border-gray-100 flex gap-3 rounded items-center"
-        :class="{ 'border border-black bg-white': selectedVariant === option }"
+        class="px-4 mb-2 p-2 options cursor-pointer border transition duration-500 flex gap-3 rounded items-center"
+        :class="{
+          'border-2 border-black bg-white': props.selectedVariant === option,
+        }"
       >
         <img :src="variantImage?.[option]?.[0]" class="rounded h-7 w-fit" />
         {{ option }}
@@ -23,8 +25,10 @@
         v-for="option in product.variantMatrix[product.variantTypes[1]]"
         :key="option"
         @click="logOptionVariant(option)"
-        class="rounded-full px-2 mx-2 mb-2 p-2 options border-2 cursor-pointer flex items-center gap-2"
-        :class="{ 'border border-black bg-white': selectedVariant === option }"
+        class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 border cursor-pointer flex items-center gap-2"
+        :class="{
+          'border-2 border-black bg-white': props.selectedVariant === option,
+        }"
       >
         <p
           class="rounded-full w-5 h-5 inline-block"
@@ -67,8 +71,10 @@
         v-for="option in product.variantMatrix[product.variantTypes[1]]"
         :key="optional"
         @click="logOptionVariant(option)"
-        class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 cursor-pointer"
-        :class="{ 'border border-black bg-white': selectedVariant === option }"
+        class="rounded-full px-2 mx-2 mb-2 p-2 options border transition duration-500 cursor-pointer"
+        :class="{
+          'border-2 border-black bg-white': props.selectedVariant === option,
+        }"
       >
         {{ option }}
       </div>
