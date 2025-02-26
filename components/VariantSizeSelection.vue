@@ -69,7 +69,7 @@
         :key="option?.name"
         @click="logOptionSize(option)"
         class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 cursor-pointer"
-        :class="selectedSize === option ? 'selected' : ''"
+        :class="selectedSize === option ? 'border border-black bg-white' : ''"
       >
         {{ option.name }}
       </div>
@@ -145,7 +145,7 @@
         :key="option"
         @click="logOptionSize(option)"
         class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 cursor-pointer"
-        :class="selectedSize === option ? 'selected' : ''"
+        :class="selectedSize === option ? 'border border-black bg-white' : ''"
       >
         {{ option }}
       </div>

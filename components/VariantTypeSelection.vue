@@ -68,7 +68,7 @@
         :key="optional"
         @click="logOptionVariant(option)"
         class="rounded-full px-2 mx-2 mb-2 p-2 options transition duration-500 cursor-pointer"
-        :class="{ selected: selectedVariant === option }"
+        :class="{ 'border border-black bg-white': selectedVariant === option }"
       >
         {{ option }}
       </div>
