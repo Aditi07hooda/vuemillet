@@ -139,29 +139,32 @@ const findVariant = () => {
   const hasMultipleVariantTypes = product.value.variantTypes.length > 1;
 
   if (hasMultipleVariantTypes) {
-    matchingVariant.value = product.value.variants.find(
-      (variant) =>
-        (variant.matrix.size === selectedSize._value ||
-          variant.matrix.Size === selectedSize._value ||
-          variant.matrix.SIZE === selectedSize._value) &&
-        variant.matrix[product.value.variantTypes[1]] === selectedVariant._value
-    );
+    matchingVariant.value = product.value.variants.find((variant) => {
+      const selectedSizeName = selectedSize.value.name;
+      const variantSize =
+        variant.matrix.size || variant.matrix.Size || variant.matrix.SIZE;
+
+      return (
+        variantSize === selectedSizeName &&
+        variant.matrix[product.value.variantTypes[1]] === selectedVariant.value
+      );
+    });
   } else {
-    console.log(selectedSize.value.name);
-    matchingVariant.value = product.value.variants.find(
-      (variant) =>
-        variant.matrix.size === selectedSize.value.name ||
-        variant.matrix.Size === selectedSize.value.name ||
-        variant.matrix.SIZE === selectedSize.value.name
-    );
+    const selectedSizeName = selectedSize.value.name;
+    matchingVariant.value = product.value.variants.find((variant) => {
+      const variantSize =
+        variant.matrix.size || variant.matrix.Size || variant.matrix.SIZE;
+      return variantSize === selectedSizeName;
+    });
   }
 };
 
 const fetchingCartItems = async () => {
   const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
+  const currentVariant = matchingVariant.value;
   if (data && data.cart) {
     const x = data.cart.items.find(
-      (item) => item.variantId === matchingVariant.value?.id
+      (item) => item.variantId === currentVariant?.id
     );
     console.log("Fetched cart items:", x);
     isItemInCart.value = x?.qty || 0;
@@ -227,19 +230,19 @@ const setVariantOptionMatrix = () => {
 };
 
 watch(selectedSize, async () => {
-  await fetchingCartItems();
   findVariant();
+  await fetchingCartItems();
   setVariantOptionMatrix();
 });
 
 watch(selectedVariant, async () => {
-  await fetchingCartItems();
   findVariant();
+  await fetchingCartItems();
 });
 
 onMounted(async () => {
-  await fetchingCartItems();
   findVariant();
+  await fetchingCartItems();
   setVariantOptionMatrix();
 });
 </script>
