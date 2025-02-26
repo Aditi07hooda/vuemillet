@@ -120,8 +120,6 @@ const hasContent = computed(() => {
   return textContent.trim().length > 0;
 });
 
-console.log("data of each product", product.value);
-
 const addingToCart = async () => {
   const data = await addToCart(
     baseURL,
@@ -163,8 +161,25 @@ const fetchingCartItems = async () => {
 
 const increaseOrDecreaseQuantity = async (incrementTask) => {
   try {
-    if (!selectedSize.value) {
-      console.error("Selected variant not found");
+    let matchingVariant = null;
+
+    const hasMultipleVariantTypes = product.value.variantTypes.length > 1;
+
+    if (hasMultipleVariantTypes) {
+      matchingVariant = product.value.variants.find(
+        (variant) =>
+          variant.matrix.size === selectedSize._value &&
+          variant.matrix.Millet === selectedVariant._value
+      );
+    } else {
+      matchingVariant = product.value.variants.find(
+        (variant) => variant.matrix.size === selectedSize.value.name
+      );
+    }
+
+    if (!matchingVariant) {
+      console.log("value of variant -", selectedSize.value.name)
+      console.error("Matching variant not found");
       return;
     }
 
@@ -174,8 +189,8 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
         baseURL,
         brandID,
         sessionId.value,
-        selectedSize.value.id,
-        selectedSize.value.name
+        matchingVariant.id,
+        matchingVariant.name
       );
       cartModelVisible.openCartModel();
     } else {
@@ -183,8 +198,8 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
         baseURL,
         brandID,
         sessionId.value,
-        selectedSize.value.id,
-        selectedSize.value.name
+        matchingVariant.id,
+        matchingVariant.name
       );
       cartModelVisible.openCartModel();
     }
@@ -200,16 +215,12 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
 
 const setVariantOptionMatrix = () => {
   if (product.value.variantOptionMatrix !== null) {
-    console.log("variant option matrix - ", product.value.variantOptionMatrix);
-
     variantColor.value = {};
     variantImage.value = {};
 
     Object.entries(product.value.variantOptionMatrix).forEach(
       ([variantType, variants]) => {
         Object.entries(variants).forEach(([variant, data]) => {
-          console.log("variant displayed - ", variant, data.color, data.images);
-
           if (!variantColor.value) variantColor.value = {};
           if (!variantImage.value) variantImage.value = {};
 
@@ -217,14 +228,6 @@ const setVariantOptionMatrix = () => {
           variantImage.value[variant] = data.images;
         });
       }
-    );
-
-    console.log(
-      "color of selected variant",
-      variantColor.value,
-      "images of selected variant",
-      variantImage.value,
-      selectedSize.value?.name
     );
   }
 };
