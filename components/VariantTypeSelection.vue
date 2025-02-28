@@ -43,26 +43,11 @@
       class="flex flex-wrap w-full ml-3"
       v-else-if="variantStyle === 'DROPDOWN'"
     >
-      <UDropdown
-        :items="filteredProductVariant"
-        :ui="{
-          item: { disabled: 'cursor-text select-text w-full' },
-          width: '100%',
-        }"
-        :popper="{ placement: 'bottom-start' }"
-      >
-        <UButton
-          color="white"
-          :label="selectedVariant ? selectedVariant : 'Options'"
-          trailing-icon="i-heroicons-chevron-down-20-solid"
-        />
-
-        <template #item="{ item }">
-          <span @click="logOptionVariant(item)" class="cursor-pointer">
-            {{ item.name }}
-          </span>
-        </template>
-      </UDropdown>
+      <Dropdown
+        :selectedVariant="selectedVariant"
+        :filteredProductVariant="filteredProductVariant"
+        @update:selectedVariant="logOptionVariant"
+      />
     </div>
 
     <!-- Default Variant View -->

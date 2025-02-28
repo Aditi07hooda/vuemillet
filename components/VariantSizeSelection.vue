@@ -49,26 +49,11 @@
       class="flex flex-wrap w-full ml-3"
       v-else-if="product.variantMatrixSelect.size === 'DROPDOWN'"
     >
-      <UDropdown
-        :items="filteredProductVariant"
-        :ui="{
-          item: { disabled: 'cursor-text select-text w-full' },
-          width: '100%',
-        }"
-        :popper="{ placement: 'bottom-start' }"
-      >
-        <UButton
-          color="white"
-          :label="props.selectedSize ? props.selectedSize.name : 'options'"
-          trailing-icon="i-heroicons-chevron-down-20-solid"
-        />
-
-        <template #item="{ item }">
-          <span @click="logOptionSize(item)" class="cursor-pointer">
-            {{ item.name }}
-          </span>
-        </template>
-      </UDropdown>
+      <Dropdown
+        :selectedSize="selectedSize"
+        :filteredProductVariant="filteredProductVariant"
+        @update:selectedSize="selectedSize = $event"
+      />
     </div>
 
     <div class="flex flex-wrap" v-else>
@@ -137,26 +122,11 @@
       class="flex flex-wrap w-full ml-3"
       v-else-if="product.variantMatrixSelect.size === 'DROPDOWN'"
     >
-      <UDropdown
-        :items="filteredProductVariant"
-        :ui="{
-          item: { disabled: 'cursor-text select-text w-full' },
-          width: '100%',
-        }"
-        :popper="{ placement: 'bottom-start' }"
-      >
-        <UButton
-          color="white"
-          :label="props.selectedSize ? props.selectedSize.name : 'Options'"
-          trailing-icon="i-heroicons-chevron-down-20-solid"
-        />
-
-        <template #item="{ item }">
-          <span @click="logOptionSize(item)" class="cursor-pointer">
-            {{ item.name }}
-          </span>
-        </template>
-      </UDropdown>
+      <Dropdown
+        :selectedSize="selectedSize"
+        :filteredProductVariant="filteredProductVariant"
+        @update:selectedSize="logOptionSize"
+      />
     </div>
 
     <div class="flex flex-wrap" v-else>
@@ -204,7 +174,7 @@ const props = defineProps({
 const emit = defineEmits(["update:selectedSize"]);
 
 const filteredProductVariant = computed(() => {
-  return product.value.variants;
+  return props.product.variants;
 });
 
 const logOptionSize = (option) => {
