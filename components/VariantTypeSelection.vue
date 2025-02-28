@@ -83,7 +83,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
 import { optional } from "zod";
 
 const props = defineProps({
