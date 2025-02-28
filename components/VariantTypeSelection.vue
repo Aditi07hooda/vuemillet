@@ -14,7 +14,7 @@
           'border-2 border-black bg-white': props.selectedVariant === option,
         }"
       >
-        <img :src="variantImage?.[option]?.[0]" class="rounded h-7 w-fit" />
+        <img :src="variantImage?.[option]?.[0]" class="rounded h-16 w-fit" />
         {{ option }}
       </div>
     </div>

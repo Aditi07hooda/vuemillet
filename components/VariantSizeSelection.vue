@@ -15,7 +15,7 @@
             : ''
         "
       >
-        <img :src="variantImage[option.name]?.[0]" class="rounded h-7 w-fit" />
+        <img :src="variantImage[option.name]?.[0]" class="rounded h-16 w-fit" />
         {{ option.name }}
       </div>
     </div>
@@ -103,7 +103,7 @@
             : ''
         "
       >
-        <img :src="variantImage[option]?.[0]" class="rounded h-7 w-fit" />
+        <img :src="variantImage[option]?.[0]" class="rounded h-16 w-fit" />
         {{ option }}
       </div>
     </div>
