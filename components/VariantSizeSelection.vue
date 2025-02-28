@@ -8,14 +8,14 @@
         v-for="option in product.variants"
         :key="option?.name"
         @click="logOptionSize(option)"
-        class="px-4 mb-2 p-2 cursor-pointer border flex gap-3 rounded items-center"
+        class="px-4 mb-2 p-2 cursor-pointer border flex flex-col gap-3 rounded items-center"
         :class="
           props.selectedSize.name === option.name
             ? 'border-2 border-black bg-white'
             : ''
         "
       >
-        <img :src="variantImage[option.name]?.[0]" class="rounded h-16 w-fit" />
+        <img :src="variantImage[option.name]?.[0]" class="rounded h-20 w-fit" />
         {{ option.name }}
       </div>
     </div>
@@ -96,14 +96,14 @@
         v-for="option in product.variantMatrix[product.variantTypes[0]]"
         :key="option"
         @click="logOptionSize(option)"
-        class="px-4 mb-2 p-2 cursor-pointer border flex gap-3 rounded items-center"
+        class="px-4 mb-2 p-2 cursor-pointer border flex flex-col gap-3 rounded items-center"
         :class="
           props.selectedSize.name === option
             ? 'border-2 border-black bg-white'
             : ''
         "
       >
-        <img :src="variantImage[option]?.[0]" class="rounded h-16 w-fit" />
+        <img :src="variantImage[option]?.[0]" class="rounded h-20 w-fit" />
         {{ option }}
       </div>
     </div>

@@ -9,12 +9,12 @@
         v-for="option in product.variantMatrix[product.variantTypes[1]]"
         :key="option"
         @click="logOptionVariant(option)"
-        class="px-4 mb-2 p-2 options cursor-pointer border transition duration-500 flex gap-3 rounded items-center"
+        class="px-4 mb-2 p-2 options cursor-pointer border transition duration-500 flex flex-col gap-3 rounded items-center"
         :class="{
           'border-2 border-black bg-white': props.selectedVariant === option,
         }"
       >
-        <img :src="variantImage?.[option]?.[0]" class="rounded h-16 w-fit" />
+        <img :src="variantImage?.[option]?.[0]" class="rounded h-20 w-fit" />
         {{ option }}
       </div>
     </div>
