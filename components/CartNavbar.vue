@@ -130,7 +130,7 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
 </script>
 
 <template>
-  <div class="fixed top-0 w-full bg-white shadow-md ease-in-out duration-300">
+  <div class="w-full bg-white shadow-md ease-in-out duration-300 bottom-0 fixed h-fit md:top-0 border-t md:border-b border-gray-200">
     <div class="flex flex-col md:flex-row w-full px-10 py-4 bg-orange-50 justify-between items-center border-b border-gray-200">
       <div class="flex items-center gap-6">
         <img :src="mainImg" alt="Product image" class="md:h-16 md:w-16 h-10 w-10 rounded-lg shadow-md object-cover" />
