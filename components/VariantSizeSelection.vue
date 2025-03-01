@@ -53,6 +53,7 @@
         :selectedSize="selectedSize"
         :filteredProductVariant="filteredProductVariant"
         @update:selectedSize="selectedSize = $event"
+        :log-size-function="logOptionSize"
       />
     </div>
 
@@ -125,7 +126,8 @@
       <Dropdown
         :selectedSize="selectedSize"
         :filteredProductVariant="filteredProductVariant"
-        @update:selectedSize="logOptionSize"
+        @update:selectedSize="selectedSize = $event"
+        :log-size-function="logOptionSize"
       />
     </div>
 

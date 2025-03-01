@@ -5,8 +5,8 @@
       @click="toggleDropdown"
       class="w-full bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md flex justify-between items-center shadow-sm"
     >
-      {{ selectedValue }}
-      <span class="ml-2 text-gray-500">&#9662;</span>
+      {{ selectedSize.name }}
+      <LucideChevronDown class="w-6 h-6" />
       <!-- Downward arrow -->
     </button>
 
@@ -29,25 +29,20 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
+import { boolean } from "zod";
 
 const isDropdownOpen = ref(false);
 const dropdown = ref(null);
 
 const props = defineProps({
-  selectedSize: [Object, String],
+  selectedSize: String,
   selectedVariant: String,
   filteredProductVariant: Array,
+  isVariant: boolean,
+  logSizeFunction: Function,
 });
 
 const emit = defineEmits(["update:selectedSize", "update:selectedVariant"]);
-
-// Compute the displayed value in the dropdown button
-const selectedValue = computed(() => {
-  if (props.selectedSize && props.selectedSize.name)
-    return props.selectedSize.name;
-  if (props.selectedVariant) return props.selectedVariant;
-  return "Options"; // Default label when nothing is selected
-});
 
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
@@ -55,12 +50,18 @@ const toggleDropdown = () => {
 };
 
 const logOption = (item) => {
-  if (typeof item === "string") {
+  if (props.isVariant) {
     emit("update:selectedVariant", item);
   } else {
-    emit("update:selectedSize", item);
+    console.log("variant coming : ", item);
+    if (typeof props.logSizeFunction === "function") {
+      props.logSizeFunction(item);
+    } else {
+      console.error("logSizeFunction is not a function", props.logSizeFunction);
+    }
   }
   isDropdownOpen.value = false;
+  console.log("variant selected - ", props.selectedSize);
 };
 
 // Close dropdown when clicking outside

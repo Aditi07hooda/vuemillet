@@ -47,6 +47,7 @@
         :selectedVariant="selectedVariant"
         :filteredProductVariant="filteredProductVariant"
         @update:selectedVariant="logOptionVariant"
+        :is-variant="true"
       />
     </div>
 
