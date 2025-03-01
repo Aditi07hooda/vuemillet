@@ -1,9 +1,9 @@
 <script setup>
-import MADE_TO_ORDER from "@/assets/images/MADE_TO_ORDER.PNG";
-import NO_PRESERVATIVES from "@/assets/images/NO_PRESERVATIVES.PNG";
-import ORGANIC from "@/assets/images/ORGANIC.PNG";
-import JAGGERY from "@/assets/images/JAGGERY.PNG";
-import MILLETS from "@/assets/images/MILLETS.PNG";
+import MADE_TO_ORDER from "@/assets/images/MADE_TO_ORDER.png";
+import NO_PRESERVATIVES from "@/assets/images/NO_PRESERVATIVES.png";
+import ORGANIC from "@/assets/images/ORGANIC.png";
+import JAGGERY from "@/assets/images/JAGGERY.png";
+import MILLETS from "@/assets/images/MILLETS.png";
 import { useCartModelVisibilty } from "~/store/cart";
 
 const cartModelVisible = useCartModelVisibilty();
