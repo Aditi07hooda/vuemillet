@@ -30,6 +30,7 @@ const formatDate = (dateString) => {
         :src="blog.image || '/favicon.ico'"
         alt="Blog Image"
         class="w-full h-full object-contain rounded-3xl"
+        loading="lazy"
       />
     </div>
     <div class="px-4 mt-2">

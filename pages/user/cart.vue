@@ -161,6 +161,7 @@ const columns = [
                 :src="cartItems.cart.productImages[index]"
                 alt="Product Image"
                 class="w-16 h-16 object-cover mr-4"
+                loading="lazy"
               />
               <span>{{ row.name }}</span>
             </div>
@@ -230,7 +231,7 @@ const columns = [
       </div>
     </div>
     <div class="md:hidden">
-        <Cart :showDiv="false" />
+      <Cart :showDiv="false" />
     </div>
   </div>
 </template>

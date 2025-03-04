@@ -270,6 +270,7 @@ watchEffect(async () => {
                         :src="p.oneImg || p.images[0] || '/favicon.ico'"
                         alt="Product Image"
                         class="w-auto h-full max-w-full max-h-full object-contain"
+                        loading="lazy"
                       />
                     </div>
                     <div
@@ -390,6 +391,7 @@ watchEffect(async () => {
                           :src="p.oneImg || p.images[0] || '/favicon.ico'"
                           alt="Product Image"
                           class="w-auto h-full max-w-full max-h-full object-contain"
+                          loading="lazy"
                         />
                       </div>
                       <div

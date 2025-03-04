@@ -30,6 +30,7 @@
               :src="item.imageUrl"
               class="w-full rounded-3xl shadow-md"
               draggable="false"
+              loading="lazy"
             />
             <div class="flex justify-center">
               <p
@@ -61,6 +62,7 @@
             :src="item.imageUrl || '/favicon.ico'"
             class="w-80 items-center rounded-3xl shadow-md"
             draggable="false"
+            loading="lazy"
           />
           <div class="flex justify-center w-full">
             <p

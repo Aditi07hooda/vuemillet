@@ -250,6 +250,7 @@ const addingToCart = async (item) => {
                         item.product.slug || item.product.id
                       )
                     "
+                    loading="lazy"
                   />
                   <div class="w-full">
                     <p

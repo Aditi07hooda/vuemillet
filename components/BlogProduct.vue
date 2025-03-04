@@ -88,6 +88,7 @@ let slug =
           :src="product.oneImg || product.images[0] || '/favicon.ico'"
           alt="Product Image"
           class="h-full object-contain"
+          loading="lazy"
         />
       </div>
     </div>

@@ -178,7 +178,11 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
       console.error("Matching variant not found");
       return;
     }
-    console.log(matchingVariant.value, selectedSize.value, selectedVariant._value);
+    console.log(
+      matchingVariant.value,
+      selectedSize.value,
+      selectedVariant._value
+    );
 
     let data = null;
     if (incrementTask) {
@@ -270,6 +274,7 @@ onMounted(async () => {
               :src="mainImg"
               alt="Product Image"
               class="w-full h-auto rounded-lg object-cover shadow"
+              loading="lazy"
             />
           </div>
           <div
@@ -298,6 +303,7 @@ onMounted(async () => {
                   width="100"
                   class="w-[100px] h-[100px] object-cover rounded-lg"
                   @click="changeMainImage(image)"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -318,7 +324,12 @@ onMounted(async () => {
               class="text-gray-800 flex flex-col justify-center flex-1"
             >
               <div class="flex justify-center items-center">
-                <img :src="getSrcFromTags(tag)" :alt="tag" width="70px" />
+                <img
+                  :src="getSrcFromTags(tag)"
+                  :alt="tag"
+                  width="70px"
+                  loading="lazy"
+                />
               </div>
               <div class="text-center">
                 {{

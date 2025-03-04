@@ -298,6 +298,7 @@ onMounted(async () => {
                     :src="category?.imageUrl || '/favicon.ico'"
                     alt="image"
                     class="h-10 w-10 rounded-lg"
+                    loading="lazy"
                   />
                   <h1 class="text-center">
                     {{ category?.name }}

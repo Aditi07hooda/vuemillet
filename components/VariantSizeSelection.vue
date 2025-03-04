@@ -14,8 +14,13 @@
             ? 'border-2 border-black bg-white'
             : ''
         "
+        loading="lazy"
       >
-        <img :src="variantImage[option.name]?.[0]" class="rounded h-20 w-fit" />
+        <img
+          :src="variantImage[option.name]?.[0]"
+          class="rounded h-20 w-fit"
+          loading="lazy"
+        />
         {{ option.name }}
       </div>
     </div>
@@ -89,7 +94,11 @@
             : ''
         "
       >
-        <img :src="variantImage[option]?.[0]" class="rounded h-20 w-fit" />
+        <img
+          :src="variantImage[option]?.[0]"
+          class="rounded h-20 w-fit"
+          loading="lazy"
+        />
         {{ option }}
       </div>
     </div>

@@ -265,6 +265,7 @@ const startPayment = async () => {
                   :src="checkout.productImage[index] || '/favicon.ico'"
                   alt="alt"
                   class="rounded-xl w-20 h-16"
+                  loading="lazy"
                 />
                 <div
                   class="absolute top-0 right-0 bg-gray-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transform translate-x-1/2 -translate-y-1/2"

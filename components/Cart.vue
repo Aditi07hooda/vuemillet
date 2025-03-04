@@ -231,6 +231,7 @@ watchEffect(() => {
               alt="alt"
               class="rounded-xl w-20 h-16 cursor-pointer"
               @click="getProduct(cartItem)"
+              loading="lazy"
             />
             <div class="ml-3 w-full">
               <div class="cursor-pointer" @click="getProduct(cartItem)">

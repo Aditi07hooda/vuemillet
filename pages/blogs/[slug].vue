@@ -79,6 +79,7 @@ const containsOnlyNull = (array) => {
         :src="blogData.image"
         :alt="blogData.slug"
         class="hero-image rounded-lg"
+        loading="lazy"
       />
     </div>
     <div class="md:m-14 md:p-14 md:pt-0 md:mt-5 md:mb-0 m-4">
