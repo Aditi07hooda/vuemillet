@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@pinia/nuxt', '@nuxtjs/google-fonts'],
-  plugins: ['./plugins/webfontloader.client.ts'],
   googleFonts: {
     families: {
       Poppins: [300, 400, 500, 600, 700], // Load Poppins with different weights
@@ -24,6 +23,14 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      link: [
+        {
+          rel: "preload",
+          href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap",
+          as: "style",
+          onload: "this.onload=null;this.rel='stylesheet'"
+        }
+      ],
       script: [
         {
           src: "https://checkout.razorpay.com/v1/checkout.js",
