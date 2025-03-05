@@ -266,7 +266,7 @@ watchEffect(async () => {
                     <div
                       class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                     >
-                      <img
+                      <ix-img
                         :src="p.oneImg || p.images[0] || '/favicon.ico'"
                         alt="Product Image"
                         class="w-auto h-full max-w-full max-h-full object-contain"
@@ -387,7 +387,7 @@ watchEffect(async () => {
                       <div
                         class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                       >
-                        <img
+                        <ix-img
                           :src="p.oneImg || p.images[0] || '/favicon.ico'"
                           alt="Product Image"
                           class="w-auto h-full max-w-full max-h-full object-contain"

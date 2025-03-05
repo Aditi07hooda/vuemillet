@@ -294,7 +294,7 @@ onMounted(async () => {
                 <div
                   class="flex flex-col md:flex-row items-center justify-center gap-2"
                 >
-                  <img
+                  <ix-img
                     :src="category?.imageUrl || '/favicon.ico'"
                     alt="image"
                     class="h-10 w-10 rounded-lg"

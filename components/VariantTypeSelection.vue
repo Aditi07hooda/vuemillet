@@ -14,7 +14,7 @@
           'border-2 border-black bg-white': props.selectedVariant === option,
         }"
       >
-        <img
+        <ix-img
           :src="variantImage?.[option]?.[0]"
           class="rounded h-20 w-fit"
           loading="lazy"

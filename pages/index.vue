@@ -26,7 +26,7 @@
       >
         <div class="w-full space-y-4 px-2">
           <NuxtLink :to="`/category/${item.slug}`">
-            <img
+            <ix-img
               :src="item.imageUrl"
               class="w-full rounded-3xl shadow-md"
               draggable="false"
@@ -58,9 +58,8 @@
           class="flex flex-col align-center items-center"
           style="width: 100%"
         >
-          <img
-            :src="item.imageUrl || '/favicon.ico'"
-            class="w-80 items-center rounded-3xl shadow-md"
+          <ix-img
+            src="item.imageUrl || '/favicon.ico'"
             draggable="false"
             loading="lazy"
           />

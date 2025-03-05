@@ -226,7 +226,7 @@ watchEffect(() => {
           }"
         >
           <div class="flex items-center w-3/4">
-            <img
+            <ix-img
               :src="cartItems.cart.productImages[index] || '/favicon.ico'"
               alt="alt"
               class="rounded-xl w-20 h-16 cursor-pointer"

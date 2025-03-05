@@ -84,8 +84,8 @@ let slug =
       class="product-image-container h-44 mt-6 relative overflow-hidden rounded-2xl flex items-center justify-center"
     >
       <div class="h-full rounded-2xl overflow-hidden">
-        <img
-          :src="product.oneImg || product.images[0] || '/favicon.ico'"
+        <ix-img
+          src="product.oneImg || product.images[0] || '/favicon.ico'"
           alt="Product Image"
           class="h-full object-contain"
           loading="lazy"

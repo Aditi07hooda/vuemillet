@@ -16,7 +16,7 @@
         "
         loading="lazy"
       >
-        <img
+        <ix-img
           :src="variantImage[option.name]?.[0]"
           class="rounded h-20 w-fit"
           loading="lazy"
@@ -94,7 +94,7 @@
             : ''
         "
       >
-        <img
+        <ix-img
           :src="variantImage[option]?.[0]"
           class="rounded h-20 w-fit"
           loading="lazy"

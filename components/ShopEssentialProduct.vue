@@ -123,7 +123,7 @@ let slug =
           <div
             class="relative w-full h-[200px] overflow-hidden rounded-lg flex justify-center items-center"
           >
-            <img
+            <ix-img
               :src="product.oneImg || product.images[0] || '/favicon.ico'"
               alt="Product Image"
               class="w-auto h-full max-w-full max-h-full object-contain"

@@ -153,7 +153,7 @@ const columns = [
         >
           <template #name-data="{ row, index }">
             <div class="flex items-center">
-              <img
+              <ix-img
                 v-if="
                   cartItems.cart.productImages &&
                   cartItems.cart.productImages[index]

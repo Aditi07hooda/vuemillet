@@ -242,7 +242,7 @@ const addingToCart = async (item) => {
             >
               <div class="flex justify-between md:flex-row flex-col">
                 <div class="w-full md:w-3/4 flex gap-3">
-                  <img
+                  <ix-img
                     :src="orders.productImage[i] || './favicon.ico'"
                     class="w-16 h-20 object-cover rounded-md cursor-pointer"
                     @click="

@@ -47,7 +47,7 @@ onMounted(() => {
       indicators
       ref="collectionCarouselRef"
     >
-      <img :src="item.name" class="w-full h-screen" draggable="false" loading="lazy"/>
+      <ix-img :src="item.name" class="w-full h-screen" draggable="false" loading="lazy"/>
     </UCarousel>
 
     <UCarousel
@@ -58,7 +58,7 @@ onMounted(() => {
       indicators
       ref="collectionCarouselRef"
     >
-      <img :src="item.name" class="w-full h-screen" draggable="false" loading="lazy"/>
+      <ix-img :src="item.name" class="w-full h-screen" draggable="false" loading="lazy"/>
     </UCarousel>
   </div>
 </template>

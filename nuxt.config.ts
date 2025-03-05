@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@pinia/nuxt', '@nuxtjs/google-fonts'],
+  plugins: ['~/plugins/vue-imgix.js'],
   googleFonts: {
     families: {
       Poppins: [300, 400, 500, 600, 700], // Load Poppins with different weights

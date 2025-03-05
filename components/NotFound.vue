@@ -11,7 +11,7 @@ defineProps({
     className="flex flex-col items-center justify-center py-6 px-6 text-center"
   >
     <div className="relative w-full max-w-md mb-6 lg:h-80 h-64">
-      <img alt="404" src="/public/404.png" loading="lazy"/>
+      <ix-img alt="404" src="/public/404.png" loading="lazy"/>
     </div>
     <h1
       className="text-5xl text-gray-500 font-thin items-start tracking-widest"

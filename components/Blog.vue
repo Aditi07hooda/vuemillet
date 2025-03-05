@@ -26,7 +26,7 @@ const formatDate = (dateString) => {
     <div
       class="w-fit h-[200px] rounded-xl overflow-hidden flex justify-center items-center place-self-center"
     >
-      <img
+      <ix-img
         :src="blog.image || '/favicon.ico'"
         alt="Blog Image"
         class="w-full h-full object-contain rounded-3xl"

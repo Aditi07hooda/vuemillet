@@ -270,7 +270,7 @@ onMounted(async () => {
       >
         <div class="w-full md:w-1/2 flex flex-col md:flex-row">
           <div class="w-full">
-            <img
+            <ix-img
               :src="mainImg"
               alt="Product Image"
               class="w-full h-auto rounded-lg object-cover shadow"
@@ -297,7 +297,7 @@ onMounted(async () => {
                 :key="index"
                 class="mr-2 md:mb-2 cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow rounded-lg"
               >
-                <img
+                <ix-img
                   :src="image"
                   :alt="image"
                   width="100"
@@ -324,7 +324,7 @@ onMounted(async () => {
               class="text-gray-800 flex flex-col justify-center flex-1"
             >
               <div class="flex justify-center items-center">
-                <img
+                <ix-img
                   :src="getSrcFromTags(tag)"
                   :alt="tag"
                   width="70px"

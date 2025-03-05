@@ -81,7 +81,7 @@ watchEffect(() => {
       </NuxtLink>
     </div>
     <div class="hero-image px-14 mt-7 mb-5">
-      <img :src="collection?.imageUrl || '/favicon.ico'" alt="image" loading="lazy"/>
+      <ix-img :src="collection?.imageUrl || '/favicon.ico'" alt="image" loading="lazy"/>
       <div class="hero-overlay">
         <h1 class="text-center uppercase">{{ collection?.name }}</h1>
       </div>
