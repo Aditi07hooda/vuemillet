@@ -11,7 +11,12 @@ defineProps({
     className="flex flex-col items-center justify-center py-6 px-6 text-center"
   >
     <div className="relative w-full max-w-md mb-6 lg:h-80 h-64">
-      <ix-img alt="404" src="/public/404.png" loading="lazy"/>
+      <img
+        alt="404"
+        src="/public/404.png"
+        loading="lazy"
+        class="items-center rounded-3xl shadow-md"
+      />
     </div>
     <h1
       className="text-5xl text-gray-500 font-thin items-start tracking-widest"

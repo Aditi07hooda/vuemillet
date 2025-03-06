@@ -75,9 +75,10 @@ const containsOnlyNull = (array) => {
       {{ blogData.title }}
     </p>
     <div v-if="blogData.image" class="hero-container">
-      <ix-img
-        :src="blogData.image"
-        :alt="blogData.slug"
+      <NuxtImg
+        provider="imgix"
+        src="blogData.image"
+        alt="blogData.slug"
         class="hero-image rounded-lg"
         loading="lazy"
       />

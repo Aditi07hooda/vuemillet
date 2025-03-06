@@ -123,12 +123,29 @@ let slug =
           <div
             class="relative w-full h-[200px] overflow-hidden rounded-lg flex justify-center items-center"
           >
-            <ix-img
-              :src="product.oneImg || product.images[0] || '/favicon.ico'"
-              alt="Product Image"
-              class="w-auto h-full max-w-full max-h-full object-contain"
-              loading="lazy"
-            />
+            <template v-if="product?.oneImg || product?.images[0]">
+              <NuxtImg
+                provider="imgix"
+                :src="
+                  (product?.oneImg || product?.images[0])?.startsWith('http')
+                    ? (product?.oneImg || product?.images[0])?.replace(
+                        /^https?:\/\//,
+                        ''
+                      )
+                    : product?.oneImg || product?.images[0]
+                "
+                alt="Product Image"
+                class="w-auto h-full max-w-full max-h-full object-contain"
+                loading="lazy"
+              />
+            </template>
+            <template v-else>
+              <img
+                src="/favicon.ico"
+                alt="Millet Store Logo"
+                class="w-80 items-center rounded-3xl shadow-md"
+              />
+            </template>
           </div>
         </NuxtLink>
 

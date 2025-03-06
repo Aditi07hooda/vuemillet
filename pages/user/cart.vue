@@ -153,12 +153,13 @@ const columns = [
         >
           <template #name-data="{ row, index }">
             <div class="flex items-center">
-              <ix-img
+              <NuxtImg
+                provider="imgix"
                 v-if="
                   cartItems.cart.productImages &&
                   cartItems.cart.productImages[index]
                 "
-                :src="cartItems.cart.productImages[index]"
+                src="cartItems.cart.productImages[index]"
                 alt="Product Image"
                 class="w-16 h-16 object-cover mr-4"
                 loading="lazy"

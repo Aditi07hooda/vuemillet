@@ -261,8 +261,9 @@ const startPayment = async () => {
           >
             <div class="relative flex items-start w-3/4">
               <div class="relative">
-                <ix-img
-                  :src="checkout.productImage[index] || '/favicon.ico'"
+                <NuxtImg
+                  provider="imgix"
+                  src="checkout.productImage[index] || '/favicon.ico'"
                   alt="alt"
                   class="rounded-xl w-20 h-16"
                   loading="lazy"

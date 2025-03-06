@@ -270,8 +270,9 @@ onMounted(async () => {
       >
         <div class="w-full md:w-1/2 flex flex-col md:flex-row">
           <div class="w-full">
-            <ix-img
-              :src="mainImg"
+            <NuxtImg
+              provider="imgix"
+              src="mainImg"
               alt="Product Image"
               class="w-full h-auto rounded-lg object-cover shadow"
               loading="lazy"
@@ -297,9 +298,10 @@ onMounted(async () => {
                 :key="index"
                 class="mr-2 md:mb-2 cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow rounded-lg"
               >
-                <ix-img
-                  :src="image"
-                  :alt="image"
+                <NuxtImg
+                  provider="imgix"
+                  src="image"
+                  alt="image"
                   width="100"
                   class="w-[100px] h-[100px] object-cover rounded-lg"
                   @click="changeMainImage(image)"
@@ -324,9 +326,10 @@ onMounted(async () => {
               class="text-gray-800 flex flex-col justify-center flex-1"
             >
               <div class="flex justify-center items-center">
-                <ix-img
-                  :src="getSrcFromTags(tag)"
-                  :alt="tag"
+                <NuxtImg
+                  provider="imgix"
+                  src="getSrcFromTags(tag)"
+                  alt="tag"
                   width="70px"
                   loading="lazy"
                 />

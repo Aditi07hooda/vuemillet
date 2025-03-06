@@ -16,8 +16,9 @@
         "
         loading="lazy"
       >
-        <ix-img
-          :src="variantImage[option.name]?.[0]"
+        <NuxtImg
+          provider="imgix"
+          src="variantImage[option.name]?.[0]"
           class="rounded h-20 w-fit"
           loading="lazy"
         />
@@ -94,8 +95,9 @@
             : ''
         "
       >
-        <ix-img
-          :src="variantImage[option]?.[0]"
+        <NuxtImg
+          provider="imgix"
+          src="variantImage[option]?.[0]"
           class="rounded h-20 w-fit"
           loading="lazy"
         />

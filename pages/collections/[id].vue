@@ -81,7 +81,25 @@ watchEffect(() => {
       </NuxtLink>
     </div>
     <div class="hero-image px-14 mt-7 mb-5">
-      <ix-img :src="collection?.imageUrl || '/favicon.ico'" alt="image" loading="lazy"/>
+      <template v-if="collection?.imageUrl">
+        <NuxtImg
+          provider="imgix"
+          :src="
+            collection?.imageUrl?.startsWith('http')
+              ? collection?.imageUrl?.replace(/^https?:\/\//, '')
+              : collection?.imageUrl
+          "
+          alt="image"
+          loading="lazy"
+        />
+      </template>
+      <template v-else>
+        <img
+          src="/favicon.ico"
+          alt="Millet Store Logo"
+          class="w-80 items-center rounded-3xl shadow-md"
+        />
+      </template>
       <div class="hero-overlay">
         <h1 class="text-center uppercase">{{ collection?.name }}</h1>
       </div>

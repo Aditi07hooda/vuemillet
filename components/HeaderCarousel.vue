@@ -47,18 +47,30 @@ onMounted(() => {
       indicators
       ref="collectionCarouselRef"
     >
-      <ix-img :src="item.name" class="w-full h-screen" draggable="false" loading="lazy"/>
+      <NuxtImg
+        provider="imgix"
+        :src="item.name.startsWith('http') ? item.name.replace(/^https?:\/\//, '') : item.name"
+        class="w-full h-screen"
+        draggable="false"
+        loading="lazy"
+      />
     </UCarousel>
 
     <UCarousel
       v-slot="{ item }"
       :items="brandInfo.bannerMobile"
-      :ui="{ item: 'basis-full' }"
+      :ui="{ item: 'basis-full h-fit' }"
       class="rounded-lg overflow-hidden md:hidden"
       indicators
       ref="collectionCarouselRef"
     >
-      <ix-img :src="item.name" class="w-full h-screen" draggable="false" loading="lazy"/>
+      <NuxtImg
+        provider="imgix"
+        :src="item.name.startsWith('http') ? item.name.replace(/^https?:\/\//, '') : item.name"
+        class="w-full h-1/2 bg-cover"
+        draggable="false"
+        loading="lazy"
+      />
     </UCarousel>
   </div>
 </template>

@@ -152,10 +152,7 @@ onMounted(async () => {
               <X class="text-gray-400 w-4 h-4 md:w-8 md:h-8" />
             </UButton>
           </div>
-          <ShopNavbarModal
-            :collection="collection"
-            :close="close"
-          />
+          <ShopNavbarModal :collection="collection" :close="close" />
         </template>
       </UPopover>
 
@@ -294,8 +291,9 @@ onMounted(async () => {
                 <div
                   class="flex flex-col md:flex-row items-center justify-center gap-2"
                 >
-                  <ix-img
-                    :src="category?.imageUrl || '/favicon.ico'"
+                  <NuxtImg
+                    provider="imgix"
+                    src="category?.imageUrl || '/favicon.ico'"
                     alt="image"
                     class="h-10 w-10 rounded-lg"
                     loading="lazy"

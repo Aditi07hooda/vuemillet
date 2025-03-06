@@ -2,8 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@pinia/nuxt', '@nuxtjs/google-fonts'],
-  plugins: ['~/plugins/vue-imgix.js'],
+  modules: ['@nuxt/ui', 'nuxt-lucide-icons', '@pinia/nuxt', '@nuxtjs/google-fonts', "@nuxt/image"],
+  image: {
+    imgix: {
+      baseURL: 'https://themilletstore.imgix.net'
+    }
+  },
   googleFonts: {
     families: {
       Poppins: [300, 400, 500, 600, 700], // Load Poppins with different weights

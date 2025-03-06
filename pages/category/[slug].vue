@@ -97,7 +97,12 @@ console.log("product in each category", products.value);
       </NuxtLink>
     </div>
     <div class="hero-image md:px-14 px-3 mt-7 mb-5">
-      <ix-img :src="products?.imageUrl" alt="image" loading="lazy"/>
+      <NuxtImg
+        provider="imgix"
+        src="products?.imageUrl"
+        alt="image"
+        loading="lazy"
+      />
       <div class="hero-overlay">
         <h1 class="text-center uppercase">{{ products?.name }}</h1>
       </div>

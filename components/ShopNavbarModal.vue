@@ -111,8 +111,9 @@ watchEffect(async () => {
                   <div
                     class="relative mt-2 w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center"
                   >
-                    <ix-img
-                      :src="p.oneImg || p.images[0] || '/favicon.ico'"
+                    <NuxtImg
+                      provider="imgix"
+                      src="p.oneImg || p.images[0] || '/favicon.ico'"
                       alt="Product Image"
                       class="w-auto h-full max-w-full max-h-full object-contain"
                       loading="lazy"

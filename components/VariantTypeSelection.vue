@@ -14,8 +14,9 @@
           'border-2 border-black bg-white': props.selectedVariant === option,
         }"
       >
-        <ix-img
-          :src="variantImage?.[option]?.[0]"
+        <NuxtImg
+          provider="imgix"
+          src="variantImage?.[option]?.[0]"
           class="rounded h-20 w-fit"
           loading="lazy"
         />

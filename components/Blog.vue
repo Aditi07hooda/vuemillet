@@ -26,12 +26,26 @@ const formatDate = (dateString) => {
     <div
       class="w-fit h-[200px] rounded-xl overflow-hidden flex justify-center items-center place-self-center"
     >
-      <ix-img
-        :src="blog.image || '/favicon.ico'"
-        alt="Blog Image"
-        class="w-full h-full object-contain rounded-3xl"
-        loading="lazy"
-      />
+      <template v-if="blog?.image">
+        <NuxtImg
+          provider="imgix"
+          :src="
+            blog?.image?.startsWith('http')
+              ? blog?.image?.replace(/^https?:\/\//, '')
+              : blog?.image
+          "
+          alt="Blog Image"
+          class="w-full h-full object-contain rounded-3xl"
+          loading="lazy"
+        />
+      </template>
+      <template v-else>
+        <img
+          src="/favicon.ico"
+          alt="Millet Store Logo"
+          class="items-center rounded-3xl shadow-md"
+        />
+      </template>
     </div>
     <div class="px-4 mt-2">
       <h3 class="truncate">

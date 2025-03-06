@@ -26,8 +26,9 @@
       >
         <div class="w-full space-y-4 px-2">
           <NuxtLink :to="`/category/${item.slug}`">
-            <ix-img
-              :src="item.imageUrl"
+            <NuxtImg
+              provider="imgix"
+              src="item.imageUrl"
               class="w-full rounded-3xl shadow-md"
               draggable="false"
               loading="lazy"
@@ -58,11 +59,26 @@
           class="flex flex-col align-center items-center"
           style="width: 100%"
         >
-          <ix-img
-            src="item.imageUrl || '/favicon.ico'"
-            draggable="false"
-            loading="lazy"
-          />
+          <template v-if="item.imageUrl">
+            <NuxtImg
+              provider="imgix"
+              :src="
+                item?.imageUrl?.startsWith('http')
+                  ? item?.imageUrl?.replace(/^https?:\/\//, '')
+                  : item?.imageUrl
+              "
+              draggable="false"
+              loading="lazy"
+              class="w-80 items-center rounded-3xl shadow-md"
+            />
+          </template>
+          <template v-else>
+            <img
+              src="/favicon.ico"
+              alt="Millet Store Logo"
+              class="w-80 items-center rounded-3xl shadow-md"
+            />
+          </template>
           <div class="flex justify-center w-full">
             <p
               class="text-sm mb-10 mt-2 text-center border-black border-2 rounded-3xl p-2 w-1/2 hover:bg-pink-600 transition duration-500"
