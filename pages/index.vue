@@ -70,6 +70,7 @@
               draggable="false"
               loading="lazy"
               class="w-80 items-center rounded-3xl shadow-md"
+              sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
             />
           </template>
           <template v-else>
