@@ -143,7 +143,8 @@ let slug =
               <img
                 src="/favicon.ico"
                 alt="Millet Store Logo"
-                class="w-80 items-center rounded-3xl shadow-md"
+                class="w-auto h-full max-w-full max-h-full object-contain"
+                loading="lazy"
               />
             </template>
           </div>

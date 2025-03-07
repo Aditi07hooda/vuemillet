@@ -138,13 +138,28 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
       class="flex flex-col md:flex-row w-full px-10 py-4 bg-orange-50 justify-between items-center border-b border-gray-200"
     >
       <div class="flex items-center gap-6">
-        <NuxtImg
-          provider="imgix"
-          src="mainImg"
-          alt="Product image"
-          class="md:h-16 md:w-16 h-10 w-10 rounded-lg shadow-md object-cover"
-          loading="lazy"
-        />
+        <template v-if="mainImg">
+          <NuxtImg
+            provider="imgix"
+            :src="
+              mainImg?.startsWith('http')
+                ? mainImg?.replace(/^https?:\/\//, '')
+                : mainImg
+            "
+            alt="Product image"
+            class="md:h-16 md:w-16 h-10 w-10 rounded-lg shadow-md object-cover"
+            loading="lazy"
+            sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+          />
+        </template>
+        <template v-else>
+          <img
+            src="/favicon.ico"
+            alt="Millet Store Logo"
+            class="md:h-16 md:w-16 h-10 w-10 rounded-lg shadow-md object-cover"
+            loading="lazy"
+          />
+        </template>
         <div>
           <h2 class="md:text-lg text-base font-semibold text-gray-800">
             {{ capitalize(product?.name || product?.webName) }}

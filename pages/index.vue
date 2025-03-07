@@ -32,6 +32,7 @@
               class="w-full rounded-3xl shadow-md"
               draggable="false"
               loading="lazy"
+              sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
             />
             <div class="flex justify-center">
               <p
@@ -78,6 +79,7 @@
               src="/favicon.ico"
               alt="Millet Store Logo"
               class="w-80 items-center rounded-3xl shadow-md"
+              loading="lazy"
             />
           </template>
           <div class="flex justify-center w-full">

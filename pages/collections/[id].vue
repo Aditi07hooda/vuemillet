@@ -98,6 +98,7 @@ watchEffect(() => {
           src="/favicon.ico"
           alt="Millet Store Logo"
           class="w-80 items-center rounded-3xl shadow-md"
+          loading="lazy"
         />
       </template>
       <div class="hero-overlay">

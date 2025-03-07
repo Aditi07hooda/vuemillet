@@ -272,10 +272,15 @@ onMounted(async () => {
           <div class="w-full">
             <NuxtImg
               provider="imgix"
-              src="mainImg"
+              :src="
+                mainImg?.startsWith('http')
+                  ? mainImg?.replace(/^https?:\/\//, '')
+                  : mainImg
+              "
               alt="Product Image"
               class="w-full h-auto rounded-lg object-cover shadow"
               loading="lazy"
+              sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
             />
           </div>
           <div
@@ -300,12 +305,17 @@ onMounted(async () => {
               >
                 <NuxtImg
                   provider="imgix"
-                  src="image"
+                  :src="
+                    image?.startsWith('http')
+                      ? image?.replace(/^https?:\/\//, '')
+                      : image
+                  "
                   alt="image"
                   width="100"
                   class="w-[100px] h-[100px] object-cover rounded-lg"
                   @click="changeMainImage(image)"
                   loading="lazy"
+                  sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
                 />
               </div>
             </div>
@@ -328,10 +338,11 @@ onMounted(async () => {
               <div class="flex justify-center items-center">
                 <NuxtImg
                   provider="imgix"
-                  src="getSrcFromTags(tag)"
+                  :src="getSrcFromTags(tag)"
                   alt="tag"
                   width="70px"
                   loading="lazy"
+                  sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
                 />
               </div>
               <div class="text-center">

@@ -261,13 +261,31 @@ const startPayment = async () => {
           >
             <div class="relative flex items-start w-3/4">
               <div class="relative">
-                <NuxtImg
-                  provider="imgix"
-                  src="checkout.productImage[index] || '/favicon.ico'"
-                  alt="alt"
-                  class="rounded-xl w-20 h-16"
-                  loading="lazy"
-                />
+                <template v-if="checkout.productImage[index]">
+                  <NuxtImg
+                    provider="imgix"
+                    :src="
+                      checkout.productImage[index]?.startsWith('http')
+                        ? checkout.productImage[index]?.replace(
+                            /^https?:\/\//,
+                            ''
+                          )
+                        : checkout.productImage[index]
+                    "
+                    alt="alt"
+                    class="rounded-xl w-20 h-16"
+                    loading="lazy"
+                    sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+                  />
+                </template>
+                <template v-else>
+                  <img
+                    src="/favicon.ico"
+                    alt="Millet Store Logo"
+                    class="rounded-xl w-20 h-16"
+                    loading="lazy"
+                  />
+                </template>
                 <div
                   class="absolute top-0 right-0 bg-gray-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transform translate-x-1/2 -translate-y-1/2"
                 >

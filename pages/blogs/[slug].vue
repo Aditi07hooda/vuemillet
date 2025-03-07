@@ -77,10 +77,15 @@ const containsOnlyNull = (array) => {
     <div v-if="blogData.image" class="hero-container">
       <NuxtImg
         provider="imgix"
-        src="blogData.image"
-        alt="blogData.slug"
+        :src="
+          blogData.image?.startsWith('http')
+            ? blogData.image?.replace(/^https?:\/\//, '')
+            : blogData.image
+        "
+        :alt="blogData.slug"
         class="hero-image rounded-lg"
         loading="lazy"
+        sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
       />
     </div>
     <div class="md:m-14 md:p-14 md:pt-0 md:mt-5 md:mb-0 m-4">

@@ -226,14 +226,32 @@ watchEffect(() => {
           }"
         >
           <div class="flex items-center w-3/4">
-            <NuxtImg
-              provider="imgix"
-              src="cartItems.cart.productImages[index] || '/favicon.ico'"
-              alt="alt"
-              class="rounded-xl w-20 h-16 cursor-pointer"
-              @click="getProduct(cartItem)"
-              loading="lazy"
-            />
+            <template v-if="cartItems?.cart?.productImages[index]">
+              <NuxtImg
+                provider="imgix"
+                :src="
+                  cartItems?.cart?.productImages[index]?.startsWith('http')
+                    ? cartItems?.cart?.productImages[index]?.replace(
+                        /^https?:\/\//,
+                        ''
+                      )
+                    : cartItems?.cart?.productImages[index]
+                "
+                alt="alt"
+                class="rounded-xl w-20 h-16 cursor-pointer"
+                @click="getProduct(cartItem)"
+                loading="lazy"
+                sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+              />
+            </template>
+            <template v-else>
+              <img
+                src="/favicon.ico"
+                alt="Millet Store Logo"
+                class="rounded-xl w-20 h-16 cursor-pointer"
+                loading="lazy"
+              />
+            </template>
             <div class="ml-3 w-full">
               <div class="cursor-pointer" @click="getProduct(cartItem)">
                 <p class="md:font-bold font-[600] text-black text-base w-full">

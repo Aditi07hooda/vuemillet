@@ -16,9 +16,14 @@
       >
         <NuxtImg
           provider="imgix"
-          src="variantImage?.[option]?.[0]"
           class="rounded h-20 w-fit"
           loading="lazy"
+          :src="
+            variantImage?.[option]?.[0]?.startsWith('http')
+              ? variantImage?.[option]?.[0]?.replace(/^https?:\/\//, '')
+              : variantImage?.[option]?.[0]
+          "
+          sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
         />
         {{ option }}
       </div>

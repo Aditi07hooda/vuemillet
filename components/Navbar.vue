@@ -291,13 +291,28 @@ onMounted(async () => {
                 <div
                   class="flex flex-col md:flex-row items-center justify-center gap-2"
                 >
-                  <NuxtImg
-                    provider="imgix"
-                    src="category?.imageUrl || '/favicon.ico'"
-                    alt="image"
-                    class="h-10 w-10 rounded-lg"
-                    loading="lazy"
-                  />
+                  <template v-if="category?.imageUrl">
+                    <NuxtImg
+                      provider="imgix"
+                      :src="
+                        category?.imageUrl?.startsWith('http')
+                          ? category?.imageUrl?.replace(/^https?:\/\//, '')
+                          : category?.imageUrl
+                      "
+                      alt="image"
+                      class="h-10 w-10 rounded-lg"
+                      loading="lazy"
+                      sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+                    />
+                  </template>
+                  <template v-else>
+                    <img
+                      src="/favicon.ico"
+                      alt="Millet Store Logo"
+                      class="h-10 w-10 rounded-lg"
+                      loading="lazy"
+                    />
+                  </template>
                   <h1 class="text-center">
                     {{ category?.name }}
                   </h1>

@@ -270,13 +270,31 @@ watchEffect(async () => {
                     <div
                       class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                     >
-                      <NuxtImg
-                        provider="imgix"
-                        src="p.oneImg || p.images[0] || '/favicon.ico'"
-                        alt="Product Image"
-                        class="w-auto h-full max-w-full max-h-full object-contain"
-                        loading="lazy"
-                      />
+                      <template v-if="p?.oneImg || p?.images[0]">
+                        <NuxtImg
+                          provider="imgix"
+                          :src="
+                            (p.oneImg?.startsWith('http')
+                              ? p.oneImg?.replace(/^https?:\/\//, '')
+                              : p.oneImg) ||
+                            (p.images[0]?.startsWith('http')
+                              ? p.images[0]?.replace(/^https?:\/\//, '')
+                              : p.images[0])
+                          "
+                          alt="Product Image"
+                          class="w-auto h-full max-w-full max-h-full object-contain"
+                          sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+                          loading="lazy"
+                        />
+                      </template>
+                      <template v-else>
+                        <img
+                          src="/favicon.ico"
+                          alt="Millet Store Logo"
+                          class="w-auto h-full max-w-full max-h-full object-contain"
+                          loading="lazy"
+                        />
+                      </template>
                     </div>
                     <div
                       class="mt-2 px-2 text-base font-medium md:h-[44px] flex items-center justify-center"
@@ -394,13 +412,31 @@ watchEffect(async () => {
                       <div
                         class="relative w-full h-[100px] overflow-hidden rounded-lg flex justify-center items-center mt-3"
                       >
-                        <NuxtImg
-                          provider="imgix"
-                          src="p.oneImg || p.images[0] || '/favicon.ico'"
-                          alt="Product Image"
-                          class="w-auto h-full max-w-full max-h-full object-contain"
-                          loading="lazy"
-                        />
+                        <template v-if="p?.oneImg || p?.images[0]">
+                          <NuxtImg
+                            provider="imgix"
+                            :src="
+                              (p.oneImg?.startsWith('http')
+                                ? p.oneImg?.replace(/^https?:\/\//, '')
+                                : p.oneImg) ||
+                              (p.images[0]?.startsWith('http')
+                                ? p.images[0]?.replace(/^https?:\/\//, '')
+                                : p.images[0])
+                            "
+                            alt="Product Image"
+                            class="w-auto h-full max-w-full max-h-full object-contain"
+                            sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+                            loading="lazy"
+                          />
+                        </template>
+                        <template v-else>
+                          <img
+                            src="/favicon.ico"
+                            alt="Millet Store Logo"
+                            class="w-auto h-full max-w-full max-h-full object-contain"
+                            loading="lazy"
+                          />
+                        </template>
                       </div>
                       <div
                         class="mt-2 px-2 text-base font-medium md:h-[44px] flex items-center justify-center"

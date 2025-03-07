@@ -159,10 +159,18 @@ const columns = [
                   cartItems.cart.productImages &&
                   cartItems.cart.productImages[index]
                 "
-                src="cartItems.cart.productImages[index]"
+                :src="
+                  cartItems.cart.productImages[index]?.startsWith('http')
+                    ? cartItems.cart.productImages[index]?.replace(
+                        /^https?:\/\//,
+                        ''
+                      )
+                    : cartItems.cart.productImages[index]
+                "
                 alt="Product Image"
                 class="w-16 h-16 object-cover mr-4"
                 loading="lazy"
+                sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
               />
               <span>{{ row.name }}</span>
             </div>

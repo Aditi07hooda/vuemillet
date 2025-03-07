@@ -99,9 +99,12 @@ console.log("product in each category", products.value);
     <div class="hero-image md:px-14 px-3 mt-7 mb-5">
       <NuxtImg
         provider="imgix"
-        src="products?.imageUrl"
+        :src="products?.imageUrl?.startsWith('http')
+            ? products?.imageUrl?.replace(/^https?:\/\//, '')
+            : products?.imageUrl"
         alt="image"
         loading="lazy"
+        sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
       />
       <div class="hero-overlay">
         <h1 class="text-center uppercase">{{ products?.name }}</h1>

@@ -242,17 +242,33 @@ const addingToCart = async (item) => {
             >
               <div class="flex justify-between md:flex-row flex-col">
                 <div class="w-full md:w-3/4 flex gap-3">
-                  <NuxtImg
-                    provider="imgix"
-                    src="orders.productImage[i] || './favicon.ico'"
-                    class="w-16 h-20 object-cover rounded-md cursor-pointer"
-                    @click="
-                      handleNavigateToProduct(
-                        item.product.slug || item.product.id
-                      )
-                    "
-                    loading="lazy"
-                  />
+                  >
+                  <template v-if="orders.productImage[i]">
+                    <NuxtImg
+                      provider="imgix"
+                      :src="
+                        orders.productImage[i]?.startsWith('http')
+                          ? orders.productImage[i]?.replace(/^https?:\/\//, '')
+                          : orders.productImage[i]
+                      "
+                      class="w-16 h-20 object-cover rounded-md cursor-pointer"
+                      @click="
+                        handleNavigateToProduct(
+                          item.product.slug || item.product.id
+                        )
+                      "
+                      sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+                      loading="lazy"
+                    />
+                  </template>
+                  <template v-else>
+                    <img
+                      src="/favicon.ico"
+                      alt="Millet Store Logo"
+                      class="w-16 h-20 object-cover rounded-md cursor-pointer"
+                      loading="lazy"
+                    />
+                  </template>
                   <div class="w-full">
                     <p
                       class="text-base cursor-pointer"

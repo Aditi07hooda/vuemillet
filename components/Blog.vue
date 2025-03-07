@@ -37,13 +37,15 @@ const formatDate = (dateString) => {
           alt="Blog Image"
           class="w-full h-full object-contain rounded-3xl"
           loading="lazy"
+          sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
         />
       </template>
       <template v-else>
         <img
           src="/favicon.ico"
           alt="Millet Store Logo"
-          class="items-center rounded-3xl shadow-md"
+          class="w-full h-full object-contain rounded-3xl"
+          loading="lazy"
         />
       </template>
     </div>

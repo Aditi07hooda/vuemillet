@@ -53,6 +53,7 @@ onMounted(() => {
         class="w-full h-screen"
         draggable="false"
         loading="lazy"
+        sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
       />
     </UCarousel>
 

@@ -84,13 +84,31 @@ let slug =
       class="product-image-container h-44 mt-6 relative overflow-hidden rounded-2xl flex items-center justify-center"
     >
       <div class="h-full rounded-2xl overflow-hidden">
-        <!-- <NuxtImg
-          provider="imgix"
-          src="product.oneImg || product.images[0]"
-          alt="Product Image"
-          class="h-full object-contain"
-          loading="lazy"
-        /> -->
+        <template v-if="product?.oneImg || product?.images?.[0]">
+          <NuxtImg
+            provider="imgix"
+            :src="
+              (product?.oneImg?.startsWith('http')
+                ? product?.oneImg?.replace(/^https?:\/\//, '')
+                : product?.oneImg) ||
+              (product?.images[0]?.startsWith('http')
+                ? product?.images[0]?.replace(/^https?:\/\//, '')
+                : product?.images[0])
+            "
+            alt="Product Image"
+            class="h-full object-contain"
+            loading="lazy"
+            sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+          />
+        </template>
+        <template v-else>
+          <img
+            src="/favicon.ico"
+            alt="Millet Store Logo"
+            class="h-full object-contain"
+            loading="lazy"
+          />
+        </template>
       </div>
     </div>
     <div
