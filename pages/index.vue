@@ -78,7 +78,7 @@
             <img
               src="/favicon.ico"
               alt="Millet Store Logo"
-              width="80"
+              width="320"
               height="80"
               class="items-center rounded-3xl shadow-md"
               loading="lazy"
