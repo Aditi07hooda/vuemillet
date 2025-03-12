@@ -132,6 +132,8 @@ watchEffect(async () => {
                       <img
                         src="/favicon.ico"
                         alt="Millet Store Logo"
+                        width="32"
+                        height="32"
                         class="w-auto h-full max-w-full max-h-full object-contain"
                         loading="lazy"
                       />

@@ -156,6 +156,8 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
           <img
             src="/favicon.ico"
             alt="Millet Store Logo"
+            width="64"
+            height="64"
             class="md:h-16 md:w-16 h-10 w-10 rounded-lg shadow-md object-cover"
             loading="lazy"
           />

@@ -282,7 +282,9 @@ const startPayment = async () => {
                   <img
                     src="/favicon.ico"
                     alt="Millet Store Logo"
-                    class="rounded-xl w-20 h-16"
+                    width="80"
+                    height="64"
+                    class="rounded-xl w-20 h-16 object-cover"
                     loading="lazy"
                   />
                 </template>

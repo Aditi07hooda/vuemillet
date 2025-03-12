@@ -248,7 +248,9 @@ watchEffect(() => {
               <img
                 src="/favicon.ico"
                 alt="Millet Store Logo"
-                class="rounded-xl w-20 h-16 cursor-pointer"
+                width="80"
+                height="64"
+                class="rounded-xl w-20 h-16 cursor-pointer object-cover"
                 loading="lazy"
               />
             </template>

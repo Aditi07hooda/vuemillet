@@ -97,6 +97,8 @@ watchEffect(() => {
         <img
           src="/favicon.ico"
           alt="Millet Store Logo"
+          width="320"
+          height="80"
           class="w-80 items-center rounded-3xl shadow-md"
           loading="lazy"
         />

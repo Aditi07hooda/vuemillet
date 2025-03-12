@@ -44,6 +44,8 @@ const formatDate = (dateString) => {
         <img
           src="/favicon.ico"
           alt="Millet Store Logo"
+          width="100"
+          height="100"
           class="w-full h-full object-contain rounded-3xl"
           loading="lazy"
         />

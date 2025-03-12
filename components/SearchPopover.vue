@@ -291,6 +291,8 @@ watchEffect(async () => {
                         <img
                           src="/favicon.ico"
                           alt="Millet Store Logo"
+                          width="100"
+                          height="100"
                           class="w-auto h-full max-w-full max-h-full object-contain"
                           loading="lazy"
                         />
@@ -433,6 +435,8 @@ watchEffect(async () => {
                           <img
                             src="/favicon.ico"
                             alt="Millet Store Logo"
+                            width="100"
+                            height="100"
                             class="w-auto h-full max-w-full max-h-full object-contain"
                             loading="lazy"
                           />

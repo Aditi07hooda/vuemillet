@@ -265,6 +265,8 @@ const addingToCart = async (item) => {
                     <img
                       src="/favicon.ico"
                       alt="Millet Store Logo"
+                      width="64"
+                      height="80"
                       class="w-16 h-20 object-cover rounded-md cursor-pointer"
                       loading="lazy"
                     />

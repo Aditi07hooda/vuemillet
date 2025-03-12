@@ -309,7 +309,9 @@ onMounted(async () => {
                     <img
                       src="/favicon.ico"
                       alt="Millet Store Logo"
-                      class="h-10 w-10 rounded-lg"
+                      width="40"
+                      height="40"
+                      class="h-10 w-10 rounded-lg object-cover"
                       loading="lazy"
                     />
                   </template>
