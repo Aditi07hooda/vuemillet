@@ -1,5 +1,5 @@
 export const findProductId = async (baseURL, brandID, sessionID, slug) => {
-  const res = await $fetch(`${baseURL}/store/${brandID}/products`, {
+  const res = await fetch(`${baseURL}/store/${brandID}/products`, {
     headers: {
       session: sessionID,
     },
@@ -19,7 +19,7 @@ export const findProductId = async (baseURL, brandID, sessionID, slug) => {
 };
 
 export const findCollectionId = async (baseURL, brandId, sessionId, slug) => {
-  const res = await $fetch(`${baseURL}/store/${brandId}/collections?`, {
+  const res = await fetch(`${baseURL}/store/${brandId}/collections?`, {
     headers: {
       session: sessionId,
     },
