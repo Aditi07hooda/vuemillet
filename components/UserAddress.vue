@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import { FilePenLine } from "lucide-vue-next";
 
 const addressForm = reactive({
@@ -16,9 +16,7 @@ const addressForm = reactive({
 });
 
 const userData = ref({ profile: {}, address: [] });
-const personData = reactive({
-  person: {},
-});
+const personData = reactive({ person: {} });
 const existingAddress = ref([]);
 const isLoading = ref(false);
 
@@ -38,18 +36,13 @@ const addressFields = [
   "pinCode",
 ];
 
-const config = useRuntimeConfig();
-const baseUrl = config.public.baseURL;
-const brandId = config.public.brandID;
-
 const fetchAddress = async () => {
   isLoading.value = true;
   try {
-    if (typeof window !== "undefined") {
-      userData.value = JSON.parse(window.localStorage.getItem("userData"));
-    }
-    existingAddress.value = userData.value.address;
-    console.log("Existing addresses:", existingAddress.value);
+    const { data } = await useFetch("/api/address", {
+      headers: { session: localStorage.getItem("sessionId") },
+    });
+    existingAddress.value = data.value;
   } catch (error) {
     console.error("Error fetching address:", error);
   } finally {
@@ -68,68 +61,34 @@ const handleSubmit = async () => {
 
 const saveAddress = async () => {
   try {
-    const response = await fetch(`${baseUrl}/store/${brandId}/auth/address`, {
+    const response = await useFetch("/api/address", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        session: localStorage.getItem("sessionId"),
-      },
-      body: JSON.stringify({
-        name: addressForm.person,
-        email: addressForm.email,
-        phone: addressForm.mobile,
-        door: addressForm.door,
-        apartment: addressForm.apartment,
-        address: addressForm.address,
-        landmark: addressForm.landmark,
-        city: addressForm.city,
-        pincode: addressForm.pinCode,
-      }),
+      headers: { session: localStorage.getItem("sessionId") },
+      body: addressForm,
     });
-
-    if (!response.ok) {
-      throw new Error("Failed to save address");
-    }
-
-    const data = await response.json();
-    existingAddress.value.push(addressForm);
+    existingAddress.value.push(response.data.value);
     resetForm();
     fetchAddress();
-    isLoading.value = false;
   } catch (error) {
     console.error("Error saving address:", error);
+  } finally {
     isLoading.value = false;
   }
 };
 
 const updateAddress = async (addressId) => {
   try {
-    const response = await fetch(
-      `${baseUrl}/store/${brandId}/auth/address/${addressId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          session: localStorage.getItem("sessionId"),
-        },
-        body: JSON.stringify(addressForm),
-      }
-    );
-    // 79621ee9-ed0a-4fed-b5dd-cdb54cab71ec
-    if (!response.ok) {
-      throw new Error("Failed to update address");
-    }
+    await useFetch(`/api/address?id=${addressId}`, {
+      method: "PUT",
+      headers: { session: localStorage.getItem("sessionId") },
+      body: addressForm,
+    });
 
-    const updatedAddress = await response.json();
-    const index = existingAddress.value.findIndex(
-      (addr) => addr.id === addressId
-    );
-    existingAddress.value[index] = updatedAddress;
-
+    fetchAddress();
     resetForm();
-    isLoading.value = false;
   } catch (error) {
     console.error("Error updating address:", error);
+  } finally {
     isLoading.value = false;
   }
 };
@@ -139,26 +98,21 @@ const resetForm = () => {
   addressForm.person = personData.person.name;
   addressForm.email = personData.person.email;
   addressForm.mobile = personData.person.mobile;
-  console.log("person data:", personData);
 };
 
 onMounted(async () => {
   await fetchAddress();
-  const meResponse = await fetch(`${baseUrl}/store/${brandId}/auth/me`, {
+  const meResponse = await useFetch("/api/me", {
     headers: { session: localStorage.getItem("sessionId") },
   });
-  const meData = await meResponse.json();
-  console.log("Me data:", meData);
-  personData.person = meData;
-  addressForm.email = meData.email;
-  addressForm.person = meData.name;
-  addressForm.mobile = meData.mobile;
+  personData.person = meResponse.data.value;
+  addressForm.email = meResponse.data.value.email;
+  addressForm.person = meResponse.data.value.name;
+  addressForm.mobile = meResponse.data.value.mobile;
 });
 
 const handleEditClick = (addressId) => {
-  const addressToEdit = existingAddress.value.find(
-    (addr) => addr.id === addressId
-  );
+  const addressToEdit = existingAddress.value.find((addr) => addr.id === addressId);
   if (addressToEdit) {
     Object.assign(addressForm, addressToEdit);
   }

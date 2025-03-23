@@ -35,24 +35,11 @@ onMounted(async () => {
     if (typeof window !== "undefined") {
       sessionId.value = window.localStorage.getItem("sessionId");
       user.value = window.localStorage.getItem("user");
-      //   console.log(
-      //     "Session ID and user in account:",
-      //     sessionId.value,
-      //     user.value
-      //   );
     }
 
     if (sessionId.value) {
-      const userProfile = await fetchUserData(
-        base_url,
-        brand_id,
-        sessionId.value
-      );
-      const userAddress = await fetchUserAddressData(
-        base_url,
-        brand_id,
-        sessionId.value
-      );
+      const userProfile = await fetchUserData();
+      const userAddress = await fetchUserAddressData();
 
       localStorage.setItem(
         "userData",
@@ -60,12 +47,6 @@ onMounted(async () => {
       );
 
       userData.value.profile = userProfile;
-
-      //   console.log(
-      //     "User data fetched and stored in local storage:",
-      //     userData.value.address,
-      //     userData.value.profile
-      //   );
     }
   } catch (error) {
     console.error("Error fetching user data:", error);
