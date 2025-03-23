@@ -1,6 +1,6 @@
 export const createSessionId = async (baseURL, brandID) => {
   try {
-    const response = await fetch(`${baseURL}/store/${brandID}/init`, {
+    const response = await $fetch(`${baseURL}/store/${brandID}/init`, {
       method: "POST",
     });
 
@@ -20,7 +20,7 @@ export const createSessionId = async (baseURL, brandID) => {
 
 export const fetchBrandInfo = async (baseURL, brandID) => {
   try {
-    const response = await fetch(`${baseURL}/store/${brandID}/init`, {
+    const response = await $fetch(`${baseURL}/store/${brandID}/init`, {
       method: "POST",
     });
 
@@ -34,7 +34,7 @@ export const fetchBrandInfo = async (baseURL, brandID) => {
 
 export const fetchKeyWords = async (baseURL, brandID, sessionId) => {
   try {
-    const response = await fetch(
+    const response = await $fetch(
       `${baseURL}/store/${brandID}/config?key=SITE_KEYWORDS`,
       {
         method: "POST",

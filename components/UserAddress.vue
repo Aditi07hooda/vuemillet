@@ -68,7 +68,7 @@ const handleSubmit = async () => {
 
 const saveAddress = async () => {
   try {
-    const response = await fetch(`${baseUrl}/store/${brandId}/auth/address`, {
+    const response = await $fetch(`${baseUrl}/store/${brandId}/auth/address`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const saveAddress = async () => {
 
 const updateAddress = async (addressId) => {
   try {
-    const response = await fetch(
+    const response = await $fetch(
       `${baseUrl}/store/${brandId}/auth/address/${addressId}`,
       {
         method: "PUT",
@@ -144,7 +144,7 @@ const resetForm = () => {
 
 onMounted(async () => {
   await fetchAddress();
-  const meResponse = await fetch(`${baseUrl}/store/${brandId}/auth/me`, {
+  const meResponse = await $fetch(`${baseUrl}/store/${brandId}/auth/me`, {
     headers: { session: localStorage.getItem("sessionId") },
   });
   const meData = await meResponse.json();

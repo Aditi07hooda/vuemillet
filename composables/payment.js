@@ -1,6 +1,6 @@
 export const handleStartPayment = async (base_url, brand_id, sessionId, selectedAddress) => {
   try {
-    const res = await fetch(
+    const res = await $fetch(
       `${base_url}/store/${brand_id}/auth/checkout/payment?address_id=${selectedAddress.id}`,
       {
         method: "POST",
@@ -22,7 +22,7 @@ export const handleStartPayment = async (base_url, brand_id, sessionId, selected
 
 export const handlePaymentComplete = async (base_url, brand_id, sessionId, response) => {
   try {
-    const res = await fetch(
+    const res = await $fetch(
       `${base_url}/store/${brand_id}/auth/checkout/payment/complete`,
       {
         method: "POST",
@@ -46,7 +46,7 @@ export const handlePaymentComplete = async (base_url, brand_id, sessionId, respo
 export const handlePaymentCancel = async (base_url, brand_id, sessionId, reason, orderId) => {
     try {
       const payload = { reason, orderId };
-      const res = await fetch(
+      const res = await $fetch(
         `${base_url}/store/${brand_id}/auth/checkout/payment`,
         {
           method: "DELETE",

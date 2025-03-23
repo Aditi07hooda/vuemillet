@@ -1,6 +1,6 @@
 export const getCheckoutDetails = async (base_url, brand_id, sessionId) => {
   try {
-    const res = await fetch(`${base_url}/store/${brand_id}/auth/checkout`, {
+    const res = await $fetch(`${base_url}/store/${brand_id}/auth/checkout`, {
       headers: {
         session: sessionId,
       },
@@ -32,7 +32,7 @@ export const getCheckoutDetails = async (base_url, brand_id, sessionId) => {
 
 export const applyDiscount = async (base_url, brand_id, sessionId, code) => {
     try {
-        const res = await fetch(`${base_url}/store/${brand_id}/auth/checkout/discount`,{
+        const res = await $fetch(`${base_url}/store/${brand_id}/auth/checkout/discount`,{
             method: 'POST',
             headers: {
                 session: sessionId,

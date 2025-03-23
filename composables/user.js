@@ -1,6 +1,6 @@
 export const fetchUserData = async (base_url, brand_id, sessionId) => {
   try {
-    const response = await fetch(`${base_url}/store/${brand_id}/auth/me`, {
+    const response = await $fetch(`${base_url}/store/${brand_id}/auth/me`, {
       headers: {
         session: sessionId,
       },
@@ -18,7 +18,7 @@ export const fetchUserData = async (base_url, brand_id, sessionId) => {
 
 export const fetchUserAddressData = async (base_url, brand_id, sessionId) => {
   try {
-    const response = await fetch(`${base_url}/store/${brand_id}/auth/address`, {
+    const response = await $fetch(`${base_url}/store/${brand_id}/auth/address`, {
       headers: {
         session: sessionId,
       },
@@ -38,7 +38,7 @@ export const fetchUserAddressData = async (base_url, brand_id, sessionId) => {
 
 export const sendOtp = async (base_url, brand_id, sessionId, contactNumber) => {
   try {
-    const response = await fetch(`${base_url}/store/${brand_id}/otp`, {
+    const response = await $fetch(`${base_url}/store/${brand_id}/otp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -65,7 +65,7 @@ export const sendOtp = async (base_url, brand_id, sessionId, contactNumber) => {
 // Validate OTP function
 export const validateOtp = async (base_url, brand_id, sessionId, contactNumber, otp) => {
   try {
-    const response = await fetch(`${base_url}/store/${brand_id}/validate`, {
+    const response = await $fetch(`${base_url}/store/${brand_id}/validate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

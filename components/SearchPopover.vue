@@ -39,7 +39,7 @@ if (!sessionId.value) {
 
 const fetchResultsForEachQueryWord = async (query) => {
   try {
-    const response = await fetch(
+    const response = await $fetch(
       `${baseURL}/store/${brandID}/search?q=${query}`
     );
     let r = await response.json();

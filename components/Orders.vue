@@ -18,7 +18,7 @@ const brandId = config.public.brandID;
 
 const getOrders = async () => {
   try {
-    const response = await fetch(`${baseUrl}/store/${brandId}/auth/orders`, {
+    const response = await $fetch(`${baseUrl}/store/${brandId}/auth/orders`, {
       headers: { session: getSessionId() },
     });
 
@@ -36,7 +36,7 @@ const getOrders = async () => {
 
 const getOrderDetails = async (orderId) => {
   try {
-    const response = await fetch(
+    const response = await $fetch(
       `${baseUrl}/store/${brandId}/auth/orders/${orderId}`,
       { headers: { session: getSessionId() } }
     );
@@ -67,7 +67,7 @@ const getOrderDetailsForAll = async (orders) => {
 const getProductImage = async (items) => {
   try {
     for (let item of items) {
-      const res = await fetch(
+      const res = await $fetch(
         `${baseUrl}/store/${brandId}/products/${item.product.id}`,
         { headers: { session: getSessionId() } }
       );

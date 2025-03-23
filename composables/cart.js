@@ -1,6 +1,6 @@
 export const fetchCartItems = async (base_url, brand_id, sessionId) => {
   try {
-    const response = await fetch(`${base_url}/store/${brand_id}/cart/full`, {
+    const response = await $fetch(`${base_url}/store/${brand_id}/cart/full`, {
       headers: {
         session: sessionId,
       },
@@ -40,7 +40,7 @@ export const addToCart = async (
   variantSize
 ) => {
   try {
-    const response = await fetch(
+    const response = await $fetch(
       `${base_url}/store/${brand_id}/cart?id=${variantId}`,
       {
         method: "POST",
@@ -69,7 +69,7 @@ export const removeFromCart = async (
   variantSize
 ) => {
   try {
-    const response = await fetch(
+    const response = await $fetch(
       `${base_url}/store/${brand_id}/cart?id=${variantId}`,
       {
         method: "DELETE",
@@ -92,7 +92,7 @@ export const removeFromCart = async (
 
 export const fetchProducts = async (base_url, brand_id, sessionId) => {
   try {
-    const res = await fetch(`${base_url}/store/${brand_id}/products`, {
+    const res = await $fetch(`${base_url}/store/${brand_id}/products`, {
       headers: {
         session: sessionId,
       },
