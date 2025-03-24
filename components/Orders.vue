@@ -252,6 +252,7 @@ const addingToCart = async (item) => {
                           : orders.productImage[i]
                       "
                       class="w-16 h-20 object-cover rounded-md cursor-pointer"
+                      format="webp"
                       @click="
                         handleNavigateToProduct(
                           item.product.slug || item.product.id

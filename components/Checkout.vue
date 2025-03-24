@@ -275,6 +275,7 @@ const startPayment = async () => {
                     alt="alt"
                     class="rounded-xl w-20 h-16"
                     loading="lazy"
+                    format="webp"
                     sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
                   />
                 </template>

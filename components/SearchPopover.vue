@@ -282,6 +282,7 @@ watchEffect(async () => {
                               : p.images[0])
                           "
                           alt="Product Image"
+                          format="webp"
                           class="w-auto h-full max-w-full max-h-full object-contain"
                           sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
                           loading="lazy"
@@ -426,6 +427,7 @@ watchEffect(async () => {
                                 : p.images[0])
                             "
                             alt="Product Image"
+                            format="webp"
                             class="w-auto h-full max-w-full max-h-full object-contain"
                             sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
                             loading="lazy"

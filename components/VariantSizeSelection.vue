@@ -24,6 +24,7 @@
               : variantImage[option.name]?.[0]
           "
           class="rounded h-20 w-fit"
+          format="webp"
           loading="lazy"
           sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
         />
@@ -109,6 +110,7 @@
           "
           class="rounded h-20 w-fit"
           loading="lazy"
+          format="webp"
           sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
         />
         {{ option }}

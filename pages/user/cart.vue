@@ -170,6 +170,7 @@ const columns = [
                 alt="Product Image"
                 class="w-16 h-16 object-cover mr-4"
                 loading="lazy"
+                format="webp"
                 sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
               />
               <span>{{ row.name }}</span>

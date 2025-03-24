@@ -98,6 +98,7 @@ let slug =
             alt="Product Image"
             class="h-full object-contain"
             loading="lazy"
+            format="webp"
             sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
           />
         </template>

@@ -238,6 +238,7 @@ watchEffect(() => {
                     : cartItems?.cart?.productImages[index]
                 "
                 alt="alt"
+                format="webp"
                 class="rounded-xl w-20 h-16 cursor-pointer"
                 @click="getProduct(cartItem)"
                 loading="lazy"

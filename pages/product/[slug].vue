@@ -280,6 +280,7 @@ onMounted(async () => {
               alt="Product Image"
               class="w-full h-auto rounded-lg object-cover shadow"
               loading="lazy"
+              format="webp"
               sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
             />
           </div>
@@ -312,6 +313,7 @@ onMounted(async () => {
                   "
                   alt="image"
                   width="100"
+                  format="webp"
                   class="w-[100px] h-[100px] object-cover rounded-lg"
                   @click="changeMainImage(image)"
                   loading="lazy"
@@ -342,6 +344,7 @@ onMounted(async () => {
                   alt="tag"
                   width="70px"
                   loading="lazy"
+                  format="webp"
                   sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
                 />
               </div>

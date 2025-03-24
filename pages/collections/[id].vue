@@ -90,6 +90,7 @@ watchEffect(() => {
               : collection?.imageUrl
           "
           alt="image"
+          format="webp"
           loading="lazy"
         />
       </template>

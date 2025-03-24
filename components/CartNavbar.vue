@@ -149,6 +149,7 @@ const increaseOrDecreaseQuantity = async (incrementTask) => {
             alt="Product image"
             class="md:h-16 md:w-16 h-10 w-10 rounded-lg shadow-md object-cover"
             loading="lazy"
+            format="webp"
             sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
           />
         </template>

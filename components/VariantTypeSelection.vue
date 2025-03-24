@@ -18,6 +18,7 @@
           provider="imgix"
           class="rounded h-20 w-fit"
           loading="lazy"
+          format="webp"
           :src="
             variantImage?.[option]?.[0]?.startsWith('http')
               ? variantImage?.[option]?.[0]?.replace(/^https?:\/\//, '')

@@ -52,6 +52,7 @@ onMounted(() => {
         :src="item.name.startsWith('http') ? item.name.replace(/^https?:\/\//, '') : item.name"
         class="w-full h-screen"
         draggable="false"
+        format="webp"
         loading="lazy"
         sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
       />
@@ -71,6 +72,7 @@ onMounted(() => {
         class="w-full h-1/2 bg-cover"
         draggable="false"
         loading="lazy"
+        format="webp"
         sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
       />
     </UCarousel>

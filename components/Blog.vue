@@ -38,6 +38,7 @@ const formatDate = (dateString) => {
           class="w-full h-full object-contain rounded-3xl"
           loading="lazy"
           sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
+          format="webp"
         />
       </template>
       <template v-else>

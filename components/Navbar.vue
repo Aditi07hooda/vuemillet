@@ -300,6 +300,7 @@ onMounted(async () => {
                           : category?.imageUrl
                       "
                       alt="image"
+                      format="webp"
                       class="h-10 w-10 rounded-lg"
                       loading="lazy"
                       sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"

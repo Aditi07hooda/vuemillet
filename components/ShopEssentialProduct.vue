@@ -126,6 +126,7 @@ let slug =
             <template v-if="product?.oneImg || product?.images[0]">
               <NuxtImg
                 provider="imgix"
+                format="webp"
                 :src="
                   (product?.oneImg || product?.images[0])?.startsWith('http')
                     ? (product?.oneImg || product?.images[0])?.replace(

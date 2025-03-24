@@ -32,6 +32,7 @@
               class="w-full rounded-3xl shadow-md"
               draggable="false"
               loading="lazy"
+              format="webp"
               sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
             />
             <div class="flex justify-center">
@@ -69,6 +70,7 @@
                   : item?.imageUrl
               "
               draggable="false"
+              format="webp"
               loading="lazy"
               class="w-80 items-center rounded-3xl shadow-md"
               sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
