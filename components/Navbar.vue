@@ -1,6 +1,8 @@
 <script setup>
 import { useCartModelVisibilty } from "~/store/cart";
 import { X } from "lucide-vue-next";
+import { fetchCartItems } from "../composables/cart";
+import { fetchProductsForCollection } from "../composables/collections";
 
 const cartModelVisible = useCartModelVisibilty();
 const isOpen = ref(false);

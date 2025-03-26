@@ -1,4 +1,5 @@
 <script setup>
+import { fetchBrandInfo } from "../composables/session";
 const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
 const brandID = config.public.brandID;
@@ -49,7 +50,11 @@ onMounted(() => {
     >
       <NuxtImg
         provider="imgix"
-        :src="item.name.startsWith('http') ? item.name.replace(/^https?:\/\//, '') : item.name"
+        :src="
+          item.name.startsWith('http')
+            ? item.name.replace(/^https?:\/\//, '')
+            : item.name
+        "
         class="w-full h-screen"
         draggable="false"
         format="webp"
@@ -68,7 +73,11 @@ onMounted(() => {
     >
       <NuxtImg
         provider="imgix"
-        :src="item.name.startsWith('http') ? item.name.replace(/^https?:\/\//, '') : item.name"
+        :src="
+          item.name.startsWith('http')
+            ? item.name.replace(/^https?:\/\//, '')
+            : item.name
+        "
         class="w-full h-1/2 bg-cover"
         draggable="false"
         loading="lazy"

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { fetchBrandInfo } from "../composables/session";
 
 const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
