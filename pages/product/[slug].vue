@@ -1,9 +1,4 @@
 <script setup>
-import MADE_TO_ORDER from "@/assets/images/MADE_TO_ORDER.png";
-import NO_PRESERVATIVES from "@/assets/images/NO_PRESERVATIVES.png";
-import ORGANIC from "@/assets/images/ORGANIC.png";
-import JAGGERY from "@/assets/images/JAGGERY.png";
-import MILLETS from "@/assets/images/MILLETS.png";
 import { useCartModelVisibilty } from "~/store/cart";
 
 const cartModelVisible = useCartModelVisibilty();
@@ -43,17 +38,17 @@ const changeMainImage = (src) => {
 const getSrcFromTags = (tag) => {
   switch (tag.toLowerCase()) {
     case "made_to_order":
-      return MADE_TO_ORDER;
+      return "/images/MADE_TO_ORDER.png";
     case "no_preservatives":
-      return NO_PRESERVATIVES;
+      return "/images/NO_PRESERVATIVES.png";
     case "organic":
-      return ORGANIC;
+      return "/images/ORGANIC.png";
     case "jaggery":
-      return JAGGERY;
+      return "/images/JAGGERY.png";
     case "millets":
-      return MILLETS;
+      return "/images/MILLETS.png";
     default:
-      return null;
+      return "/images/default.png"; // Fallback image (optional)
   }
 };
 
@@ -338,13 +333,11 @@ onMounted(async () => {
               class="text-gray-800 flex flex-col justify-center flex-1"
             >
               <div class="flex justify-center items-center">
-                <NuxtImg
-                  provider="imgix"
+                <img
                   :src="getSrcFromTags(tag)"
                   alt="tag"
                   width="70px"
                   loading="lazy"
-                  format="webp"
                   sizes="(max-width: 576px) 244px, (max-width: 767px) 244px, 244px"
                 />
               </div>
@@ -536,7 +529,7 @@ onMounted(async () => {
   padding-bottom: 1em;
   background-position: bottom;
   background-repeat: no-repeat;
-  background-image: url("@/assets/images/underline.svg");
+  background-image: url("/images/underline.svg");
   background-size: auto 0.9em;
 }
 
