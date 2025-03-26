@@ -76,7 +76,30 @@ const handleClose = () => {
   // })
 };
 
+// const fetchCollectionProducts = async (id) => {
+//   try {
+//     const { data } = await fetchProductsForCollection(
+//       baseURL,
+//       brandID,
+//       sessionId.value,
+//       id
+//     );
+//     collectionProducts.value = data;
+//     return data;
+//   } catch (error) {
+//     console.error("error fetching products for collection");
+//   }
+// };
+
 const fetchCollectionProducts = async (id) => {
+  const cachedData = useState(`collectionProducts-${id}`, () => null);
+  
+  if (cachedData.value) {
+    console.log("Using cached collection products for ID:", id);
+    collectionProducts.value = cachedData.value;
+    return cachedData.value;
+  }
+
   try {
     const { data } = await fetchProductsForCollection(
       baseURL,
@@ -85,21 +108,60 @@ const fetchCollectionProducts = async (id) => {
       id
     );
     collectionProducts.value = data;
+
+    // Cache the response
+    cachedData.value = data;
+
     return data;
   } catch (error) {
-    console.error("error fetching products for collection");
+    console.error("Error fetching products for collection");
   }
 };
 
+
+// const collectionAndProducts = async () => {
+//   let result = [];
+//   for (let i = 0; i < collection.value.length; i++) {
+//     const data = await fetchProductsForCollection(
+//       baseURL,
+//       brandID,
+//       sessionId.value,
+//       collection.value[i].id
+//     );
+//     if (!data || data.length === 0) {
+//       continue;
+//     } else {
+//       result.push({
+//         id: i,
+//         collectionDetail: collection.value[i],
+//         products: data,
+//       });
+//     }
+//   }
+//   console.log("result of collection and products", result);
+//   products.value = result;
+// };
+
 const collectionAndProducts = async () => {
   let result = [];
+
   for (let i = 0; i < collection.value.length; i++) {
-    const data = await fetchProductsForCollection(
-      baseURL,
-      brandID,
-      sessionId.value,
-      collection.value[i].id
-    );
+    const cachedData = useState(`collectionProducts-${collection.value[i].id}`, () => null);
+
+    let data;
+    if (cachedData.value) {
+      console.log(`Using cached data for collection ID: ${collection.value[i].id}`);
+      data = cachedData.value;
+    } else {
+      data = await fetchProductsForCollection(
+        baseURL,
+        brandID,
+        sessionId.value,
+        collection.value[i].id
+      );
+      cachedData.value = data; // Store in state
+    }
+
     if (!data || data.length === 0) {
       continue;
     } else {
@@ -110,25 +172,37 @@ const collectionAndProducts = async () => {
       });
     }
   }
-  console.log("result of collection and products", result);
+
+  console.log("Final collection and products result:", result);
   products.value = result;
 };
 
+// onMounted(async () => {
+//   // Wait until collection is loaded before accessing its elements
+//   watchEffect(async () => {
+//     if (collection.value) {
+//       await fetchCollectionProducts(collection.value[0].id);
+//       await collectionAndProducts();
+//     }
+//   });
+//   const { data, productImage } = await fetchCartItems(
+//     baseURL,
+//     brandID,
+//     sessionId.value
+//   );
+//   cartLength.value = data.cart.items.length;
+// });
+
 onMounted(async () => {
-  // Wait until collection is loaded before accessing its elements
-  watchEffect(async () => {
-    if (collection.value) {
-      await fetchCollectionProducts(collection.value[0].id);
-      await collectionAndProducts();
-    }
-  });
-  const { data, productImage } = await fetchCartItems(
-    baseURL,
-    brandID,
-    sessionId.value
-  );
+  if (collection.value.length > 0) {
+    await fetchCollectionProducts(collection.value[0].id);
+    await collectionAndProducts();
+  }
+
+  const { data } = await fetchCartItems(baseURL, brandID, sessionId.value);
   cartLength.value = data.cart.items.length;
 });
+
 </script>
 
 <template>
